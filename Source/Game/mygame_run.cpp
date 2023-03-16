@@ -78,8 +78,22 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	});
 	background.SetTopLeft(0, 0);
 
-	character.LoadBitmapByString({ "resources/giraffe.bmp" });
+	character.LoadBitmapByString({ 
+		"resources/kun001bgless.bmp",
+		"resources/kun002bgless.bmp",
+		"resources/kun003bgless.bmp",
+		"resources/kun004bgless.bmp",
+		"resources/kun005bgless.bmp",
+		"resources/kun006bgless.bmp",
+		"resources/kun007bgless.bmp",
+		"resources/kun008bgless.bmp",
+		"resources/kun009bgless.bmp",
+		"resources/kun010bgless.bmp" 
+		},RGB(255, 255, 255)
+	);
+
 	character.SetTopLeft(150, 265);
+	character.SetAnimation(100, false);
 
 	chest_and_key.LoadBitmapByString({ "resources/chest.bmp", "resources/chest_ignore.bmp" }, RGB(255, 255, 255));
 	chest_and_key.SetTopLeft(150, 430);
@@ -101,27 +115,28 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {	
+
 	if (nChar == 0x57) { //W_up
 		int top = character.Top();
-		top -= 10;
+		top -= 20;
 		character.SetTopLeft(character.Left(), top);
 	}
 
 	if (nChar == 0x41) { //A_left
 		int left = character.Left();
-		left -= 10;
+		left -= 20;
 		character.SetTopLeft(left, character.Top());
 	}
 
 	if (nChar == 0x53) { //S_down
 		int top = character.Top();
-		top += 10;
+		top += 20;
 		character.SetTopLeft(character.Left(), top);
 	}
 
 	if (nChar == 0x44) { //D_right
 		int left = character.Left();
-		left += 10;
+		left += 20;
 		character.SetTopLeft(left, character.Top());
 	}
 
