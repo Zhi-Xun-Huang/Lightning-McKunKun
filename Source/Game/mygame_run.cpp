@@ -9,11 +9,13 @@
 
 using namespace game_framework;
 
+int mckun = 0; // state of mckunkun
+
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 /////////////////////////////////////////////////////////////////////////////
 
-CGameStateRun::CGameStateRun(CGame *g) : CGameState(g)
+CGameStateRun::CGameStateRun(CGame* g) : CGameState(g)
 {
 }
 
@@ -26,18 +28,18 @@ void CGameStateRun::OnBeginState()
 }
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
-{	
+{
 	if (phase == 4) {    //bee animation
 		bee.SetAnimation(100, true);
 		bee.SetAnimation(100, false);
 	}
 
-	
+
 
 	int chest_x = chest_and_key.Left();
 	int chest_y = chest_and_key.Top();
-	int chara_x = character.Left();
-	int chara_y = character.Top();
+	int chara_x = character[mckun].Left();
+	int chara_y = character[mckun].Top();
 
 	int door_x[3] = { 0 };
 	int door_y = door[0].Top();
@@ -62,12 +64,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
-	background.LoadBitmapByString({ 
-		"resources/phase11_background.bmp", 
-		"resources/phase12_background.bmp", 
-		"resources/phase21_background.bmp", 
-		"resources/phase22_background.bmp", 
-		"resources/phase31_background.bmp", 
+	background.LoadBitmapByString({
+		"resources/phase11_background.bmp",
+		"resources/phase12_background.bmp",
+		"resources/phase21_background.bmp",
+		"resources/phase22_background.bmp",
+		"resources/phase31_background.bmp",
 		"resources/phase32_background.bmp",
 		"resources/phase41_background.bmp",
 		"resources/phase42_background.bmp",
@@ -75,25 +77,67 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/phase52_background.bmp",
 		"resources/phase61_background.bmp",
 		"resources/phase62_background.bmp",
-	});
+		});
 	background.SetTopLeft(0, 0);
 
-	character.LoadBitmapByString({ 
-		"resources/kun001bgless.bmp",
-		"resources/kun002bgless.bmp",
-		"resources/kun003bgless.bmp",
-		"resources/kun004bgless.bmp",
-		"resources/kun005bgless.bmp",
-		"resources/kun006bgless.bmp",
-		"resources/kun007bgless.bmp",
-		"resources/kun008bgless.bmp",
-		"resources/kun009bgless.bmp",
-		"resources/kun010bgless.bmp" 
-		},RGB(255, 255, 255)
+	character[0].LoadBitmapByString({
+		"resources/KUN00die.bmp",
+		"resources/KUN01die.bmp",
+		"resources/KUN02die.bmp",
+		"resources/KUN03die.bmp",
+		"resources/KUN04die.bmp",
+		"resources/KUN05die.bmp",
+		"resources/KUN06die.bmp",
+		"resources/KUN07die.bmp",
+		"resources/KUN08die.bmp",
+		"resources/KUN09die.bmp",
+		"resources/KUN10die.bmp",
+		"resources/KUN11die.bmp",
+		"resources/KUN12die.bmp",
+		"resources/KUN13die.bmp",
+		"resources/KUN14die.bmp",
+		"resources/KUN15die.bmp",
+		"resources/KUN16die.bmp",
+		"resources/KUN17die.bmp",
+		"resources/KUN18die.bmp",
+		"resources/KUN19die.bmp",
+		"resources/KUN20die.bmp",
+		"resources/KUN21die.bmp",
+		"resources/KUN22die.bmp",
+		"resources/KUN23die.bmp"
+		}, RGB(255, 255, 255)
 	);
 
-	character.SetTopLeft(150, 265);
-	character.SetAnimation(100, false);
+	character[1].LoadBitmapByString({
+		"resources/KUN24bb.bmp",
+		"resources/KUN25bb.bmp",
+		"resources/KUN26bb.bmp",
+		"resources/KUN27bb.bmp",
+		"resources/KUN28bb.bmp",
+		"resources/KUN29bb.bmp",
+		"resources/KUN30bb.bmp",
+		"resources/KUN31bb.bmp",
+		"resources/KUN32bb.bmp",
+		"resources/KUN33bb.bmp",
+		"resources/KUN34bb.bmp",
+		"resources/KUN35bb.bmp"
+		}, RGB(255, 255, 255)
+	);
+
+	character[2].LoadBitmapByString({
+		"resources/KUN36run.bmp",
+		"resources/KUN37run.bmp",
+		"resources/KUN38run.bmp",
+		"resources/KUN39run.bmp",
+		"resources/KUN40run.bmp",
+		"resources/KUN41run.bmp"
+		}, RGB(255, 255, 255)
+	);
+
+	for (int i = 0; i < 3; i++) {
+		character[i].SetTopLeft(150, 265);
+		character[i].SetAnimation(100, false);
+	}
 
 	chest_and_key.LoadBitmapByString({ "resources/chest.bmp", "resources/chest_ignore.bmp" }, RGB(255, 255, 255));
 	chest_and_key.SetTopLeft(150, 430);
@@ -114,89 +158,41 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
-{	
+{
+	if (nChar == 0x45) {
+		if (mckun == 2) mckun = 0;
+		else mckun += 1;
+	}
 
 	if (nChar == 0x57) { //W_up
-		int top = character.Top();
+		int top = character[mckun].Top();
 		top -= 20;
-		character.SetTopLeft(character.Left(), top);
+		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
 	if (nChar == 0x41) { //A_left
-		int left = character.Left();
+		int left = character[mckun].Left();
 		left -= 20;
-		character.SetTopLeft(left, character.Top());
+		character[mckun].SetTopLeft(left, character[mckun].Top());
 	}
 
 	if (nChar == 0x53) { //S_down
-		int top = character.Top();
+		int top = character[mckun].Top();
 		top += 20;
-		character.SetTopLeft(character.Left(), top);
+		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
 	if (nChar == 0x44) { //D_right
-		int left = character.Left();
+		int left = character[mckun].Left();
 		left += 20;
-		character.SetTopLeft(left, character.Top());
+		character[mckun].SetTopLeft(left, character[mckun].Top());
 	}
 
-	if (nChar == VK_RETURN) {
-		if (phase == 1) {
-			if (sub_phase == 1) {
-				sub_phase += validate_phase_1();
-			}
-			else if (sub_phase == 2) {
-				sub_phase = 1;
-				phase += 1;
-			}
-		} else if (phase == 2) {
-			if (sub_phase == 1) {
-				sub_phase += validate_phase_2();
-			}
-			else if (sub_phase == 2) {
-				sub_phase = 1;
-				phase += 1;
-			}
-		}else if (phase == 3) {
-			if (sub_phase == 1) {
-				sub_phase += validate_phase_3();
-			}
-			else if (sub_phase == 2) {
-				sub_phase = 1;
-				phase += 1;
-			}
-		}else if (phase == 4) {
-			if (sub_phase == 1) {
-				sub_phase += validate_phase_4();
-			}
-			else if (sub_phase == 2) {
-				sub_phase = 1;
-				phase += 1;
-			}
-		}else if (phase == 5) {
-			if (sub_phase == 1) {
-				sub_phase += validate_phase_5();
-			}
-			else if (sub_phase == 2) {
-				sub_phase = 1;
-				phase += 1;
-			}
-		}else if (phase == 6) {
-			if (sub_phase == 1) {
-				sub_phase += validate_phase_6();
-			}
-			else if (sub_phase == 2) {
-				sub_phase = 1;
-				phase += 1;
-				GotoGameState(GAME_STATE_OVER);
-			}
-		}
-	}
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	
+
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -229,7 +225,7 @@ void CGameStateRun::show_image_by_phase() {
 	if (phase <= 6) {
 		background.SelectShowBitmap((phase - 1) * 2 + (sub_phase - 1));
 		background.ShowBitmap();
-		character.ShowBitmap();
+		character[mckun].ShowBitmap();
 		if (phase == 3 && sub_phase == 1) {
 			chest_and_key.ShowBitmap();
 		}
@@ -248,7 +244,7 @@ void CGameStateRun::show_image_by_phase() {
 }
 
 void CGameStateRun::show_text_by_phase() {
-	CDC *pDC = CDDraw::GetBackCDC();
+	CDC* pDC = CDDraw::GetBackCDC();
 	CFont* fp;
 
 	CTextDraw::ChangeFontLog(pDC, fp, 21, "微軟正黑體", RGB(0, 0, 0), 800);
@@ -257,63 +253,36 @@ void CGameStateRun::show_text_by_phase() {
 		CTextDraw::Print(pDC, 237, 128, "修改你的主角！");
 		CTextDraw::Print(pDC, 55, 163, "將灰色方格換成 resources 內的 giraffe.bmp 圖樣！");
 		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 2 && sub_phase == 1) {
+	}
+	else if (phase == 2 && sub_phase == 1) {
 		CTextDraw::Print(pDC, 26, 128, "下一個階段，讓長頸鹿能夠透過上下左右移動到這個位置！");
 		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 3 && sub_phase == 1) {
+	}
+	else if (phase == 3 && sub_phase == 1) {
 		CTextDraw::Print(pDC, 205, 128, "幫你準備了一個寶箱");
 		CTextDraw::Print(pDC, 68, 162, "設計程式讓長頸鹿摸到寶箱後，將寶箱消失！");
 		CTextDraw::Print(pDC, 68, 196, "記得寶箱要去背，使用 RGB(255, 255, 255)");
 		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 4 && sub_phase == 1) {
+	}
+	else if (phase == 4 && sub_phase == 1) {
 		CTextDraw::Print(pDC, 173, 128, "幫你準備了一個蜜蜂好朋友");
 		CTextDraw::Print(pDC, 89, 162, "已經幫它做了兩幀的動畫，讓它可以上下移動");
 		CTextDraw::Print(pDC, 110, 196, "寫個程式來讓你的蜜蜂好朋友擁有動畫！");
 		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 5 && sub_phase == 1) {
+	}
+	else if (phase == 5 && sub_phase == 1) {
 		CTextDraw::Print(pDC, 173, 128, "幫你準備了三扇門");
 		CTextDraw::Print(pDC, 89, 162, "設計程式讓長頸鹿摸到門之後，門會打開");
 		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 6 && sub_phase == 1) {
+	}
+	else if (phase == 6 && sub_phase == 1) {
 		CTextDraw::Print(pDC, 173, 128, "幫你準備了一顆會倒數的球");
 		CTextDraw::Print(pDC, 89, 162, "設計程式讓球倒數，然後顯示 OK 後停止動畫");
 		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (sub_phase == 2) {
+	}
+	else if (sub_phase == 2) {
 		CTextDraw::Print(pDC, 268, 128, "完成！");
 	}
 
 	CDDraw::ReleaseBackCDC();
-}
-
-bool CGameStateRun::validate_phase_1() {
-	return character.GetImageFilename() == "resources/giraffe.bmp";
-}
-
-bool CGameStateRun::validate_phase_2() {
-	return character.Top() > 204 && character.Top() < 325 && character.Left() > 339 && character.Left() < 459;
-}
-
-bool CGameStateRun::validate_phase_3() {
-	return (
-		character.Top() + character.Height() >= chest_and_key.Top()
-		&& character.Left() + character.Width() >= chest_and_key.Left()
-		&& chest_and_key.GetSelectShowBitmap() == 1
-		&& chest_and_key.GetFilterColor() == RGB(255, 255, 255)
-	);
-}
-
-bool CGameStateRun::validate_phase_4() {
-	return bee.IsAnimation() && bee.GetMovingBitmapFrame() == 2;
-}
-
-bool CGameStateRun::validate_phase_5() {
-	bool check_all_door_is_open = true;
-	for (int i = 0; i < 3; i++) {
-		check_all_door_is_open &= (door[i].GetSelectShowBitmap() == 1);
-	}
-	return check_all_door_is_open;
-}
-
-bool CGameStateRun::validate_phase_6() {
-	return ball.IsAnimationDone() && !ball.IsAnimation();
 }
