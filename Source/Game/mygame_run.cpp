@@ -58,7 +58,29 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		chest_and_key.SelectShowBitmap(1);
 	}
 
+	if (keepmove == 1) {
+		int top = character[mckun].Top();
+		top -= 20;
+		character[mckun].SetTopLeft(character[mckun].Left(), top);
+	}
 
+	if (keepmove == 2) {
+		int left = character[mckun].Left();
+		left -= 20;
+		character[mckun].SetTopLeft(left, character[mckun].Top());
+	}
+
+	if (keepmove == 3) {
+		int top = character[mckun].Top();
+		top += 20;
+		character[mckun].SetTopLeft(character[mckun].Left(), top);
+	}
+
+	if (keepmove == 4) {
+		int left = character[mckun].Left();
+		left += 20;
+		character[mckun].SetTopLeft(left, character[mckun].Top());
+	}
 
 }
 
@@ -163,7 +185,15 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		if (mckun == 2) mckun = 0;
 		else mckun += 1;
 	}
+	if (nChar == 0x57) keepmove = 1;
 
+	if (nChar == 0x41) keepmove = 2;
+
+	if (nChar == 0x53) keepmove = 3;
+
+	if (nChar == 0x44) keepmove = 4;
+
+	/*
 	if (nChar == 0x57) { //W_up
 		int top = character[mckun].Top();
 		top -= 20;
@@ -187,12 +217,14 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		left += 20;
 		character[mckun].SetTopLeft(left, character[mckun].Top());
 	}
+	*/
+	
 
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	
+	if (nChar == 0x57 || nChar == 0x41 || nChar == 0x53 || nChar == 0x44) keepmove = 0;
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作

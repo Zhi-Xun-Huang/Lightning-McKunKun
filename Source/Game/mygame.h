@@ -102,6 +102,7 @@ namespace game_framework {
 		CMovingBitmap door[3];
 		void show_image_by_phase();
 		void show_text_by_phase();
+		int keepmove = 0;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
