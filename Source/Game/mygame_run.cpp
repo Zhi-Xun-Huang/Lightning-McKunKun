@@ -7,6 +7,7 @@
 #include "../Library/gamecore.h"
 #include "mygame.h"
 
+
 using namespace game_framework;
 
 int mckun = 0; // state of mckunkun
@@ -304,7 +305,7 @@ void CGameStateRun::show_text_by_phase() {
 	CTextDraw::ChangeFontLog(pDC, fp, 21, "微軟正黑體", RGB(0, 0, 0), 800);
 
 	if (phase == 1 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 237, 128, "修改你的主角！");
+		CTextDraw::Print(pDC, 237, 128, "Current Speed:");
 		CTextDraw::Print(pDC, 55, 163, "將灰色方格換成 resources 內的 giraffe.bmp 圖樣！");
 		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
 	} else if (phase == 2 && sub_phase == 1) {
