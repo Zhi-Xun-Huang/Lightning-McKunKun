@@ -85,10 +85,7 @@ void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
 	}
 
 	if (forcestop == true) {
-		if (linear == 0) {
-			forcestop = false;
-		}
-
+		if (linear == 0) forcestop = false;
 		if (linear != 0) linear -= 1;
 	}
 }
