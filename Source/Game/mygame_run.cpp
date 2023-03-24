@@ -77,7 +77,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	if (keepmove == 3) {
 		int top = character[mckun].Top();
 		top += linear;
-		if (linear != 20)linear += 1;
+		if (forcestop == false && linear != 20)linear += 1;
 		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
@@ -99,7 +99,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
 	background.LoadBitmapByString({ 
-		"resources/phase11_background.bmp", 
+		"resources/kunback.bmp", 
 		"resources/phase12_background.bmp", 
 		"resources/phase21_background.bmp", 
 		"resources/phase22_background.bmp", 
