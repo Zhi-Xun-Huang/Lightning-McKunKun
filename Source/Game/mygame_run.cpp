@@ -66,7 +66,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	if (keepmove == 2) {
 		int left = character[mckun].Left();
-		left -= 20;
+		left += 20;//test
 		character[mckun].SetTopLeft(left, character[mckun].Top());
 	}
 
@@ -78,7 +78,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	if (keepmove == 4) {
 		int left = character[mckun].Left();
-		left += 20;
+		left -= 20;//test
 		character[mckun].SetTopLeft(left, character[mckun].Top());
 	}
 
