@@ -64,29 +64,35 @@ void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
 	if (keepmove == 1) {
 		int top = character[mckun].Top();
 		top -= linear;
+		if (forcestop == false && linear != 20)linear += 1;
 		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
 	if (keepmove == 2) {
 		int left = character[mckun].Left();
 		left -= linear;
+		if (forcestop == false && linear != 20)linear += 1;
 		character[mckun].SetTopLeft(left, character[mckun].Top());
 	}
 
 	if (keepmove == 3) {
 		int top = character[mckun].Top();
 		top += linear;
+		if (linear != 20)linear += 1;
 		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
 	if (keepmove == 4) {
 		int left = character[mckun].Left();
 		left += linear;
+		if (forcestop == false && linear != 20)linear += 1;
 		character[mckun].SetTopLeft(left, character[mckun].Top());
 	}
-
 	if (forcestop == true) {
-		if (linear == 0) forcestop = false;
+		if (linear == 0){ 
+			forcestop = false;
+			keepmove = 0;
+		}
 		if (linear != 0) linear -= 1;
 	}
 }
@@ -195,23 +201,23 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	if (nChar == 0x57) {
 		keepmove = 1;
-		linear = 20;
+		linear = 0;
 	}
 
 	if (nChar == 0x41) {
 		keepmove = 2;
-		linear = 20;
+		linear = 0;
 	}
 		
 
 	if (nChar == 0x53) {
 		keepmove = 3;
-		linear = 20;
+		linear = 0;
 	}
 
 	if (nChar == 0x44) {
 		keepmove = 4;
-		linear = 20;
+		linear = 0;
 	}
 
 	/*
