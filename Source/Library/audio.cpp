@@ -157,8 +157,7 @@ void CAudio::MCIThread(HANDLE hRead)
 			GAME_ASSERT(ptr[0] == '[', "Internal error: incorrect MCI command format");
 			// search for "]"
 			int i;
-			for (i = 0; (ptr + i) < (ptr_end) && ptr[i] != ']'; i++)
-				;
+			for (i = 0; (ptr + i) < (ptr_end) && ptr[i] != ']'; i++);
 			// 
 			//  Check if the command is complete ("]" has been received).
 			//
