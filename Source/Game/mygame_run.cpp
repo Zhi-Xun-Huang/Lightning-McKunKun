@@ -10,6 +10,8 @@
 using namespace game_framework;
 
 int mckun = 0; // state of mckunkun
+int linear = 0;
+bool forcestop = false;
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
@@ -60,28 +62,35 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	if (keepmove == 1) {
 		int top = character[mckun].Top();
-		top -= 20;
+		top -= linear;
 		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
 	if (keepmove == 2) {
 		int left = character[mckun].Left();
-		left -= 20;
+		left -= linear;
 		character[mckun].SetTopLeft(left, character[mckun].Top());
 	}
 
 	if (keepmove == 3) {
 		int top = character[mckun].Top();
-		top += 20;
+		top += linear;
 		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
 	if (keepmove == 4) {
 		int left = character[mckun].Left();
-		left += 20;
+		left += linear;
 		character[mckun].SetTopLeft(left, character[mckun].Top());
 	}
 
+	if (forcestop == true) {
+		if (linear == 0) {
+			forcestop = false;
+		}
+
+		if (linear != 0) linear -= 1;
+	}
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -185,13 +194,27 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		if (mckun == 2) mckun = 0;
 		else mckun += 1;
 	}
-	if (nChar == 0x57) keepmove = 1;
 
-	if (nChar == 0x41) keepmove = 2;
+	if (nChar == 0x57) {
+		keepmove = 1;
+		linear = 20;
+	}
 
-	if (nChar == 0x53) keepmove = 3;
+	if (nChar == 0x41) {
+		keepmove = 2;
+		linear = 20;
+	}
+		
 
-	if (nChar == 0x44) keepmove = 4;
+	if (nChar == 0x53) {
+		keepmove = 3;
+		linear = 20;
+	}
+
+	if (nChar == 0x44) {
+		keepmove = 4;
+		linear = 20;
+	}
 
 	/*
 	if (nChar == 0x57) { //W_up
@@ -224,7 +247,9 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == 0x57 || nChar == 0x41 || nChar == 0x53 || nChar == 0x44) keepmove = 0;
+	if (nChar == 0x57 || nChar == 0x41 || nChar == 0x53 || nChar == 0x44) {
+		forcestop = true;
+	}
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作

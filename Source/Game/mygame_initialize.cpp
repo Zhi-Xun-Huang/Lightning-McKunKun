@@ -14,7 +14,7 @@ using namespace game_framework;
 
 CGameStateInit::CGameStateInit(CGame *g) : CGameState(g)
 {
-
+	
 }
 
 void CGameStateInit::OnInit()
@@ -52,6 +52,7 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 void CGameStateInit::OnShow()
 {
 	background.ShowBitmap();
+	//bgm.Play(5, true);
 	draw_text();
 }
 
@@ -59,6 +60,7 @@ void CGameStateInit::load_background() {
 	background.LoadBitmapByString({ "resources/LMKK1.bmp", "resources/LMKK2.bmp" });
 	background.SetTopLeft(0, 0);
 	background.SetAnimation(1000, false);
+	//bgm.Load(5, { "resources/JNTM.mp3" });
 }
 
 void CGameStateInit::draw_text() {

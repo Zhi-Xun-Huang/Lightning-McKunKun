@@ -68,6 +68,7 @@ namespace game_framework {
 		void load_background();
 		void draw_text();
 		CMovingBitmap background;
+		//CAudio bgm;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
