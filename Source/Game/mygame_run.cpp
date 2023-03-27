@@ -32,60 +32,34 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {	
-	if (phase == 4) {    //bee animation
-		bee.SetAnimation(100, true);
-		bee.SetAnimation(100, false);
-	}
 
-	
-
-	int chest_x = chest_and_key.Left();
-	int chest_y = chest_and_key.Top();
-	int chara_x = character[mckun].Left();
-	int chara_y = character[mckun].Top();
-
-	int door_x[3] = { 0 };
-	int door_y = door[0].Top();
-
-	for (int i = 0; i < 3; i++) {
-		door_x[i] = door[i].Left();
-	}
-
-	for (int i = 0; i < 3; i++) {
-		if (chara_x <= door_x[i] && chara_y >= door_y && phase == 5) {    //door overlap detect
-			door[i].SelectShowBitmap(1);
-		}
-	}
-
-	if (chara_x <= chest_x + 70 && chara_y >= chest_y - 70) {    //chest overlap detect
-		chest_and_key.SelectShowBitmap(1);
-	}
+	ball.SetTopLeft(ball.Left() + 1, character[mckun].Top());
 
 	if (keepmove == 1) {
 		int top = character[mckun].Top();
 		top -= linear;
-		if (forcestop == false && linear != 20)linear += 1;
+		if (forcestop == false && linear <= 30)linear += 3;
 		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
 	if (keepmove == 2) {
 		int left = character[mckun].Left();
 		left -= linear;
-		if (forcestop == false && linear != 20)linear += 1;
+		if (forcestop == false && linear <= 30)linear += 3;
 		character[mckun].SetTopLeft(left, character[mckun].Top());
 	}
 
 	if (keepmove == 3) {
 		int top = character[mckun].Top();
 		top += linear;
-		if (linear != 20)linear += 1;
+		if (forcestop == false && linear <= 30)linear += 3;
 		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
 	if (keepmove == 4) {
 		int left = character[mckun].Left();
 		left += linear;
-		if (forcestop == false && linear != 20)linear += 1;
+		if (forcestop == false && linear <= 30)linear += 3;
 		character[mckun].SetTopLeft(left, character[mckun].Top());
 	}
 	if (forcestop == true) {
@@ -180,10 +154,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	bee.LoadBitmapByString({ "resources/bee_1.bmp", "resources/bee_2.bmp" });
 	bee.SetTopLeft(462, 265);
 
-	ball.LoadBitmapByString({ "resources/ball-3.bmp", "resources/ball-2.bmp", "resources/ball-1.bmp", "resources/ball-ok.bmp" });
-	ball.SetTopLeft(150, 430);
-	ball.SetAnimation(1000, true);
-	ball.ToggleAnimation();
+	ball.LoadBitmapByString({ "resources/Basketball.bmp" }, RGB(255, 255, 255));
+	ball.SetTopLeft(0, 0);
 
 	for (int i = 0; i < 3; i++) {
 		door[i].LoadBitmapByString({ "resources/door_close.bmp", "resources/door_open.bmp" }, RGB(255, 255, 255));
@@ -194,6 +166,12 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {	
+
+	if (nChar == 0x46) {
+		//ball.SetTopLeft(character[mckun].Top(), character[mckun].Left());
+		ball.ShowBitmap();
+	}
+
 	if (nChar == 0x45) {
 		if (mckun == 2) mckun = 0;
 		else mckun += 1;
@@ -201,23 +179,23 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	if (nChar == 0x57) {
 		keepmove = 1;
-		linear = 0;
+		//linear = 0;
 	}
 
 	if (nChar == 0x41) {
 		keepmove = 2;
-		linear = 0;
+		//linear = 0;
 	}
 		
 
 	if (nChar == 0x53) {
 		keepmove = 3;
-		linear = 0;
+		//linear = 0;
 	}
 
 	if (nChar == 0x44) {
 		keepmove = 4;
-		linear = 0;
+		//linear = 0;
 	}
 
 	/*
@@ -278,31 +256,10 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnShow()
 {
-	show_image_by_phase();
-	show_text_by_phase();
+	background.ShowBitmap();
+	character[mckun].ShowBitmap();
 }
 
-void CGameStateRun::show_image_by_phase() {
-	if (phase <= 6) {
-		background.SelectShowBitmap((phase - 1) * 2 + (sub_phase - 1));
-		background.ShowBitmap();
-		character[mckun].ShowBitmap();
-		if (phase == 3 && sub_phase == 1) {
-			chest_and_key.ShowBitmap();
-		}
-		if (phase == 4 && sub_phase == 1) {
-			bee.ShowBitmap();
-		}
-		if (phase == 5 && sub_phase == 1) {
-			for (int i = 0; i < 3; i++) {
-				door[i].ShowBitmap();
-			}
-		}
-		if (phase == 6 && sub_phase == 1) {
-			ball.ShowBitmap();
-		}
-	}
-}
 
 void CGameStateRun::show_text_by_phase() {
 	CDC *pDC = CDDraw::GetBackCDC();
