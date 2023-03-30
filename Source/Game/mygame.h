@@ -95,14 +95,8 @@ namespace game_framework {
 	private:
 		int phase = 1;
 		int sub_phase = 1;
-		CMovingBitmap background;
+		CMovingBitmap background[3];
 		CMovingBitmap character[3];
-		CMovingBitmap chest_and_key;
-		CMovingBitmap bee;
-		CMovingBitmap ball;
-		CMovingBitmap door[3];
-		void show_text_by_phase();
-		int keepmove = 0;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

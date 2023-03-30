@@ -6,13 +6,18 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
+#include <iostream>
 
 
 using namespace game_framework;
 
 int mckun = 0; // state of mckunkun
-int linear = 0;
+int linear = 0;  
 bool forcestop = false;
+int keepmove = 0;
+int bg_linear = 0;
+bool bg_en = true;
+bool w_pressed = false;
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
@@ -33,7 +38,6 @@ void CGameStateRun::OnBeginState()
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {	
 
-	ball.SetTopLeft(ball.Left() + 1, character[mckun].Top());
 
 	if (keepmove == 1) {
 		int top = character[mckun].Top();
@@ -62,6 +66,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (forcestop == false && linear <= 30)linear += 3;
 		character[mckun].SetTopLeft(left, character[mckun].Top());
 	}
+
 	if (forcestop == true) {
 		if (linear == 0){ 
 			forcestop = false;
@@ -69,25 +74,67 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 		if (linear != 0) linear -= 1;
 	}
+
+	if (w_pressed == true) {
+		bg_en = false;
+		if (bg_linear >= 10) bg_linear -= 1;
+	}
+
+	if (w_pressed == false) {
+		if (bg_linear >= 500) bg_en = true;
+		else bg_linear += 5;
+	}
+
+	background[0].SetAnimation(bg_linear, bg_en);
+
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
-	background.LoadBitmapByString({ 
-		"resources/phase11_background.bmp", 
-		"resources/phase12_background.bmp", 
-		"resources/phase21_background.bmp", 
-		"resources/phase22_background.bmp", 
-		"resources/phase31_background.bmp", 
-		"resources/phase32_background.bmp",
-		"resources/phase41_background.bmp",
-		"resources/phase42_background.bmp",
-		"resources/phase51_background.bmp",
-		"resources/phase52_background.bmp",
-		"resources/phase61_background.bmp",
-		"resources/phase62_background.bmp",
+	background[0].LoadBitmapByString({
+		"resources/start/start000.bmp", "resources/start/start001.bmp",
+		"resources/start/start002.bmp", "resources/start/start003.bmp",
+		"resources/start/start004.bmp", "resources/start/start005.bmp",
+		"resources/start/start006.bmp", "resources/start/start007.bmp",
+		"resources/start/start008.bmp", "resources/start/start009.bmp",
+		"resources/start/start010.bmp", "resources/start/start011.bmp",
+		"resources/start/start012.bmp", "resources/start/start013.bmp",
+		"resources/start/start014.bmp", "resources/start/start015.bmp",
+		"resources/start/start016.bmp", "resources/start/start017.bmp",
+		"resources/start/start018.bmp", "resources/start/start019.bmp",
+		"resources/start/start020.bmp", "resources/start/start021.bmp",
+		"resources/start/start022.bmp", "resources/start/start023.bmp",
+		"resources/start/start024.bmp", "resources/start/start025.bmp",
+		"resources/start/start026.bmp", "resources/start/start027.bmp",
+		"resources/start/start028.bmp", "resources/start/start029.bmp",
+		"resources/start/start030.bmp", "resources/start/start031.bmp",
+		"resources/start/start032.bmp", "resources/start/start033.bmp",
+		"resources/start/start034.bmp", "resources/start/start035.bmp",
+		"resources/start/start036.bmp", "resources/start/start037.bmp",
+		"resources/start/start038.bmp", "resources/start/start039.bmp",
+		"resources/start/start040.bmp", "resources/start/start041.bmp",
+		"resources/start/start042.bmp", "resources/start/start043.bmp",
+		"resources/start/start044.bmp", "resources/start/start045.bmp",
+		"resources/start/start046.bmp", "resources/start/start047.bmp",
+		"resources/start/start048.bmp", "resources/start/start049.bmp",
+		"resources/start/start050.bmp", "resources/start/start051.bmp",
+		"resources/start/start052.bmp", "resources/start/start053.bmp",
+		"resources/start/start054.bmp", "resources/start/start055.bmp",
+		"resources/start/start056.bmp", "resources/start/start057.bmp",
+		"resources/start/start058.bmp", "resources/start/start059.bmp",
+		"resources/start/start060.bmp", "resources/start/start061.bmp",
+		"resources/start/start062.bmp", "resources/start/start063.bmp",
+		"resources/start/start064.bmp", "resources/start/start065.bmp",
+		"resources/start/start066.bmp", "resources/start/start067.bmp",
+		"resources/start/start068.bmp", "resources/start/start069.bmp",
+		"resources/start/start070.bmp", "resources/start/start071.bmp",
+		"resources/start/start072.bmp", "resources/start/start073.bmp",
+		"resources/start/start074.bmp", "resources/start/start075.bmp",
+		"resources/start/start076.bmp", "resources/start/start077.bmp",
+		"resources/start/start078.bmp", "resources/start/start079.bmp",
 	});
-	background.SetTopLeft(0, 0);
+	background[0].SetTopLeft(-1000, 0);
+	
 
 	character[0].LoadBitmapByString({ 
 		"resources/KUN00die.bmp",
@@ -143,34 +190,18 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		}, RGB(255, 255, 255)
 	);
 
+
 	for (int i = 0; i < 3; i++) {
-		character[i].SetTopLeft(150, 265);
+		character[i].SetTopLeft(750, 265);
 		character[i].SetAnimation(100, false);
 	}
 
-	chest_and_key.LoadBitmapByString({ "resources/chest.bmp", "resources/chest_ignore.bmp" }, RGB(255, 255, 255));
-	chest_and_key.SetTopLeft(150, 430);
-
-	bee.LoadBitmapByString({ "resources/bee_1.bmp", "resources/bee_2.bmp" });
-	bee.SetTopLeft(462, 265);
-
-	ball.LoadBitmapByString({ "resources/Basketball.bmp" }, RGB(255, 255, 255));
-	ball.SetTopLeft(0, 0);
-
-	for (int i = 0; i < 3; i++) {
-		door[i].LoadBitmapByString({ "resources/door_close.bmp", "resources/door_open.bmp" }, RGB(255, 255, 255));
-		door[i].SetTopLeft(462 - 100 * i, 265);
-	}
 
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {	
 
-	if (nChar == 0x46) {
-		//ball.SetTopLeft(character[mckun].Top(), character[mckun].Left());
-		ball.ShowBitmap();
-	}
 
 	if (nChar == 0x45) {
 		if (mckun == 2) mckun = 0;
@@ -178,7 +209,9 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 
 	if (nChar == 0x57) {
-		keepmove = 1;
+		//keepmove = 1;
+		w_pressed = true;
+		bg_linear = 500;
 		//linear = 0;
 	}
 
@@ -231,6 +264,7 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == 0x57 || nChar == 0x41 || nChar == 0x53 || nChar == 0x44) {
 		forcestop = true;
+		w_pressed = false;
 	}
 }
 
@@ -256,45 +290,6 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnShow()
 {
-	background.ShowBitmap();
+	background[0].ShowBitmap();
 	character[mckun].ShowBitmap();
-}
-
-
-void CGameStateRun::show_text_by_phase() {
-	CDC *pDC = CDDraw::GetBackCDC();
-	CFont* fp;
-
-	CTextDraw::ChangeFontLog(pDC, fp, 21, "微軟正黑體", RGB(0, 0, 0), 800);
-
-	if (phase == 1 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 237, 128, "Current Speed:");
-		CTextDraw::Print(pDC, 55, 163, "將灰色方格換成 resources 內的 giraffe.bmp 圖樣！");
-		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 2 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 26, 128, "下一個階段，讓長頸鹿能夠透過上下左右移動到這個位置！");
-		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 3 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 205, 128, "幫你準備了一個寶箱");
-		CTextDraw::Print(pDC, 68, 162, "設計程式讓長頸鹿摸到寶箱後，將寶箱消失！");
-		CTextDraw::Print(pDC, 68, 196, "記得寶箱要去背，使用 RGB(255, 255, 255)");
-		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 4 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 173, 128, "幫你準備了一個蜜蜂好朋友");
-		CTextDraw::Print(pDC, 89, 162, "已經幫它做了兩幀的動畫，讓它可以上下移動");
-		CTextDraw::Print(pDC, 110, 196, "寫個程式來讓你的蜜蜂好朋友擁有動畫！");
-		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 5 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 173, 128, "幫你準備了三扇門");
-		CTextDraw::Print(pDC, 89, 162, "設計程式讓長頸鹿摸到門之後，門會打開");
-		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (phase == 6 && sub_phase == 1) {
-		CTextDraw::Print(pDC, 173, 128, "幫你準備了一顆會倒數的球");
-		CTextDraw::Print(pDC, 89, 162, "設計程式讓球倒數，然後顯示 OK 後停止動畫");
-		CTextDraw::Print(pDC, 373, 537, "按下 Enter 鍵來驗證");
-	} else if (sub_phase == 2) {
-		CTextDraw::Print(pDC, 268, 128, "完成！");
-	}
-
-	CDDraw::ReleaseBackCDC();
 }
