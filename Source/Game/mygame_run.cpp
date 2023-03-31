@@ -18,6 +18,8 @@ int keepmove = 0;
 int bg_linear = 0;
 bool bg_en = true;
 bool w_pressed = false;
+bool space_pressed = false;
+int bg_swap = 0;
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
@@ -37,34 +39,35 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {	
-
+	if (background[0].Left() >= -40) background[0].SetTopLeft(-40, background[0].Top());
+	if (background[0].Left() <= -1920) background[0].SetTopLeft(-1920, background[0].Top());
 
 	if (keepmove == 1) {
 		int top = character[mckun].Top();
 		top -= linear;
-		if (forcestop == false && linear <= 30)linear += 3;
+		if (forcestop == false && linear <= 30)linear += 1;
 		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
 	if (keepmove == 2) {
-		int left = character[mckun].Left();
+		int left = background[0].Left();
 		left -= linear;
-		if (forcestop == false && linear <= 30)linear += 3;
-		character[mckun].SetTopLeft(left, character[mckun].Top());
+		if (forcestop == false && linear <= 30)linear += 1;
+		background[0].SetTopLeft(left, background[0].Top());
 	}
 
 	if (keepmove == 3) {
 		int top = character[mckun].Top();
 		top += linear;
-		if (forcestop == false && linear <= 30)linear += 3;
+		if (forcestop == false && linear <= 30)linear += 1;
 		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
 	if (keepmove == 4) {
-		int left = character[mckun].Left();
+		int left = background[0].Left();
 		left += linear;
-		if (forcestop == false && linear <= 30)linear += 3;
-		character[mckun].SetTopLeft(left, character[mckun].Top());
+		if (forcestop == false && linear <= 30)linear += 1;
+		background[0].SetTopLeft(left, background[0].Top());
 	}
 
 	if (forcestop == true) {
@@ -77,12 +80,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	if (w_pressed == true) {
 		bg_en = false;
-		if (bg_linear >= 10) bg_linear -= 1;
+		if (bg_linear >= 10) bg_linear -= 2;
 	}
 
-	if (w_pressed == false) {
+	if (space_pressed == true) {
 		if (bg_linear >= 500) bg_en = true;
-		else bg_linear += 5;
+		else bg_linear += 1;
 	}
 
 	background[0].SetAnimation(bg_linear, bg_en);
@@ -93,10 +96,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
 	background[0].LoadBitmapByString({
 		"resources/start/start000.bmp", "resources/start/start001.bmp",
-		"resources/start/start002.bmp", "resources/start/start003.bmp",
 		"resources/start/start004.bmp", "resources/start/start005.bmp",
-		"resources/start/start006.bmp", "resources/start/start007.bmp",
-		"resources/start/start008.bmp", "resources/start/start009.bmp",
 		"resources/start/start010.bmp", "resources/start/start011.bmp",
 		"resources/start/start012.bmp", "resources/start/start013.bmp",
 		"resources/start/start014.bmp", "resources/start/start015.bmp",
@@ -132,7 +132,19 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/start/start074.bmp", "resources/start/start075.bmp",
 		"resources/start/start076.bmp", "resources/start/start077.bmp",
 		"resources/start/start078.bmp", "resources/start/start079.bmp",
+		"resources/start/start080.bmp", "resources/start/start081.bmp",
+		"resources/start/start082.bmp", "resources/start/start083.bmp",
+		"resources/start/start084.bmp", "resources/start/start085.bmp",
+		"resources/start/start086.bmp", "resources/start/start087.bmp",
+		"resources/start/start088.bmp", "resources/start/start089.bmp",
+		"resources/start/start090.bmp", "resources/start/start091.bmp",
+		"resources/start/start092.bmp", "resources/start/start093.bmp",
+		"resources/start/start094.bmp", "resources/start/start095.bmp",
+		"resources/start/start096.bmp", "resources/start/start097.bmp",
+		"resources/start/start098.bmp", "resources/start/start099.bmp"
 	});
+
+
 	background[0].SetTopLeft(-1000, 0);
 	
 
@@ -201,7 +213,10 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {	
-
+	if (nChar == 0x20) {
+		w_pressed = false;
+		space_pressed = true;
+	}
 
 	if (nChar == 0x45) {
 		if (mckun == 2) mckun = 0;
@@ -210,23 +225,27 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	if (nChar == 0x57) {
 		//keepmove = 1;
+		forcestop = false;
 		w_pressed = true;
 		bg_linear = 500;
 		//linear = 0;
 	}
 
 	if (nChar == 0x41) {
+		forcestop = false;
 		keepmove = 2;
 		//linear = 0;
 	}
 		
 
 	if (nChar == 0x53) {
+		forcestop = false;
 		keepmove = 3;
 		//linear = 0;
 	}
 
 	if (nChar == 0x44) {
+		forcestop = false;
 		keepmove = 4;
 		//linear = 0;
 	}
@@ -264,7 +283,10 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == 0x57 || nChar == 0x41 || nChar == 0x53 || nChar == 0x44) {
 		forcestop = true;
-		w_pressed = false;
+	} 
+
+	if (nChar == 0x20) {
+		space_pressed = false;
 	}
 }
 
@@ -290,6 +312,6 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnShow()
 {
-	background[0].ShowBitmap();
+	background[bg_swap].ShowBitmap();
 	character[mckun].ShowBitmap();
 }
