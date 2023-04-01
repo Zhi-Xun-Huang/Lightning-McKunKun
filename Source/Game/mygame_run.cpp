@@ -6,16 +6,16 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
-#include <iostream>
+#include <string>
 
-
+using namespace std;
 using namespace game_framework;
 
 int mckun = 0; // state of mckunkun
 int linear = 0;  
 bool forcestop = false;
 int keepmove = 0;
-int bg_linear = 0;
+int bg_linear = 500;
 bool bg_en = true;
 bool w_pressed = false;
 bool space_pressed = false;
@@ -49,7 +49,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
-	if (keepmove == 2) {
+	if (keepmove == 4) {
 		int left = background[0].Left();
 		left -= linear;
 		if (forcestop == false && linear <= 30)linear += 1;
@@ -63,7 +63,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		character[mckun].SetTopLeft(character[mckun].Left(), top);
 	}
 
-	if (keepmove == 4) {
+	if (keepmove == 2) {
 		int left = background[0].Left();
 		left += linear;
 		if (forcestop == false && linear <= 30)linear += 1;
@@ -80,12 +80,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	if (w_pressed == true) {
 		bg_en = false;
-		if (bg_linear >= 10) bg_linear -= 2;
+		if (bg_linear >= 10) bg_linear -= 5;
 	}
 
 	if (space_pressed == true) {
 		if (bg_linear >= 500) bg_en = true;
-		else bg_linear += 1;
+		else bg_linear += 5;
 	}
 
 	background[0].SetAnimation(bg_linear, bg_en);
@@ -148,7 +148,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	background[0].SetTopLeft(-1000, 0);
 	
 
-	character[0].LoadBitmapByString({ 
+	character[2].LoadBitmapByString({ 
 		"resources/KUN00die.bmp",
 		"resources/KUN01die.bmp",
 		"resources/KUN02die.bmp",
@@ -192,7 +192,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		}, RGB(255, 255, 255)
 	);
 
-	character[2].LoadBitmapByString({
+	character[0].LoadBitmapByString({
 		"resources/KUN36run.bmp",
 		"resources/KUN37run.bmp",
 		"resources/KUN38run.bmp",
@@ -204,7 +204,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 
 	for (int i = 0; i < 3; i++) {
-		character[i].SetTopLeft(750, 265);
+		character[i].SetTopLeft(650, 400);
 		character[i].SetAnimation(100, false);
 	}
 
@@ -227,7 +227,6 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		//keepmove = 1;
 		forcestop = false;
 		w_pressed = true;
-		bg_linear = 500;
 		//linear = 0;
 	}
 
@@ -314,4 +313,16 @@ void CGameStateRun::OnShow()
 {
 	background[bg_swap].ShowBitmap();
 	character[mckun].ShowBitmap();
+
+	CDC *pDC = CDDraw::GetBackCDC();
+	CFont* fp;
+	CTextDraw::ChangeFontLog(pDC, fp, 24, "Arial", RGB(0, 0, 0), 800);
+	string speed = to_string(500 - bg_linear);
+	string status = to_string(bg_en);
+	CTextDraw::Print(pDC, 1230, 50, "Speed:");
+	CTextDraw::Print(pDC, 1350, 50, speed);
+	CTextDraw::Print(pDC, 1400, 50, " KMs");
+	CDDraw::ReleaseBackCDC();
+
 }
+
