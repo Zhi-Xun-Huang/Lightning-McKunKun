@@ -42,12 +42,13 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
 {	
-	if (armstrong.Left() >= 50 && armstrong.Left() <= 510 && armstrong.GetSelectShowBitmap() == 62) {
+	if ((armstrong.Left() >= 50 && armstrong.Left() <= 510) && armstrong.GetSelectShowBitmap() == 62) {
 		mckun = 2;
 		armstrongShow = false;
 		bg_swap = 1;
 	}
-	else if (armstrong.GetSelectShowBitmap() == 62) {
+
+	else if ((armstrong.Left() <= 50 || armstrong.Left() >= 510) && armstrong.GetSelectShowBitmap() == 0) {
 		armstrong.SetTopLeft(290, armstrong.Top());
 	}
 
@@ -293,6 +294,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == VK_RETURN) {
 		bg_swap = 0;
 		mckun = 0;
+		armstrongShow = true;
 	}
 
 	if (nChar == 0x45) {
