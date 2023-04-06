@@ -7,6 +7,7 @@
 #include "../Library/gamecore.h"
 #include "mygame.h"
 #include <string>
+#include <random>
 
 using namespace std;
 using namespace game_framework;
@@ -20,6 +21,8 @@ bool bg_en = true;
 bool w_pressed = false;
 bool space_pressed = false;
 int bg_swap = 0;
+bool armstrongStop = false;
+int armstrongSpeed = 2000;
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
@@ -39,8 +42,22 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {	
-	if (background[0].Left() >= -40) background[0].SetTopLeft(-40, background[0].Top());
-	if (background[0].Left() <= -1920) background[0].SetTopLeft(-1920, background[0].Top());
+	if (background[0].Left() >= -40) {
+		background[0].SetTopLeft(-40, background[0].Top());
+		armstrongStop = true;
+	}
+	else {
+		armstrongStop = false;
+	}
+
+	if (background[0].Left() <= -1920) {
+		background[0].SetTopLeft(-1920, background[0].Top());
+		armstrongStop = true;
+	}
+	else {
+		armstrongStop = false;
+	}
+
 
 	if (keepmove == 1) {
 		int top = character[mckun].Top();
@@ -51,9 +68,14 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	if (keepmove == 4) {
 		int left = background[0].Left();
+		int armstrongLeft = armstrong.Left();
 		left -= linear;
 		if (forcestop == false && linear <= 30)linear += 1;
 		background[0].SetTopLeft(left, background[0].Top());
+		if (armstrongStop == false) {
+			armstrongLeft -= linear;
+			armstrong.SetTopLeft(armstrongLeft, armstrong.Top());
+		}
 	}
 
 	if (keepmove == 3) {
@@ -65,9 +87,14 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	if (keepmove == 2) {
 		int left = background[0].Left();
+		int armstrongLeft = armstrong.Left();
 		left += linear;
 		if (forcestop == false && linear <= 30)linear += 1;
 		background[0].SetTopLeft(left, background[0].Top());
+		if (armstrongStop == false) {
+			armstrongLeft += linear;
+			armstrong.SetTopLeft(armstrongLeft, armstrong.Top());
+		}
 	}
 
 	if (forcestop == true) {
@@ -81,14 +108,18 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	if (w_pressed == true) {
 		bg_en = false;
 		if (bg_linear >= 10) bg_linear -= 5;
+		if (armstrongSpeed >= 10) armstrongSpeed -= 5;
 	}
 
 	if (space_pressed == true) {
 		if (bg_linear >= 500) bg_en = true;
 		else bg_linear += 5;
+		if (armstrongSpeed >= 2000) armstrongSpeed = 3000;
+		else armstrongSpeed += 5;
 	}
 
 	background[0].SetAnimation(bg_linear, bg_en);
+	armstrong.SetAnimation(armstrongSpeed, false);
 
 }
 
@@ -149,56 +180,81 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	
 
 	character[2].LoadBitmapByString({ 
-		"resources/KUN00die.bmp",
-		"resources/KUN01die.bmp",
-		"resources/KUN02die.bmp",
-		"resources/KUN03die.bmp",
-		"resources/KUN04die.bmp",
-		"resources/KUN05die.bmp",
-		"resources/KUN06die.bmp",
-		"resources/KUN07die.bmp",
-		"resources/KUN08die.bmp",
-		"resources/KUN09die.bmp",
-		"resources/KUN10die.bmp",
-		"resources/KUN11die.bmp",
-		"resources/KUN12die.bmp",
-		"resources/KUN13die.bmp",
-		"resources/KUN14die.bmp",
-		"resources/KUN15die.bmp",
-		"resources/KUN16die.bmp",
-		"resources/KUN17die.bmp",
-		"resources/KUN18die.bmp",
-		"resources/KUN19die.bmp",
-		"resources/KUN20die.bmp",
-		"resources/KUN21die.bmp",
-		"resources/KUN22die.bmp",
-		"resources/KUN23die.bmp"
+		"resources/kunDie/KUN00die.bmp",
+		"resources/kunDie/KUN01die.bmp",
+		"resources/kunDie/KUN02die.bmp",
+		"resources/kunDie/KUN03die.bmp",
+		"resources/kunDie/KUN04die.bmp",
+		"resources/kunDie/KUN05die.bmp",
+		"resources/kunDie/KUN06die.bmp",
+		"resources/kunDie/KUN07die.bmp",
+		"resources/kunDie/KUN08die.bmp",
+		"resources/kunDie/KUN09die.bmp",
+		"resources/kunDie/KUN10die.bmp",
+		"resources/kunDie/KUN11die.bmp",
+		"resources/kunDie/KUN12die.bmp",
+		"resources/kunDie/KUN13die.bmp",
+		"resources/kunDie/KUN14die.bmp",
+		"resources/kunDie/KUN15die.bmp",
+		"resources/kunDie/KUN16die.bmp",
+		"resources/kunDie/KUN17die.bmp",
+		"resources/kunDie/KUN18die.bmp",
+		"resources/kunDie/KUN19die.bmp",
+		"resources/kunDie/KUN20die.bmp",
+		"resources/kunDie/KUN21die.bmp",
+		"resources/kunDie/KUN22die.bmp",
+		"resources/kunDie/KUN23die.bmp"
 		},RGB(255, 255, 255)
 	);
 
 	character[1].LoadBitmapByString({
-		"resources/KUN24bb.bmp",
-		"resources/KUN25bb.bmp",
-		"resources/KUN26bb.bmp",
-		"resources/KUN27bb.bmp",
-		"resources/KUN28bb.bmp",
-		"resources/KUN29bb.bmp",
-		"resources/KUN30bb.bmp",
-		"resources/KUN31bb.bmp",
-		"resources/KUN32bb.bmp",
-		"resources/KUN33bb.bmp",
-		"resources/KUN34bb.bmp",
-		"resources/KUN35bb.bmp"
+		"resources/kunBB/KUN24bb.bmp",
+		"resources/kunBB/KUN25bb.bmp",
+		"resources/kunBB/KUN26bb.bmp",
+		"resources/kunBB/KUN27bb.bmp",
+		"resources/kunBB/KUN28bb.bmp",
+		"resources/kunBB/KUN29bb.bmp",
+		"resources/kunBB/KUN30bb.bmp",
+		"resources/kunBB/KUN31bb.bmp",
+		"resources/kunBB/KUN32bb.bmp",
+		"resources/kunBB/KUN33bb.bmp",
+		"resources/kunBB/KUN34bb.bmp",
+		"resources/kunBB/KUN35bb.bmp"
 		}, RGB(255, 255, 255)
 	);
 
 	character[0].LoadBitmapByString({
-		"resources/KUN36run.bmp",
-		"resources/KUN37run.bmp",
-		"resources/KUN38run.bmp",
-		"resources/KUN39run.bmp",
-		"resources/KUN40run.bmp",
-		"resources/KUN41run.bmp"
+		"resources/kunRun/KUN36run.bmp",
+		"resources/kunRun/KUN37run.bmp",
+		"resources/kunRun/KUN38run.bmp",
+		"resources/kunRun/KUN39run.bmp",
+		"resources/kunRun/KUN40run.bmp",
+		"resources/kunRun/KUN41run.bmp"
+		}, RGB(255, 255, 255)
+	);
+
+	armstrong.LoadBitmapByString({
+		"resources/armstrong/armstrong00.bmp", "resources/armstrong/armstrong01.bmp", "resources/armstrong/armstrong02.bmp",
+		"resources/armstrong/armstrong03.bmp", "resources/armstrong/armstrong04.bmp", "resources/armstrong/armstrong05.bmp",
+		"resources/armstrong/armstrong06.bmp", "resources/armstrong/armstrong07.bmp", "resources/armstrong/armstrong08.bmp",
+		"resources/armstrong/armstrong09.bmp", "resources/armstrong/armstrong10.bmp", "resources/armstrong/armstrong11.bmp",
+		"resources/armstrong/armstrong12.bmp", "resources/armstrong/armstrong13.bmp", "resources/armstrong/armstrong14.bmp",
+		"resources/armstrong/armstrong15.bmp", "resources/armstrong/armstrong16.bmp", "resources/armstrong/armstrong17.bmp",
+		"resources/armstrong/armstrong18.bmp", "resources/armstrong/armstrong19.bmp", "resources/armstrong/armstrong20.bmp",
+		"resources/armstrong/armstrong21.bmp", "resources/armstrong/armstrong22.bmp", "resources/armstrong/armstrong23.bmp",
+		"resources/armstrong/armstrong24.bmp", "resources/armstrong/armstrong25.bmp", "resources/armstrong/armstrong26.bmp",
+		"resources/armstrong/armstrong27.bmp","resources/armstrong/armstrong28.bmp","resources/armstrong/armstrong29.bmp",
+		"resources/armstrong/armstrong30.bmp","resources/armstrong/armstrong31.bmp","resources/armstrong/armstrong32.bmp",
+		"resources/armstrong/armstrong33.bmp","resources/armstrong/armstrong34.bmp","resources/armstrong/armstrong35.bmp",
+		"resources/armstrong/armstrong36.bmp","resources/armstrong/armstrong37.bmp","resources/armstrong/armstrong38.bmp",
+		"resources/armstrong/armstrong39.bmp","resources/armstrong/armstrong40.bmp","resources/armstrong/armstrong41.bmp",
+		"resources/armstrong/armstrong42.bmp","resources/armstrong/armstrong43.bmp","resources/armstrong/armstrong44.bmp",
+		"resources/armstrong/armstrong45.bmp","resources/armstrong/armstrong46.bmp","resources/armstrong/armstrong47.bmp",
+		"resources/armstrong/armstrong48.bmp","resources/armstrong/armstrong49.bmp","resources/armstrong/armstrong50.bmp",
+		"resources/armstrong/armstrong51.bmp","resources/armstrong/armstrong52.bmp","resources/armstrong/armstrong53.bmp",
+		"resources/armstrong/armstrong54.bmp","resources/armstrong/armstrong55.bmp","resources/armstrong/armstrong56.bmp",
+		"resources/armstrong/armstrong57.bmp","resources/armstrong/armstrong58.bmp","resources/armstrong/armstrong59.bmp",
+		"resources/armstrong/armstrong60.bmp","resources/armstrong/armstrong61.bmp","resources/armstrong/armstrong62.bmp"
 		}, RGB(255, 255, 255)
 	);
 
@@ -209,6 +265,14 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	}
 
 
+	/*{,
+		"resources/armstrong/armstrong63.bmp","resources/armstrong/armstrong64.bmp","resources/armstrong/armstrong65.bmp",
+		"resources/armstrong/armstrong66.bmp","resources/armstrong/armstrong67.bmp","resources/armstrong/armstrong68.bmp",
+		"resources/armstrong/armstrong69.bmp","resources/armstrong/armstrong70.bmp","resources/armstrong/armstrong71.bmp",
+		"resources/armstrong/armstrong72.bmp","resources/armstrong/armstrong73.bmp","resources/armstrong/armstrong74.bmp",
+		"resources/armstrong/armstrong75.bmp","resources/armstrong/armstrong76.bmp","resources/armstrong/armstrong77.bmp",
+		"resources/armstrong/armstrong78.bmp","resources/armstrong/armstrong79.bmp","resources/armstrong/armstrong80.bmp",
+		"resources/armstrong/armstrong81.bmp","resources/armstrong/armstrong82.bmp" }*/
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -312,8 +376,9 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 void CGameStateRun::OnShow()
 {
 	background[bg_swap].ShowBitmap();
+	armstrong.ShowBitmap();
 	character[mckun].ShowBitmap();
-
+	armstrong.SetTopLeft(150, 200);
 	CDC *pDC = CDDraw::GetBackCDC();
 	CFont* fp;
 	CTextDraw::ChangeFontLog(pDC, fp, 24, "Arial", RGB(0, 0, 0), 800);
