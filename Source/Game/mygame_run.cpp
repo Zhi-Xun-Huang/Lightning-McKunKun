@@ -21,7 +21,7 @@ bool bg_en = true;
 bool w_pressed = false;
 bool space_pressed = false;
 int bg_swap = 0;
-bool armstrongStop = false;
+bool armstrongShow = false;
 int armstrongSpeed = 2000;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -42,8 +42,13 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {	
-	if (/*(armstrong.Left() >= 50 || armstrong.Left() <= 510) &&*/ armstrong.GetImageFilename() == string("armstrong62.bmp")) {
+	if (armstrong.Left() >= 50 && armstrong.Left() <= 510 && armstrong.GetSelectShowBitmap() == 62) {
 		mckun = 2;
+		armstrongShow = false;
+		bg_swap = 1;
+	}
+	else if (armstrong.GetSelectShowBitmap() == 62) {
+		armstrong.SetTopLeft(290, armstrong.Top());
 	}
 
 	if (background[0].Left() >= -40) {
@@ -118,7 +123,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 
 	background[0].SetAnimation(bg_linear, bg_en);
-	armstrong.SetAnimation(99, false);
+	armstrong.SetAnimation(25, false);
 
 }
 
@@ -176,6 +181,9 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 
 	background[0].SetTopLeft(-1000, 0);
+
+	background[1].LoadBitmapByString({ "resources/gameover.bmp" });
+	background[1].SetTopLeft(0, 0);
 	
 
 	character[2].LoadBitmapByString({ 
@@ -257,7 +265,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		}, RGB(255, 255, 255)
 	);
 
-	armstrong.SetTopLeft(60, 230);
+	armstrong.SetTopLeft(60, 240);
 
 	for (int i = 0; i < 3; i++) {
 		character[i].SetTopLeft(650, 400);
@@ -282,6 +290,11 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		space_pressed = true;
 	}
 
+	if (nChar == VK_RETURN) {
+		bg_swap = 0;
+		mckun = 0;
+	}
+
 	if (nChar == 0x45) {
 		if (mckun == 2) mckun = 0;
 		else mckun += 1;
@@ -291,6 +304,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		//keepmove = 1;
 		forcestop = false;
 		w_pressed = true;
+		armstrongShow = true;
 		//linear = 0;
 	}
 
@@ -303,7 +317,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	if (nChar == 0x53) {
 		forcestop = false;
-		keepmove = 3;
+		//keepmove = 3;
 		//linear = 0;
 	}
 
@@ -374,9 +388,9 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 }
 
 void CGameStateRun::OnShow()
-{
+{	
 	background[bg_swap].ShowBitmap();
-	armstrong.ShowBitmap();
+	if (armstrongShow == true) armstrong.ShowBitmap();
 	character[mckun].ShowBitmap();
 	CDC *pDC = CDDraw::GetBackCDC();
 	CFont* fp;
