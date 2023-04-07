@@ -124,7 +124,7 @@ void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
 	}
 
 	background[0].SetAnimation(bg_linear, bg_en);
-	armstrong.SetAnimation(25, false);
+	armstrong.SetAnimation(30, false);
 
 }
 
