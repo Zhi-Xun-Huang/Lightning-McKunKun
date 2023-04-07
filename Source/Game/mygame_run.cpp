@@ -12,17 +12,16 @@
 using namespace std;
 using namespace game_framework;
 
-int mckun = 0; // state of mckunkun
-int linear = 0;  
-bool forcestop = false;
-int keepmove = 0;
-int bg_linear = 500;
-bool bg_en = true;
-bool w_pressed = false;
-bool space_pressed = false;
-int bg_swap = 0;
-bool armstrongShow = false;
-int armstrongSpeed = 2000;
+int KKID = 0;               // State of KunKun
+int BGID = 0;               // State of background
+int Linear = 0;             // Linear turn left & right
+int TurnLR = 0;             // Turn left or right or not
+int BGLinear = 500;         // Background latency
+bool ADPressed = false;     // Akey or DKey pressed
+bool BGEnable = true;       // Background animation enable
+bool WPressed = false;      // State of WKey
+bool SpacePressed = false;  // State of SpaceBar
+bool ArmstrongShow = false; // Armstrong be shown or not
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
@@ -43,9 +42,9 @@ void CGameStateRun::OnBeginState()
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {	
 	if ((armstrong.Left() >= 50 && armstrong.Left() <= 510) && armstrong.GetSelectShowBitmap() == 62) {
-		mckun = 2;
-		armstrongShow = false;
-		bg_swap = 1;
+		KKID = 2;
+		ArmstrongShow = false;
+		BGID = 1;
 	}
 
 	else if ((armstrong.Left() <= 50 || armstrong.Left() >= 510) && armstrong.GetSelectShowBitmap() == 0) {
@@ -68,62 +67,45 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		armstrong.SetTopLeft(290, armstrong.Top());
 	}
 
-	if (keepmove == 1) {
-		int top = character[mckun].Top();
-		top -= linear;
-		if (forcestop == false && linear <= 30)linear += 1;
-		character[mckun].SetTopLeft(character[mckun].Left(), top);
-	}
-
-	if (keepmove == 3) {
-		int top = character[mckun].Top();
-		top += linear;
-		if (forcestop == false && linear <= 30)linear += 1;
-		character[mckun].SetTopLeft(character[mckun].Left(), top);
-	}
-
-	if (keepmove == 2) {
+	if (TurnLR == 1) {
 		int left = background[0].Left();
 		int aleft = armstrong.Left();
-		left += linear;
-		aleft -= linear;
-		if (forcestop == false && linear <= 30)linear += 1;
+		left += Linear;
+		aleft -= Linear;
+		if (ADPressed == false && Linear <= 30) Linear += 1;
 		background[0].SetTopLeft(left, background[0].Top());
 		armstrong.SetTopLeft(aleft, armstrong.Top());
 	}
 
-	if (keepmove == 4) {
+	if (TurnLR == 2) {
 		int left = background[0].Left();
 		int aleft = armstrong.Left();
-		left -= linear;
-		aleft += linear;
-		if (forcestop == false && linear <= 30)linear += 1;
+		left -= Linear;
+		aleft += Linear;
+		if (ADPressed == false && Linear <= 30) Linear += 1;
 		background[0].SetTopLeft(left, background[0].Top());
 		armstrong.SetTopLeft(aleft, armstrong.Top());
 	}
 
-	if (forcestop == true) {
-		if (linear == 0){ 
-			forcestop = false;
-			keepmove = 0;
+	if (ADPressed == true) {
+		if (Linear == 0){ 
+			ADPressed = false;
+			TurnLR = 0;
 		}
-		if (linear != 0) linear -= 1;
+		if (Linear != 0) Linear -= 1;
 	}
 
-	if (w_pressed == true) {
-		bg_en = false;
-		if (bg_linear >= 10) bg_linear -= 5;
-		if (armstrongSpeed >= 10) armstrongSpeed -= 5;
+	if (WPressed == true) {
+		BGEnable = false;
+		if (BGLinear >= 10) BGLinear -= 5;
 	}
 
-	if (space_pressed == true) {
-		if (bg_linear >= 500) bg_en = true;
-		else bg_linear += 5;
-		if (armstrongSpeed >= 2000) armstrongSpeed = 3000;
-		else armstrongSpeed += 5;
+	if (SpacePressed == true) {
+		if (BGLinear >= 500) BGEnable = true;
+		else BGLinear += 5;
 	}
 
-	background[0].SetAnimation(bg_linear, bg_en);
+	background[0].SetAnimation(BGLinear, BGEnable);
 	armstrong.SetAnimation(30, false);
 
 }
@@ -273,100 +255,48 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		character[i].SetAnimation(100, false);
 	}
 
-
-	/*{,
-		"resources/armstrong/armstrong63.bmp","resources/armstrong/armstrong64.bmp","resources/armstrong/armstrong65.bmp",
-		"resources/armstrong/armstrong66.bmp","resources/armstrong/armstrong67.bmp","resources/armstrong/armstrong68.bmp",
-		"resources/armstrong/armstrong69.bmp","resources/armstrong/armstrong70.bmp","resources/armstrong/armstrong71.bmp",
-		"resources/armstrong/armstrong72.bmp","resources/armstrong/armstrong73.bmp","resources/armstrong/armstrong74.bmp",
-		"resources/armstrong/armstrong75.bmp","resources/armstrong/armstrong76.bmp","resources/armstrong/armstrong77.bmp",
-		"resources/armstrong/armstrong78.bmp","resources/armstrong/armstrong79.bmp","resources/armstrong/armstrong80.bmp",
-		"resources/armstrong/armstrong81.bmp","resources/armstrong/armstrong82.bmp" }*/
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {	
-	if (nChar == 0x20) {
-		w_pressed = false;
-		space_pressed = true;
+	if (nChar == 0x20) {  // SpaceBar detection.(handbrake)
+		WPressed = false;
+		SpacePressed = true;
 	}
 
-	if (nChar == VK_RETURN) {
-		bg_swap = 0;
-		mckun = 0;
-		armstrongShow = true;
+	if (nChar == 0x0D) {  // EnterKey detection.(restart game)
+		BGID = 0;
+		KKID = 0;
+		ArmstrongShow = true;
 	}
 
-	if (nChar == 0x45) {
-		if (mckun == 2) mckun = 0;
-		else mckun += 1;
+	if (nChar == 0x45) {  // EKey detection.(KunKun Status Change)
+		if (KKID == 2) KKID = 0;
+		else KKID += 1;
 	}
 
-	if (nChar == 0x57) {
-		//keepmove = 1;
-		forcestop = false;
-		w_pressed = true;
-		armstrongShow = true;
-		//linear = 0;
+	if (nChar == 0x57) {  // WKey detection.(accelerator)
+		WPressed = true;
+		ArmstrongShow = true;
 	}
 
-	if (nChar == 0x41) {
-		forcestop = false;
-		keepmove = 2;
-		//linear = 0;
-	}
-		
-
-	if (nChar == 0x53) {
-		forcestop = false;
-		//keepmove = 3;
-		//linear = 0;
+	if (nChar == 0x41) {  // AKey detection.(turn left)
+		ADPressed = false;
+		TurnLR = 1;
 	}
 
-	if (nChar == 0x44) {
-		forcestop = false;
-		keepmove = 4;
-		//linear = 0;
+	if (nChar == 0x44) {  // DKey detection(turn right)
+		ADPressed = false;
+		TurnLR = 2;
 	}
-
-	/*
-	if (nChar == 0x57) { //W_up
-		int top = character[mckun].Top();
-		top -= 20;
-		character[mckun].SetTopLeft(character[mckun].Left(), top);
-	}
-
-	if (nChar == 0x41) { //A_left
-		int left = character[mckun].Left();
-		left -= 20;
-		character[mckun].SetTopLeft(left, character[mckun].Top());
-	}
-
-	if (nChar == 0x53) { //S_down
-		int top = character[mckun].Top();
-		top += 20;
-		character[mckun].SetTopLeft(character[mckun].Left(), top);
-	}
-
-	if (nChar == 0x44) { //D_right
-		int left = character[mckun].Left();
-		left += 20;
-		character[mckun].SetTopLeft(left, character[mckun].Top());
-	}
-	*/
-	
 
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == 0x57 || nChar == 0x41 || nChar == 0x53 || nChar == 0x44) {
-		forcestop = true;
-	} 
+	if (nChar == 0x57 || nChar == 0x41 || nChar == 0x53 || nChar == 0x44) ADPressed = true;
 
-	if (nChar == 0x20) {
-		space_pressed = false;
-	}
+	if (nChar == 0x20) SpacePressed = false;
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -391,14 +321,13 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnShow()
 {	
-	background[bg_swap].ShowBitmap();
-	if (armstrongShow == true) armstrong.ShowBitmap();
-	character[mckun].ShowBitmap();
+	background[BGID].ShowBitmap();
+	if (ArmstrongShow == true) armstrong.ShowBitmap();
+	character[KKID].ShowBitmap();
 	CDC *pDC = CDDraw::GetBackCDC();
 	CFont* fp;
 	CTextDraw::ChangeFontLog(pDC, fp, 24, "Arial", RGB(0, 0, 0), 800);
-	string speed = to_string(500 - bg_linear);
-	string status = to_string(bg_en);
+	string speed = to_string(500 - BGLinear);
 	CTextDraw::Print(pDC, 1230, 50, "Speed:");
 	CTextDraw::Print(pDC, 1350, 50, speed);
 	CTextDraw::Print(pDC, 1400, 50, " KM/s");
