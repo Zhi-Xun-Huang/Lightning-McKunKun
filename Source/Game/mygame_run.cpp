@@ -11,13 +11,13 @@
 
 using namespace std;
 using namespace game_framework;
-
+ 
 int KKID = 0;               // State of KunKun
 int BGID = 0;               // State of background
 int Linear = 0;             // Linear turn left & right
 int TurnLR = 0;             // Turn left or right or not
 int BGLinear = 500;         // Background latency
-bool ADPressed = false;     // Akey or DKey pressed
+bool ADPressed = true;     // Akey or DKey pressed
 bool BGEnable = true;       // Background animation enable
 bool WPressed = false;      // State of WKey
 bool SpacePressed = false;  // State of SpaceBar
@@ -41,55 +41,54 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {	
-	if ((armstrong.Left() >= 50 && armstrong.Left() <= 510) && armstrong.GetSelectShowBitmap() == 62) {
+	/*if ((armstrong.Left() >= 50 && armstrong.Left() <= 510) && armstrong.GetSelectShowBitmap() == 62) {
 		KKID = 2;
 		ArmstrongShow = false;
 		BGID = 1;
-	}
+	}*/
 
-	else if ((armstrong.Left() <= 50 || armstrong.Left() >= 510) && armstrong.GetSelectShowBitmap() == 0) {
-		armstrong.SetTopLeft(290, armstrong.Top());
+	if (armstrong.GetSelectShowBitmap() == 0) {
+		armstrong.SetTopLeft(character[KKID].Left() - 400, armstrong.Top());
 	}
 
 	if (background[0].Left() >= -40) {
 		background[0].SetTopLeft(-40, background[0].Top());
-	}
+		int cleft = character[KKID].Left();
+		if (cleft >= -80) {
+			cleft -= Linear;
+			character[KKID].SetTopLeft(cleft, character[KKID].Top());
+		}
+	} 
 
 	if (background[0].Left() <= -1920) {
 		background[0].SetTopLeft(-1920, background[0].Top());
+		int cleft = character[KKID].Left();
+		if (cleft <= 1200) {
+			cleft += Linear;
+			character[KKID].SetTopLeft(cleft, character[KKID].Top());
+		}
 	}
 
-	if (armstrong.Left() >= 770) {
-		armstrong.SetTopLeft(290, armstrong.Top());
-	}
+	if (character[KKID].Left() < armstrong.Left() + 400) armstrong.SetTopLeft(armstrong.Left() - 20, armstrong.Top());
+	if (character[KKID].Left() > armstrong.Left() + 400) armstrong.SetTopLeft(armstrong.Left() + 20, armstrong.Top());
 
-	if (armstrong.Left() <= -460) {
-		armstrong.SetTopLeft(290, armstrong.Top());
-	}
+	if (ADPressed == false && Linear <= 30) Linear += 1;
 
 	if (TurnLR == 1) {
-		int left = background[0].Left();
-		int aleft = armstrong.Left();
-		left += Linear;
-		aleft -= Linear;
-		if (ADPressed == false && Linear <= 30) Linear += 1;
-		background[0].SetTopLeft(left, background[0].Top());
-		armstrong.SetTopLeft(aleft, armstrong.Top());
+		background[0].SetTopLeft(background[0].Left() + Linear, background[0].Top());
+		if (character[KKID].Left() >= -80) armstrong.SetTopLeft(armstrong.Left() + Linear, armstrong.Top());
+		if ((character[KKID].Left() >= 660 || character[KKID].Left() <= 630) && character[KKID].Left() >= -80) character[KKID].SetTopLeft(character[KKID].Left() - Linear, character[KKID].Top());
 	}
 
 	if (TurnLR == 2) {
-		int left = background[0].Left();
-		int aleft = armstrong.Left();
-		left -= Linear;
-		aleft += Linear;
-		if (ADPressed == false && Linear <= 30) Linear += 1;
-		background[0].SetTopLeft(left, background[0].Top());
-		armstrong.SetTopLeft(aleft, armstrong.Top());
+		background[0].SetTopLeft(background[0].Left() - Linear, background[0].Top());
+		if (character[KKID].Left() <= 1200) armstrong.SetTopLeft(armstrong.Left() - Linear, armstrong.Top());
+		if ((character[KKID].Left() >= 660 || character[KKID].Left() <= 630) && character[KKID].Left() <= 1200) character[KKID].SetTopLeft(character[KKID].Left() + Linear, character[KKID].Top());
 	}
 
 	if (ADPressed == true) {
 		if (Linear == 0){ 
-			ADPressed = false;
+			ADPressed = true;
 			TurnLR = 0;
 		}
 		if (Linear != 0) Linear -= 1;
@@ -113,7 +112,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
 	background[0].LoadBitmapByString({
-		"resources/start/start000.bmp", "resources/start/start001.bmp",
+		"resources/start/start000.bmp"/*, "resources/start/start001.bmp",
 		"resources/start/start004.bmp", "resources/start/start005.bmp",
 		"resources/start/start010.bmp", "resources/start/start011.bmp",
 		"resources/start/start012.bmp", "resources/start/start013.bmp",
@@ -159,7 +158,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/start/start092.bmp", "resources/start/start093.bmp",
 		"resources/start/start094.bmp", "resources/start/start095.bmp",
 		"resources/start/start096.bmp", "resources/start/start097.bmp",
-		"resources/start/start098.bmp", "resources/start/start099.bmp"
+		"resources/start/start098.bmp", "resources/start/start099.bmp"*/
 	});
 
 
@@ -248,10 +247,10 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		}, RGB(255, 255, 255)
 	);
 
-	armstrong.SetTopLeft(60, 240);
+	armstrong.SetTopLeft(60, 270);
 
 	for (int i = 0; i < 3; i++) {
-		character[i].SetTopLeft(650, 400);
+		character[i].SetTopLeft(640, 400);
 		character[i].SetAnimation(100, false);
 	}
 
@@ -327,12 +326,19 @@ void CGameStateRun::OnShow()
 	CDC *pDC = CDDraw::GetBackCDC();
 	CFont* fp;
 	CTextDraw::ChangeFontLog(pDC, fp, 24, "Arial", RGB(0, 0, 0), 800);
-	string speed = to_string(500 - BGLinear);
+	string speed = to_string(Linear);
 	CTextDraw::Print(pDC, 1230, 50, "Speed:");
 	CTextDraw::Print(pDC, 1350, 50, speed);
 	CTextDraw::Print(pDC, 1400, 50, " KM/s");
-	string x = to_string(armstrong.Left());
-	CTextDraw::Print(pDC, 100, 50, x);
+	CTextDraw::Print(pDC, 80, 80, "KK_Left:");
+	string x = to_string(character[KKID].Left());
+	CTextDraw::Print(pDC, 250, 80, x);
+	CTextDraw::Print(pDC, 80, 50, "BG_Left:");
+	string y = to_string(background[BGID].Left());
+	CTextDraw::Print(pDC, 250, 50, y);
+	CTextDraw::Print(pDC, 80, 110, "AS_Left:");
+	string z = to_string(armstrong.Left());
+	CTextDraw::Print(pDC, 250, 110, z);
 	CDDraw::ReleaseBackCDC();
 
 }

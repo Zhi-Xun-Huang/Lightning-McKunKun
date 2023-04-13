@@ -97,7 +97,7 @@ namespace game_framework {
 		int sub_phase = 1;
 		CMovingBitmap background[3];
 		CMovingBitmap armstrong;
-		CMovingBitmap character[3];
+		CMovingBitmap character[3]; 
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
