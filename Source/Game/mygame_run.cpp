@@ -41,7 +41,7 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {	
-	if ((armstrong.Left() + 420 >= character[0].Left() && armstrong.Left() + 380 <= character[0].Left()) && armstrong.GetSelectShowBitmap() == 62) {
+	if ((armstrong.Left() + 410 >= character[0].Left() && armstrong.Left() + 370 <= character[0].Left()) && armstrong.GetSelectShowBitmap() == 62) {
 		GotoGameState(GAME_STATE_OVER);
 	}
 
@@ -103,14 +103,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 
 	background[0].SetAnimation(BGLinear, BGEnable);
-	armstrong.SetAnimation(30, false);
 
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
 	background[0].LoadBitmapByString({
-		"resources/start/start000.bmp"/*, "resources/start/start001.bmp",
+		"resources/start/start000.bmp", "resources/start/start001.bmp",
 		"resources/start/start004.bmp", "resources/start/start005.bmp",
 		"resources/start/start010.bmp", "resources/start/start011.bmp",
 		"resources/start/start012.bmp", "resources/start/start013.bmp",
@@ -136,27 +135,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/start/start052.bmp", "resources/start/start053.bmp",
 		"resources/start/start054.bmp", "resources/start/start055.bmp",
 		"resources/start/start056.bmp", "resources/start/start057.bmp",
-		"resources/start/start058.bmp", "resources/start/start059.bmp",
-		"resources/start/start060.bmp", "resources/start/start061.bmp",
-		"resources/start/start062.bmp", "resources/start/start063.bmp",
-		"resources/start/start064.bmp", "resources/start/start065.bmp",
-		"resources/start/start066.bmp", "resources/start/start067.bmp",
-		"resources/start/start068.bmp", "resources/start/start069.bmp",
-		"resources/start/start070.bmp", "resources/start/start071.bmp",
-		"resources/start/start072.bmp", "resources/start/start073.bmp",
-		"resources/start/start074.bmp", "resources/start/start075.bmp",
-		"resources/start/start076.bmp", "resources/start/start077.bmp",
-		"resources/start/start078.bmp", "resources/start/start079.bmp",
-		"resources/start/start080.bmp", "resources/start/start081.bmp",
-		"resources/start/start082.bmp", "resources/start/start083.bmp",
-		"resources/start/start084.bmp", "resources/start/start085.bmp",
-		"resources/start/start086.bmp", "resources/start/start087.bmp",
-		"resources/start/start088.bmp", "resources/start/start089.bmp",
-		"resources/start/start090.bmp", "resources/start/start091.bmp",
-		"resources/start/start092.bmp", "resources/start/start093.bmp",
-		"resources/start/start094.bmp", "resources/start/start095.bmp",
-		"resources/start/start096.bmp", "resources/start/start097.bmp",
-		"resources/start/start098.bmp", "resources/start/start099.bmp"*/
+		"resources/start/start058.bmp", "resources/start/start059.bmp"
 	});
 
 
@@ -164,35 +143,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	background[1].LoadBitmapByString({ "resources/gameover.bmp" });
 	background[1].SetTopLeft(0, 0);
-	
-
-	character[2].LoadBitmapByString({ 
-		"resources/kunDie/KUN00die.bmp",
-		"resources/kunDie/KUN01die.bmp",
-		"resources/kunDie/KUN02die.bmp",
-		"resources/kunDie/KUN03die.bmp",
-		"resources/kunDie/KUN04die.bmp",
-		"resources/kunDie/KUN05die.bmp",
-		"resources/kunDie/KUN06die.bmp",
-		"resources/kunDie/KUN07die.bmp",
-		"resources/kunDie/KUN08die.bmp",
-		"resources/kunDie/KUN09die.bmp",
-		"resources/kunDie/KUN10die.bmp",
-		"resources/kunDie/KUN11die.bmp",
-		"resources/kunDie/KUN12die.bmp",
-		"resources/kunDie/KUN13die.bmp",
-		"resources/kunDie/KUN14die.bmp",
-		"resources/kunDie/KUN15die.bmp",
-		"resources/kunDie/KUN16die.bmp",
-		"resources/kunDie/KUN17die.bmp",
-		"resources/kunDie/KUN18die.bmp",
-		"resources/kunDie/KUN19die.bmp",
-		"resources/kunDie/KUN20die.bmp",
-		"resources/kunDie/KUN21die.bmp",
-		"resources/kunDie/KUN22die.bmp",
-		"resources/kunDie/KUN23die.bmp"
-		},RGB(255, 255, 255)
-	);
 
 	character[1].LoadBitmapByString({
 		"resources/kunBB/KUN24bb.bmp",
@@ -247,10 +197,34 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	armstrong.SetTopLeft(60, 270);
 
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 2; i++) {
 		character[i].SetTopLeft(640, 400);
-		character[i].SetAnimation(100, false);
+		character[i].SetAnimation(50, false);
 	}
+
+	basketball.LoadBitmapByString({
+		"resources/basketball/basketball00.bmp",
+		"resources/basketball/basketball01.bmp",
+		"resources/basketball/basketball02.bmp",
+		"resources/basketball/basketball03.bmp",
+		"resources/basketball/basketball04.bmp",
+		"resources/basketball/basketball05.bmp",
+		"resources/basketball/basketball06.bmp",
+		"resources/basketball/basketball07.bmp", 
+		"resources/basketball/basketball08.bmp",
+		"resources/basketball/basketball09.bmp",
+		"resources/basketball/basketball10.bmp",
+		"resources/basketball/basketball11.bmp", 
+		"resources/basketball/basketball12.bmp",
+		"resources/basketball/basketball13.bmp",
+		"resources/basketball/basketball14.bmp",
+		"resources/basketball/basketball15.bmp",
+		"resources/basketball/basketball16.bmp",
+		"resources/basketball/basketball17.bmp"
+		}, RGB(255, 255, 255)
+	);
+
+	armstrong.SetAnimation(25, false);
 
 }
 
@@ -262,7 +236,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}
 
 	if (nChar == 0x45) {  // EKey detection.(KunKun Status Change)
-		if (KKID == 2) KKID = 0;
+		if (KKID == 1) KKID = 0;
 		else KKID += 1;
 	}
 

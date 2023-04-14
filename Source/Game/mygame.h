@@ -98,6 +98,7 @@ namespace game_framework {
 		CMovingBitmap background[3];
 		CMovingBitmap armstrong;
 		CMovingBitmap character[3]; 
+		CMovingBitmap basketball;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -116,7 +117,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		CMovingBitmap background;
-		void load_background();
+		CMovingBitmap character;
 	};
 
 }
