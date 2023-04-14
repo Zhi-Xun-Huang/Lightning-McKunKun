@@ -41,11 +41,9 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
 {	
-	/*if ((armstrong.Left() >= 50 && armstrong.Left() <= 510) && armstrong.GetSelectShowBitmap() == 62) {
-		KKID = 2;
-		ArmstrongShow = false;
-		BGID = 1;
-	}*/
+	if ((armstrong.Left() + 420 >= character[0].Left() && armstrong.Left() + 380 <= character[0].Left()) && armstrong.GetSelectShowBitmap() == 62) {
+		GotoGameState(GAME_STATE_OVER);
+	}
 
 	if (armstrong.GetSelectShowBitmap() == 0) {
 		armstrong.SetTopLeft(character[KKID].Left() - 400, armstrong.Top());
@@ -261,12 +259,6 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == 0x20) {  // SpaceBar detection.(handbrake)
 		WPressed = false;
 		SpacePressed = true;
-	}
-
-	if (nChar == 0x0D) {  // EnterKey detection.(restart game)
-		BGID = 0;
-		KKID = 0;
-		ArmstrongShow = true;
 	}
 
 	if (nChar == 0x45) {  // EKey detection.(KunKun Status Change)

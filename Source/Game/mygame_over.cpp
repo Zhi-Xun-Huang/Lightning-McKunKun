@@ -28,7 +28,8 @@ void CGameStateOver::OnBeginState()
 
 void CGameStateOver::OnInit()
 {
-
+	background.LoadBitmapByString({ "resources/gameover.bmp" });
+	background.SetTopLeft(0, 0);
 }
 
 void CGameStateOver::OnShow()
@@ -38,6 +39,6 @@ void CGameStateOver::OnShow()
 
 void CGameStateOver::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	
+	GotoGameState(GAME_STATE_RUN);
 }
 
