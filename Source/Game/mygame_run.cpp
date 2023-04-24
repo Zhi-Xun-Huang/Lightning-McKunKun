@@ -17,11 +17,13 @@ int BGID = 0;               // State of background
 int Linear = 0;             // Linear turn left & right
 int TurnLR = 0;             // Turn left or right or not
 int BGLinear = 500;         // Background latency
+double BBSize = 0.0;
 bool ADPressed = true;     // Akey or DKey pressed
 bool BGEnable = true;       // Background animation enable
 bool WPressed = false;      // State of WKey
 bool SpacePressed = false;  // State of SpaceBar
 bool ArmstrongShow = false; // Armstrong be shown or not
+bool debug = false;
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
@@ -74,13 +76,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	if (TurnLR == 1) {
 		background[0].SetTopLeft(background[0].Left() + Linear, background[0].Top());
-		if (character[KKID].Left() >= -80) armstrong.SetTopLeft(armstrong.Left() + Linear, armstrong.Top());
+		if (character[KKID].Left() >= -80) armstrong.SetTopLeft(armstrong.Left() + Linear, armstrong.Top()); basketball.SetTopLeft(basketball.Left() + Linear, basketball.Top());
 		if ((character[KKID].Left() >= 660 || character[KKID].Left() <= 630) && character[KKID].Left() >= -80) character[KKID].SetTopLeft(character[KKID].Left() - Linear, character[KKID].Top());
 	}
 
 	if (TurnLR == 2) {
 		background[0].SetTopLeft(background[0].Left() - Linear, background[0].Top());
-		if (character[KKID].Left() <= 1200) armstrong.SetTopLeft(armstrong.Left() - Linear, armstrong.Top());
+		if (character[KKID].Left() <= 1200) armstrong.SetTopLeft(armstrong.Left() - Linear, armstrong.Top()); basketball.SetTopLeft(basketball.Left() - Linear, basketball.Top());
 		if ((character[KKID].Left() >= 660 || character[KKID].Left() <= 630) && character[KKID].Left() <= 1200) character[KKID].SetTopLeft(character[KKID].Left() + Linear, character[KKID].Top());
 	}
 
@@ -103,6 +105,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 
 	background[0].SetAnimation(BGLinear, BGEnable);
+
+	if (BBSize >= 0.5) BBSize = 0.0;
+
+	if (BBSize <= 0.5) BBSize += 0.005;
 
 }
 
@@ -139,10 +145,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	});
 
 
-	background[0].SetTopLeft(-1000, 0);
-
-	background[1].LoadBitmapByString({ "resources/gameover.bmp" });
-	background[1].SetTopLeft(0, 0);
+	background[0].SetTopLeft(-1000,  0);
 
 	character[1].LoadBitmapByString({
 		"resources/kunBB/KUN24bb.bmp",
@@ -224,12 +227,18 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		}, RGB(255, 255, 255)
 	);
 
+	basketball.SetTopLeft(20, 390);
+	basketball.SetAnimation(30, false);
+
 	armstrong.SetAnimation(25, false);
 
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {	
+
+	if (debug == false && nChar == 0x51) debug = true;
+
 	if (nChar == 0x20) {  // SpaceBar detection.(handbrake)
 		WPressed = false;
 		SpacePressed = true;
@@ -259,6 +268,8 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
+	if (debug == true && nChar == 0x51) debug = false;
+
 	if (nChar == 0x57 || nChar == 0x41 || nChar == 0x53 || nChar == 0x44) ADPressed = true;
 
 	if (nChar == 0x20) SpacePressed = false;
@@ -288,6 +299,7 @@ void CGameStateRun::OnShow()
 {	
 	background[BGID].ShowBitmap();
 	if (ArmstrongShow == true) armstrong.ShowBitmap();
+	basketball.ShowBitmap(BBSize);
 	character[KKID].ShowBitmap();
 	CDC *pDC = CDDraw::GetBackCDC();
 	CFont* fp;
@@ -296,15 +308,19 @@ void CGameStateRun::OnShow()
 	CTextDraw::Print(pDC, 1230, 50, "Speed:");
 	CTextDraw::Print(pDC, 1350, 50, speed);
 	CTextDraw::Print(pDC, 1400, 50, " KM/s");
-	CTextDraw::Print(pDC, 80, 80, "KK_Left:");
-	string x = to_string(character[KKID].Left());
-	CTextDraw::Print(pDC, 250, 80, x);
-	CTextDraw::Print(pDC, 80, 50, "BG_Left:");
-	string y = to_string(background[BGID].Left());
-	CTextDraw::Print(pDC, 250, 50, y);
-	CTextDraw::Print(pDC, 80, 110, "AS_Left:");
-	string z = to_string(armstrong.Left());
-	CTextDraw::Print(pDC, 250, 110, z);
+
+	if (debug == true) {
+		CTextDraw::Print(pDC, 80, 80, "KK_Left:");
+		string x = to_string(character[KKID].Left());
+		CTextDraw::Print(pDC, 250, 80, x);
+		CTextDraw::Print(pDC, 80, 50, "BG_Left:");
+		string y = to_string(background[BGID].Left());
+		CTextDraw::Print(pDC, 250, 50, y);
+		CTextDraw::Print(pDC, 80, 110, "AS_Left:");
+		string z = to_string(armstrong.Left());
+		CTextDraw::Print(pDC, 250, 110, z);
+	}
+	
 	CDDraw::ReleaseBackCDC();
 
 }
