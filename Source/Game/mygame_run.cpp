@@ -79,7 +79,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (character[KKID].Left() >= -80) armstrong.SetTopLeft(armstrong.Left() + Linear, armstrong.Top()); basketball.SetTopLeft(basketball.Left() + Linear, basketball.Top());
 		if ((character[KKID].Left() >= 660 || character[KKID].Left() <= 630) && character[KKID].Left() >= -80) character[KKID].SetTopLeft(character[KKID].Left() - Linear, character[KKID].Top());
 	}
-
+	
 	if (TurnLR == 2) {
 		background[0].SetTopLeft(background[0].Left() - Linear, background[0].Top());
 		if (character[KKID].Left() <= 1200) armstrong.SetTopLeft(armstrong.Left() - Linear, armstrong.Top()); basketball.SetTopLeft(basketball.Left() - Linear, basketball.Top());
@@ -162,7 +162,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/kunBB/KUN35bb.bmp"
 		}, RGB(255, 255, 255)
 	);
-
+	
 	character[0].LoadBitmapByString({
 		"resources/kunRun/KUN36run.bmp",
 		"resources/kunRun/KUN37run.bmp",
@@ -227,7 +227,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		}, RGB(255, 255, 255)
 	);
 
-	basketball.SetTopLeft(20, 390);
+	basketball.SetTopLeft(20, 500);
 	basketball.SetAnimation(30, false);
 
 	armstrong.SetAnimation(25, false);
@@ -237,7 +237,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {	
 
-	if (debug == false && nChar == 0x51) debug = true;
+	if (debug == false && nChar == 0x51) debug = true;  // QKey detection.(debug platform)
 
 	if (nChar == 0x20) {  // SpaceBar detection.(handbrake)
 		WPressed = false;
@@ -319,6 +319,9 @@ void CGameStateRun::OnShow()
 		CTextDraw::Print(pDC, 80, 110, "AS_Left:");
 		string z = to_string(armstrong.Left());
 		CTextDraw::Print(pDC, 250, 110, z);
+		CTextDraw::Print(pDC, 80, 140, "BB_Left:");
+		string w = to_string(basketball.Left());
+		CTextDraw::Print(pDC, 250, 140, w);
 	}
 	
 	CDDraw::ReleaseBackCDC();
