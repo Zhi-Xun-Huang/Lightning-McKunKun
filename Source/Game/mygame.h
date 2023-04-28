@@ -109,6 +109,7 @@ namespace game_framework {
 		CMovingBitmap armstrong;
 		CMovingBitmap character[3]; 
 		CMovingBitmap basketball;
+		CAudio* audio = CAudio::Instance();
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

@@ -227,12 +227,17 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	armstrong.SetAnimation(25, false);
 
+	audio -> Load(0, "resources/JNTM.wav");
+
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {	
 
-	if (debug == false && nChar == 0x51) debug = true;  // QKey detection.(debug platform)
+	if (debug == false && nChar == 0x51) {
+		debug = true;  // QKey detection.(debug platform)
+		audio->Play(0, true);
+	}
 
 	if (nChar == 0x20) {  // SpaceBar detection.(handbrake)
 		WPressed = false;
