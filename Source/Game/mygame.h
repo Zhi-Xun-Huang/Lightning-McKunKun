@@ -93,8 +93,18 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		int phase = 1;
-		int sub_phase = 1;
+		int KKID = 0;               // State of KunKun
+		int BGID = 0;               // State of background
+		int Linear = 0;             // Linear turn left & right
+		int TurnLR = 0;             // Turn left or right or not
+		int BGLinear = 500;         // Background latency
+		double BBSize = 0.0;
+		bool ADPressed = true;     // Akey or DKey pressed
+		bool BGEnable = true;       // Background animation enable
+		bool WPressed = false;      // State of WKey
+		bool SpacePressed = false;  // State of SpaceBar
+		bool ArmstrongShow = false; // Armstrong be shown or not
+		bool debug = false;
 		CMovingBitmap background[3];
 		CMovingBitmap armstrong;
 		CMovingBitmap character[3]; 

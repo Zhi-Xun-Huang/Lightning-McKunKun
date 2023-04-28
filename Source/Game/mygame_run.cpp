@@ -11,19 +11,6 @@
 
 using namespace std;
 using namespace game_framework;
- 
-int KKID = 0;               // State of KunKun
-int BGID = 0;               // State of background
-int Linear = 0;             // Linear turn left & right
-int TurnLR = 0;             // Turn left or right or not
-int BGLinear = 500;         // Background latency
-double BBSize = 0.0;
-bool ADPressed = true;     // Akey or DKey pressed
-bool BGEnable = true;       // Background animation enable
-bool WPressed = false;      // State of WKey
-bool SpacePressed = false;  // State of SpaceBar
-bool ArmstrongShow = false; // Armstrong be shown or not
-bool debug = false;
 
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
@@ -43,12 +30,19 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {	
+
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dist(1, 10);
+	uniform_int_distribution<> addsub(0, 1);
+
 	if ((armstrong.Left() + 410 >= character[0].Left() && armstrong.Left() + 370 <= character[0].Left()) && armstrong.GetSelectShowBitmap() == 62) {
 		GotoGameState(GAME_STATE_OVER);
 	}
 
 	if (armstrong.GetSelectShowBitmap() == 0) {
-		armstrong.SetTopLeft(character[KKID].Left() - 400, armstrong.Top());
+		if (addsub(gen) == 0) armstrong.SetTopLeft((character[KKID].Left() - 400) + dist(gen) * 100, armstrong.Top());
+		if (addsub(gen) == 1) armstrong.SetTopLeft((character[KKID].Left() - 400) - dist(gen) * 100, armstrong.Top());
 	}
 
 	if (background[0].Left() >= -40) {
@@ -76,13 +70,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	if (TurnLR == 1) {
 		background[0].SetTopLeft(background[0].Left() + Linear, background[0].Top());
-		if (character[KKID].Left() >= -80) armstrong.SetTopLeft(armstrong.Left() + Linear, armstrong.Top()); basketball.SetTopLeft(basketball.Left() + Linear, basketball.Top());
+		if (character[KKID].Left() >= -80) armstrong.SetTopLeft(armstrong.Left() + Linear, armstrong.Top()); //basketball.SetTopLeft(basketball.Left() + Linear, basketball.Top());
 		if ((character[KKID].Left() >= 660 || character[KKID].Left() <= 630) && character[KKID].Left() >= -80) character[KKID].SetTopLeft(character[KKID].Left() - Linear, character[KKID].Top());
 	}
 	
 	if (TurnLR == 2) {
 		background[0].SetTopLeft(background[0].Left() - Linear, background[0].Top());
-		if (character[KKID].Left() <= 1200) armstrong.SetTopLeft(armstrong.Left() - Linear, armstrong.Top()); basketball.SetTopLeft(basketball.Left() - Linear, basketball.Top());
+		if (character[KKID].Left() <= 1200) armstrong.SetTopLeft(armstrong.Left() - Linear, armstrong.Top()); //basketball.SetTopLeft(basketball.Left() - Linear, basketball.Top());
 		if ((character[KKID].Left() >= 660 || character[KKID].Left() <= 630) && character[KKID].Left() <= 1200) character[KKID].SetTopLeft(character[KKID].Left() + Linear, character[KKID].Top());
 	}
 
@@ -204,7 +198,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		character[i].SetTopLeft(640, 400);
 		character[i].SetAnimation(50, false);
 	}
-
+	/*
 	basketball.LoadBitmapByString({
 		"resources/basketball/basketball00.bmp",
 		"resources/basketball/basketball01.bmp",
@@ -229,6 +223,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	basketball.SetTopLeft(20, 500);
 	basketball.SetAnimation(30, false);
+	*/
 
 	armstrong.SetAnimation(25, false);
 
@@ -299,7 +294,7 @@ void CGameStateRun::OnShow()
 {	
 	background[BGID].ShowBitmap();
 	if (ArmstrongShow == true) armstrong.ShowBitmap();
-	basketball.ShowBitmap(BBSize);
+	//basketball.ShowBitmap(BBSize);
 	character[KKID].ShowBitmap();
 	CDC *pDC = CDDraw::GetBackCDC();
 	CFont* fp;
@@ -319,9 +314,9 @@ void CGameStateRun::OnShow()
 		CTextDraw::Print(pDC, 80, 110, "AS_Left:");
 		string z = to_string(armstrong.Left());
 		CTextDraw::Print(pDC, 250, 110, z);
-		CTextDraw::Print(pDC, 80, 140, "BB_Left:");
-		string w = to_string(basketball.Left());
-		CTextDraw::Print(pDC, 250, 140, w);
+		//CTextDraw::Print(pDC, 80, 140, "BB_Left:");
+		//string w = to_string(basketball.Left());
+		//CTextDraw::Print(pDC, 250, 140, w);
 	}
 	
 	CDDraw::ReleaseBackCDC();
