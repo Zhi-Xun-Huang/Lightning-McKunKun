@@ -73,13 +73,13 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	if (TurnLR == 1) {
 		background[0].SetTopLeft(background[0].Left() + Linear, background[0].Top());
-		if (character[KKID].Left() >= -80) armstrong.SetTopLeft(armstrong.Left() + Linear, armstrong.Top()); //basketball.SetTopLeft(basketball.Left() + Linear, basketball.Top());
+		if (character[KKID].Left() >= -80) armstrong.SetTopLeft(armstrong.Left() + Linear, armstrong.Top()); basketball.SetTopLeft(basketball.Left() + Linear, basketball.Top());
 		if ((character[KKID].Left() >= 660 || character[KKID].Left() <= 630) && character[KKID].Left() >= -80) character[KKID].SetTopLeft(character[KKID].Left() - Linear, character[KKID].Top());
 	}
 	
 	if (TurnLR == 2) {
 		background[0].SetTopLeft(background[0].Left() - Linear, background[0].Top());
-		if (character[KKID].Left() <= 1200) armstrong.SetTopLeft(armstrong.Left() - Linear, armstrong.Top()); //basketball.SetTopLeft(basketball.Left() - Linear, basketball.Top());
+		if (character[KKID].Left() <= 1200) armstrong.SetTopLeft(armstrong.Left() - Linear, armstrong.Top()); basketball.SetTopLeft(basketball.Left() - Linear, basketball.Top());
 		if ((character[KKID].Left() >= 660 || character[KKID].Left() <= 630) && character[KKID].Left() <= 1200) character[KKID].SetTopLeft(character[KKID].Left() + Linear, character[KKID].Top());
 	}
 
@@ -102,10 +102,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 
 	background[0].SetAnimation(BGLinear, BGEnable);
-
-	if (BBSize >= 0.5) BBSize = 0.0;
-
-	if (BBSize <= 0.5) BBSize += 0.005;
 
 }
 
@@ -201,7 +197,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		character[i].SetTopLeft(640, 400);
 		character[i].SetAnimation(50, false);
 	}
-	/*
+	
 	basketball.LoadBitmapByString({
 		"resources/basketball/basketball00.bmp",
 		"resources/basketball/basketball01.bmp",
@@ -220,13 +216,21 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/basketball/basketball14.bmp",
 		"resources/basketball/basketball15.bmp",
 		"resources/basketball/basketball16.bmp",
-		"resources/basketball/basketball17.bmp"
+		"resources/basketball/basketball17.bmp",
+		"resources/basketball/basketball18.bmp",
+		"resources/basketball/basketball19.bmp",
+		"resources/basketball/basketball20.bmp",
+		"resources/basketball/basketball21.bmp",
+		"resources/basketball/basketball22.bmp",
+		"resources/basketball/basketball23.bmp",
+		"resources/basketball/basketball24.bmp",
+		"resources/basketball/basketball25.bmp"
 		}, RGB(255, 255, 255)
 	);
 
 	basketball.SetTopLeft(20, 500);
-	basketball.SetAnimation(30, false);
-	*/
+	basketball.SetAnimation(50, false);
+	
 
 	armstrong.SetAnimation(25, false);
 
@@ -302,7 +306,7 @@ void CGameStateRun::OnShow()
 	if (ArmstrongShow == true) {
 		armstrong.ShowBitmap();
 	}
-	//basketball.ShowBitmap(BBSize);
+	basketball.ShowBitmap();
 	character[KKID].ShowBitmap();
 	CDC *pDC = CDDraw::GetBackCDC();
 	CFont* fp;

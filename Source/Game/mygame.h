@@ -97,7 +97,6 @@ namespace game_framework {
 		int Linear = 0;             // Linear turn left & right
 		int TurnLR = 0;             // Turn left or right or not
 		int BGLinear = 500;         // Background latency
-		double BBSize = 0.0;
 		bool ADPressed = true;     // Akey or DKey pressed
 		bool BGEnable = true;       // Background animation enable
 		bool WPressed = false;      // State of WKey
@@ -127,7 +126,6 @@ namespace game_framework {
 	private:
 		CMovingBitmap background;
 		CMovingBitmap character;
-		bool flag = false;
 	};
 
 }
