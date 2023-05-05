@@ -40,6 +40,7 @@
 
 
 namespace game_framework {
+
 	/////////////////////////////////////////////////////////////////////////////
 	// Constants
 	/////////////////////////////////////////////////////////////////////////////
@@ -66,9 +67,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		void load_background();
-		void draw_text();
 		CMovingBitmap background;
-		//CAudio bgm;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -109,7 +108,6 @@ namespace game_framework {
 		CMovingBitmap armstrong;
 		CMovingBitmap character[3]; 
 		CMovingBitmap basketball;
-		CAudio* audio = CAudio::Instance();
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -129,6 +127,7 @@ namespace game_framework {
 	private:
 		CMovingBitmap background;
 		CMovingBitmap character;
+		bool flag = false;
 	};
 
 }

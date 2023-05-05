@@ -33,6 +33,10 @@ void CGameStateInit::OnInit()
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
+
+	CAudio* audio = CAudio::Instance();
+	audio->Load(0, "resources/JNTM.wav");
+	audio->Load(1, "resources/NGM.wav");
 }
 
 void CGameStateInit::OnBeginState()
@@ -43,6 +47,8 @@ void CGameStateInit::OnBeginState()
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+	CAudio* audio = CAudio::Instance();
+	audio->Play(0, true);
 }
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
@@ -52,28 +58,10 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 void CGameStateInit::OnShow()
 {
 	background.ShowBitmap();
-	//bgm.Play(5, true);
-	draw_text();
 }
 
 void CGameStateInit::load_background() {
 	background.LoadBitmapByString({ "resources/LMKK1.bmp", "resources/LMKK2.bmp" });
 	background.SetTopLeft(0, 0);
 	background.SetAnimation(1000, false);
-	//bgm.Load(5, { "resources/JNTM.mp3" });
-}
-
-void CGameStateInit::draw_text() {
-	CDC *pDC = CDDraw::GetBackCDC();
-	CFont* fp;
-
-	/* Print title */
-	CTextDraw::ChangeFontLog(pDC, fp, 36, "微軟正黑體", RGB(255, 255, 255));
-	//CTextDraw::Print(pDC, 79, 228, "Game Framework Practice");
-
-	/* Print info */
-	CTextDraw::ChangeFontLog(pDC, fp, 24, "微軟正黑體", RGB(255, 255, 255));
-	//CTextDraw::Print(pDC, 182, 431, "Press any key to start");
-
-	CDDraw::ReleaseBackCDC();
 }

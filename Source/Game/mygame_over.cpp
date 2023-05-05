@@ -58,17 +58,23 @@ void CGameStateOver::OnInit()
 		}, RGB(255, 255, 255)
 	);
 	character.SetTopLeft(20, 400);
-	character.SetAnimation(50, false);
+	character.SetAnimation(100, false);
 }
 
 void CGameStateOver::OnShow()
 {
 	background.ShowBitmap();
 	character.ShowBitmap();
+	
 }
 
 void CGameStateOver::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == 0x0D) GotoGameState(GAME_STATE_RUN);
+	if (nChar == 0x0D) {
+		GotoGameState(GAME_STATE_RUN);
+		CAudio* audio = CAudio::Instance();
+		audio->Stop(1);
+		audio->Play(0, true);
+	}
 }
 

@@ -38,6 +38,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	if ((armstrong.Left() + 410 >= character[0].Left() && armstrong.Left() + 370 <= character[0].Left()) && armstrong.GetSelectShowBitmap() == 62) {
 		GotoGameState(GAME_STATE_OVER);
+		CAudio* audio = CAudio::Instance();
+		audio->Stop(0);
+		audio->Play(1, true);
 	}
 
 	if (armstrong.GetSelectShowBitmap() == 0) {
@@ -227,8 +230,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	armstrong.SetAnimation(25, false);
 
-	audio -> Load(0, "resources/JNTM.wav");
-
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -236,12 +237,12 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	if (debug == false && nChar == 0x51) {
 		debug = true;  // QKey detection.(debug platform)
-		audio->Play(0, true);
 	}
 
 	if (nChar == 0x20) {  // SpaceBar detection.(handbrake)
 		WPressed = false;
 		SpacePressed = true;
+		
 	}
 
 	if (nChar == 0x45) {  // EKey detection.(KunKun Status Change)
@@ -298,7 +299,9 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 void CGameStateRun::OnShow()
 {	
 	background[BGID].ShowBitmap();
-	if (ArmstrongShow == true) armstrong.ShowBitmap();
+	if (ArmstrongShow == true) {
+		armstrong.ShowBitmap();
+	}
 	//basketball.ShowBitmap(BBSize);
 	character[KKID].ShowBitmap();
 	CDC *pDC = CDDraw::GetBackCDC();
