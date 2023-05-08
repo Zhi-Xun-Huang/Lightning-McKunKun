@@ -40,7 +40,6 @@
 
 
 namespace game_framework {
-
 	/////////////////////////////////////////////////////////////////////////////
 	// Constants
 	/////////////////////////////////////////////////////////////////////////////
@@ -67,7 +66,9 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		void load_background();
+		void draw_text();
 		CMovingBitmap background;
+		//CAudio bgm;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -97,6 +98,9 @@ namespace game_framework {
 		int Linear = 0;             // Linear turn left & right
 		int TurnLR = 0;             // Turn left or right or not
 		int BGLinear = 500;         // Background latency
+		int BBPosition = 20;
+		int BBCount = 0;
+		bool BBInit = false;
 		bool ADPressed = true;     // Akey or DKey pressed
 		bool BGEnable = true;       // Background animation enable
 		bool WPressed = false;      // State of WKey
@@ -105,7 +109,7 @@ namespace game_framework {
 		bool debug = false;
 		CMovingBitmap background[3];
 		CMovingBitmap armstrong;
-		CMovingBitmap character[3]; 
+		CMovingBitmap character[3];
 		CMovingBitmap basketball;
 	};
 
