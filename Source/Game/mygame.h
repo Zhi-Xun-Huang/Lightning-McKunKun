@@ -57,7 +57,7 @@ namespace game_framework {
 
 	class CGameStateInit : public CGameState {
 	public:
-		CGameStateInit(CGame *g);
+		CGameStateInit(CGame* g);
 		void OnInit();  								// 遊戲的初值及圖形設定
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnKeyUp(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
@@ -66,7 +66,6 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		void load_background();
-		void draw_text();
 		CMovingBitmap background;
 		//CAudio bgm;
 	};
@@ -78,7 +77,7 @@ namespace game_framework {
 
 	class CGameStateRun : public CGameState {
 	public:
-		CGameStateRun(CGame *g);
+		CGameStateRun(CGame* g);
 		~CGameStateRun();
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnInit();  								// 遊戲的初值及圖形設定
@@ -120,7 +119,7 @@ namespace game_framework {
 
 	class CGameStateOver : public CGameState {
 	public:
-		CGameStateOver(CGame *g);
+		CGameStateOver(CGame* g);
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnInit();
 		void OnKeyDown(UINT, UINT, UINT);
@@ -132,4 +131,4 @@ namespace game_framework {
 		CMovingBitmap character;
 	};
 
-}
+};
