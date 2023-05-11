@@ -58,7 +58,7 @@ void CGameStateOver::OnInit()
 		}, RGB(255, 255, 255)
 	);
 	character.SetTopLeft(20, 400);
-	character.SetAnimation(100, false);
+	character.SetAnimation(70, false);
 }
 
 void CGameStateOver::OnShow()

@@ -37,6 +37,9 @@ void CGameStateInit::OnInit()
 	CAudio* audio = CAudio::Instance();
 	audio->Load(0, "resources/JNTM.wav");
 	audio->Load(1, "resources/NGM.wav");
+	audio->Load(2, "resources/Rrrrr.wav");
+	audio->Load(3, "resources/NMson.wav");
+	audio->Load(4, "resources/UCHMJ.wav");
 }
 
 void CGameStateInit::OnBeginState()
