@@ -98,6 +98,8 @@ namespace game_framework {
 		int BGLinear = 500;         // Background latency
 		int BBCount = 0;
 		int bbx = 0;
+		bool BBAdd = true;
+		bool BBOne = true;
 		bool ADPressed = true;     // Akey or DKey pressed
 		bool BGEnable = true;       // Background animation enable
 		bool WPressed = false;      // State of WKey

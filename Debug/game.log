@@ -1,3 +1,13 @@
 ﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
   mygame_run.cpp
+  Generating Code...
+  Compiling...
+  gamecore.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  gameutil.cpp
+  mygame_over.cpp
+  mygame_initialize.cpp
+  gameView.cpp
+  game.cpp
   game.vcxproj -> C:\Users\teddy\Desktop\oopl\Lightning-McKunKun\.\Debug\game.exe
