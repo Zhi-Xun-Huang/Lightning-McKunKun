@@ -43,9 +43,15 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			CAudio* audio = CAudio::Instance();
 			audio->Stop(0);
 			audio->Play(1, true);
+			for (int i = 0; i < 3; i++) {
+				armstrong[i].SelectShowBitmap(0);
+				ArmstrongShow = false;
+				background.SelectShowBitmap(0);
+				BGEnable = true;
+			}
 		}
 
-		if (armstrong[i].GetSelectShowBitmap() == 0) {
+		if (armstrong[i].GetSelectShowBitmap() == 0 && ArmstrongShow == true) {
 			armstrong[i].SetTopLeft(random(-2000, 2000), armstrong[i].Top());
 			armstrong[i].SetAnimation(random(10, 30), false);
 		}
@@ -112,12 +118,11 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		else BGLinear += 5;
 	}
 
-	background.SetAnimation(BGLinear, BGEnable);
-
 	if ((basketball.Left() - 250 <= character[0].Left() && basketball.Left() + 250 >= character[0].Left()) && basketball.GetSelectShowBitmap() == 25) {
 		BBCount += 1;
 	}
 
+	background.SetAnimation(BGLinear, BGEnable);
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -245,7 +250,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		}, RGB(255, 255, 255)
 	);
 
-	basketball.SetAnimation(100, false);
+	basketball.SetAnimation(100, true);
 
 }
 
@@ -316,20 +321,21 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnShow()
 {
-
 	background.ShowBitmap();
 	if (ArmstrongShow == true) {
 		for (int i = 0; i < 3; i++) armstrong[i].ShowBitmap();
 	}
-
+	/*
 	if (basketball.GetSelectShowBitmap() == 0) {
 		basketball.SetTopLeft(random(-1000, 1000), 450);
 		basketball.ShowBitmap();
 	}
 	else {
-		basketball.ToggleAnimation();
 		basketball.ShowBitmap();
-	}
+	}*/
+
+	basketball.ToggleAnimation();
+	basketball.ShowBitmap();
 	
 	character[KKID].ShowBitmap();
 	CDC *pDC = CDDraw::GetBackCDC();
