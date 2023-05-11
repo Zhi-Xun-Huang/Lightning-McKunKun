@@ -1,25 +1,29 @@
-# First Demo of LMKK
-  Date: 04/07/2023
+# Second Demo of LMKK
+  Date: 05/12/2023
 
 ## Current Progress
-  50% in total.
+  70% in total.
 
 ## Known Bugs
-  After Game over.
-  We make Enter Key has a function that allows users restart the game.
-  But usually not working.
+  KunKun launchs his basketball with moving to wrong location.
+  Background cannot stop when game was be restart.
 
 ## Issues
   Take too much memory space cause loading takes some time.
 
 ## Future Feature
-  #### Quick Time Event(QTE): 
+  #### Quick Time Event (50% in progress): 
     We will KunKun has basketball(escape from death chance).
     If KunKun catches by Armstrong and has no basketball.
     The game will over.
-  #### Dashboard:
+  #### Dashboard (Coming Soon):
     Dashboard provides information of current speed, remaining basketball amount, Times, etc.
-  #### Random Generation Basketball & Armstrong:
+  #### Random Generation Basketball & Armstrong (Done):
     Armstrong can summon on screen at same time.
     Basketball summon on screen randomly.
+
+$$
+L_{ight}\space M_{c}\space K_{un}^2
+$$
+
 
