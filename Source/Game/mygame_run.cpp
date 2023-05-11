@@ -250,8 +250,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		}, RGB(255, 255, 255)
 	);
 
-	basketball.SetAnimation(100, true);
-
+	basketball.SetAnimation(100, false);
+	bbx = random(-1000, 1000);
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -322,20 +322,20 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 void CGameStateRun::OnShow()
 {
 	background.ShowBitmap();
-	if (ArmstrongShow == true) {
+	/*if (ArmstrongShow == true) {
 		for (int i = 0; i < 3; i++) armstrong[i].ShowBitmap();
 	}
-	/*
+	*/
 	if (basketball.GetSelectShowBitmap() == 0) {
-		basketball.SetTopLeft(random(-1000, 1000), 450);
+		basketball.SetTopLeft(bbx, 450);
 		basketball.ShowBitmap();
 	}
 	else {
 		basketball.ShowBitmap();
-	}*/
-
-	basketball.ToggleAnimation();
-	basketball.ShowBitmap();
+	}
+	if (basketball.GetSelectShowBitmap() == 10) {
+		bbx = random(-1000, 1000);
+	}
 	
 	character[KKID].ShowBitmap();
 	CDC *pDC = CDDraw::GetBackCDC();
