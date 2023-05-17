@@ -82,8 +82,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if (character[KKID].Left() < armstrong[i].Left() + 400) armstrong[i].SetTopLeft(armstrong[i].Left() - 10, armstrong[i].Top());
 		if (character[KKID].Left() > armstrong[i].Left() + 400) armstrong[i].SetTopLeft(armstrong[i].Left() + 10, armstrong[i].Top());
 	}
-	
-		
 
 	if (background.Left() >= -40) {
 		background.SetTopLeft(-40, background.Top());
@@ -152,6 +150,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		BBAdd = true;
 	}
 	background.SetAnimation(BGLinear, BGEnable);
+
+	character[1].SetTopLeft(character[0].Left(), character[0].Top());
 }
 
 void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
@@ -379,7 +379,7 @@ void CGameStateRun::OnShow()
 	CTextDraw::Print(pDC, 1400, 50, " KM/s");
 	CTextDraw::Print(pDC, 1230, 70, "Basketball Remain:");
 	string m = to_string(BBCount);
-	CTextDraw::Print(pDC, 1470, 70, m);
+	CTextDraw::Print(pDC, 1530, 70, m);
 
 	if (debug == true) {
 		CTextDraw::Print(pDC, 80, 80, "KK_Left:");
