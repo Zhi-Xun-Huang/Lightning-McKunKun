@@ -91,7 +91,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				cleft -= Linear;
 				character[KKID].SetTopLeft(cleft, character[KKID].Top());
 			}
-			if (random(1, 250) == 37) {
+			if (random(37, 37) == 37) {
 				audio->Pause();
 				audio->Play(6, true);
 				Sleep(2000);
@@ -114,7 +114,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				cleft += Linear;
 				character[KKID].SetTopLeft(cleft, character[KKID].Top());
 			}
-			if (random(1, 250) == 37) {
+			if (random(37, 37) == 37) { //1 250
 				audio->Pause();
 				audio->Play(6, true);
 				Sleep(2000);
@@ -316,8 +316,44 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/basketball/basketball25.bmp"
 		}, RGB(255, 255, 255)
 	);
-
 	basketball.SetAnimation(50, false);
+
+	obunga.LoadBitmapByString({
+		"resources/obunga/Obunga00.bmp",
+		"resources/obunga/Obunga01.bmp",
+		"resources/obunga/Obunga02.bmp",
+		"resources/obunga/Obunga03.bmp",
+		"resources/obunga/Obunga04.bmp",
+		"resources/obunga/Obunga05.bmp",
+		"resources/obunga/Obunga06.bmp",
+		"resources/obunga/Obunga07.bmp",
+		"resources/obunga/Obunga08.bmp",
+		"resources/obunga/Obunga09.bmp",
+		"resources/obunga/Obunga10.bmp",
+		"resources/obunga/Obunga11.bmp",
+		"resources/obunga/Obunga12.bmp",
+		"resources/obunga/Obunga13.bmp",
+		"resources/obunga/Obunga14.bmp",
+		"resources/obunga/Obunga15.bmp",
+		"resources/obunga/Obunga16.bmp",
+		"resources/obunga/Obunga17.bmp",
+		"resources/obunga/Obunga18.bmp",
+		"resources/obunga/Obunga19.bmp",
+		"resources/obunga/Obunga20.bmp",
+		"resources/obunga/Obunga21.bmp",
+		"resources/obunga/Obunga22.bmp",
+		"resources/obunga/Obunga23.bmp",
+		"resources/obunga/Obunga24.bmp",
+		"resources/obunga/Obunga25.bmp",
+		"resources/obunga/Obunga26.bmp",
+		"resources/obunga/Obunga27.bmp",
+		"resources/obunga/Obunga28.bmp",
+		"resources/obunga/Obunga29.bmp",
+		"resources/obunga/Obunga30.bmp",
+		}, RGB(0, 0, 0)
+	);
+	obunga.SetAnimation(50, false);
+
 	bbx = random(-500, 500);
 }
 
@@ -398,6 +434,7 @@ void CGameStateRun::OnShow()
 {
 	if (!BackroomJump) {
 		background[0].ShowBitmap();
+		obunga.ShowBitmap();
 		if (ArmstrongShow == true) {
 			for (int i = 0; i < 3; i++) armstrong[i].ShowBitmap();
 		}

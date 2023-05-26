@@ -120,6 +120,7 @@ namespace game_framework {
 		CMovingBitmap armstrong[3];
 		CMovingBitmap character[3];
 		CMovingBitmap basketball;
+		CMovingBitmap obunga;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
