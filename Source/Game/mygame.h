@@ -93,6 +93,8 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		POINT p;
+		char msg[300] = "";
+		int id = 0;
 		int KKID = 0;               // State of KunKun
 		int Linear = 0;             // Linear turn left & right
 		int TurnLR = 0;             // Turn left or right or not

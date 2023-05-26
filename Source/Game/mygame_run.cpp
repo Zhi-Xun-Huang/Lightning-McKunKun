@@ -95,6 +95,14 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				audio->Pause();
 				audio->Play(6, true);
 				Sleep(2000);
+				sprintf(msg, "Game fatal error:\n\n%s\n\nFile: %s\n\nLine: %d"
+					"\n\n(Press Retry to debug the application, "
+					"if it is executed in debug mode.)"
+					"\n(Press Cancel otherwise.)",
+					"A bitmap must be loaded before SetTopLeft() is called !!!", __FILE__, __LINE__);
+				id = AfxMessageBox(msg, MB_RETRYCANCEL);
+				audio->Pause();
+				audio->Play(6, true);
 				BackroomJump = true;
 			}
 		}
@@ -110,6 +118,14 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				audio->Pause();
 				audio->Play(6, true);
 				Sleep(2000);
+				sprintf(msg, "Game fatal error:\n\n%s\n\nFile: %s\n\nLine: %d"
+					"\n\n(Press Retry to debug the application, "
+					"if it is executed in debug mode.)"
+					"\n(Press Cancel otherwise.)",
+					"A bitmap must be loaded before SetTopLeft() is called !!!", __FILE__, __LINE__);
+				id = AfxMessageBox(msg, MB_RETRYCANCEL);
+				audio->Pause();
+				audio->Play(6, true);
 				BackroomJump = true;
 			}
 		}
