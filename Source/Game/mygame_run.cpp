@@ -317,42 +317,43 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		}, RGB(255, 255, 255)
 	);
 	basketball.SetAnimation(50, false);
-
-	obunga.LoadBitmapByString({
-		"resources/obunga/Obunga00.bmp",
-		"resources/obunga/Obunga01.bmp",
-		"resources/obunga/Obunga02.bmp",
-		"resources/obunga/Obunga03.bmp",
-		"resources/obunga/Obunga04.bmp",
-		"resources/obunga/Obunga05.bmp",
-		"resources/obunga/Obunga06.bmp",
-		"resources/obunga/Obunga07.bmp",
-		"resources/obunga/Obunga08.bmp",
-		"resources/obunga/Obunga09.bmp",
-		"resources/obunga/Obunga10.bmp",
-		"resources/obunga/Obunga11.bmp",
-		"resources/obunga/Obunga12.bmp",
-		"resources/obunga/Obunga13.bmp",
-		"resources/obunga/Obunga14.bmp",
-		"resources/obunga/Obunga15.bmp",
-		"resources/obunga/Obunga16.bmp",
-		"resources/obunga/Obunga17.bmp",
-		"resources/obunga/Obunga18.bmp",
-		"resources/obunga/Obunga19.bmp",
-		"resources/obunga/Obunga20.bmp",
-		"resources/obunga/Obunga21.bmp",
-		"resources/obunga/Obunga22.bmp",
-		"resources/obunga/Obunga23.bmp",
-		"resources/obunga/Obunga24.bmp",
-		"resources/obunga/Obunga25.bmp",
-		"resources/obunga/Obunga26.bmp",
-		"resources/obunga/Obunga27.bmp",
-		"resources/obunga/Obunga28.bmp",
-		"resources/obunga/Obunga29.bmp",
-		"resources/obunga/Obunga30.bmp",
-		}, RGB(0, 0, 0)
-	);
-	obunga.SetAnimation(50, false);
+	for (int m = 0; m < 5; m++) {
+		obunga[m].LoadBitmapByString({
+			"resources/obunga/Obunga00.bmp",
+			"resources/obunga/Obunga01.bmp",
+			"resources/obunga/Obunga02.bmp",
+			"resources/obunga/Obunga03.bmp",
+			"resources/obunga/Obunga04.bmp",
+			"resources/obunga/Obunga05.bmp",
+			"resources/obunga/Obunga06.bmp",
+			"resources/obunga/Obunga07.bmp",
+			"resources/obunga/Obunga08.bmp",
+			"resources/obunga/Obunga09.bmp",
+			"resources/obunga/Obunga10.bmp",
+			"resources/obunga/Obunga11.bmp",
+			"resources/obunga/Obunga12.bmp",
+			"resources/obunga/Obunga13.bmp",
+			"resources/obunga/Obunga14.bmp",
+			"resources/obunga/Obunga15.bmp",
+			"resources/obunga/Obunga16.bmp",
+			"resources/obunga/Obunga17.bmp",
+			"resources/obunga/Obunga18.bmp",
+			"resources/obunga/Obunga19.bmp",
+			"resources/obunga/Obunga20.bmp",
+			"resources/obunga/Obunga21.bmp",
+			"resources/obunga/Obunga22.bmp",
+			"resources/obunga/Obunga23.bmp",
+			"resources/obunga/Obunga24.bmp",
+			"resources/obunga/Obunga25.bmp",
+			"resources/obunga/Obunga26.bmp",
+			"resources/obunga/Obunga27.bmp",
+			"resources/obunga/Obunga28.bmp",
+			"resources/obunga/Obunga29.bmp",
+			"resources/obunga/Obunga30.bmp",
+			}, RGB(0, 0, 0)
+			);
+		obunga[m].SetAnimation(50, false);
+	}
 
 	bbx = random(-500, 500);
 }
@@ -432,6 +433,9 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnShow()
 {
+	for (int m = 0; m < 5; m++) {
+		ObungaMove[m] = true;
+	}
 	if (!BackroomJump) {
 		background[0].ShowBitmap();
 		if (ArmstrongShow == true) {
@@ -459,16 +463,20 @@ void CGameStateRun::OnShow()
 				Sleep(3500);
 				MusicFlag = true;
 				ff = false;
-				obunga.SetTopLeft(random(0, 1180), random(0, 485));
+				for (int m = 0; m < 5; m++) {
+					obunga[m].SetTopLeft(random(0, 1180), random(0, 485));
+				}
 			}
 			background[2].ShowBitmap();
-			obunga.ShowBitmap();
-			if (obunga.GetSelectShowBitmap() == 0 && ObungaMove == true) {
-				obunga.SetTopLeft(random(0, 1320), random(0, 625));
-				ObungaMove = false;
-			}
-			if (obunga.GetSelectShowBitmap() == 15) {
-				ObungaMove = true;
+			for (int m = 0; m < 5; m++) {
+				obunga[m].ShowBitmap();
+				if (obunga[m].GetSelectShowBitmap() == 0 && ObungaMove[m] == true) {
+					obunga[m].SetTopLeft(random(0, 1320), random(0, 625));
+					ObungaMove[m] = false;
+				}
+				if (obunga[m].GetSelectShowBitmap() == 15) {
+					ObungaMove[m] = true;
+				}
 			}
 		}
 	}

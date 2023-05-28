@@ -104,7 +104,7 @@ namespace game_framework {
 		int Xmouse;
 		int Ymouse;
 		bool BackroomJump = false;
-		bool ObungaMove = true;
+		bool ObungaMove[5];
 		bool BlackFlag = true;
 		bool MusicFlag = false;
 		bool ff = true;
@@ -121,7 +121,7 @@ namespace game_framework {
 		CMovingBitmap armstrong[3];
 		CMovingBitmap character[3];
 		CMovingBitmap basketball;
-		CMovingBitmap obunga;
+		CMovingBitmap obunga[5];
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
