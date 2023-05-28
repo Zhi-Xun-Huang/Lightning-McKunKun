@@ -91,7 +91,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				cleft -= Linear;
 				character[KKID].SetTopLeft(cleft, character[KKID].Top());
 			}
-			if (random(37, 37) == 37) {
+			if (random(1, 250) == 37) {
 				audio->Pause();
 				audio->Play(6, true);
 				Sleep(2000);
@@ -114,7 +114,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				cleft += Linear;
 				character[KKID].SetTopLeft(cleft, character[KKID].Top());
 			}
-			if (random(37, 37) == 37) { //1 250
+			if (random(1, 250) == 37) { //1 250
 				audio->Pause();
 				audio->Play(6, true);
 				Sleep(2000);
@@ -434,7 +434,6 @@ void CGameStateRun::OnShow()
 {
 	if (!BackroomJump) {
 		background[0].ShowBitmap();
-		obunga.ShowBitmap();
 		if (ArmstrongShow == true) {
 			for (int i = 0; i < 3; i++) armstrong[i].ShowBitmap();
 		}
@@ -460,9 +459,17 @@ void CGameStateRun::OnShow()
 				Sleep(3500);
 				MusicFlag = true;
 				ff = false;
+				obunga.SetTopLeft(random(0, 1180), random(0, 485));
 			}
-			
 			background[2].ShowBitmap();
+			obunga.ShowBitmap();
+			if (obunga.GetSelectShowBitmap() == 0 && ObungaMove == true) {
+				obunga.SetTopLeft(random(0, 1320), random(0, 625));
+				ObungaMove = false;
+			}
+			if (obunga.GetSelectShowBitmap() == 15) {
+				ObungaMove = true;
+			}
 		}
 	}
 

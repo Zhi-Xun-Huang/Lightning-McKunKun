@@ -104,6 +104,7 @@ namespace game_framework {
 		int Xmouse;
 		int Ymouse;
 		bool BackroomJump = false;
+		bool ObungaMove = true;
 		bool BlackFlag = true;
 		bool MusicFlag = false;
 		bool ff = true;
