@@ -40,7 +40,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	for (int i = 0; i < 3; i++) {
 
-		if ((armstrong[i].Left() + 410 >= character[0].Left() && armstrong[i].Left() + 370 <= character[0].Left()) && armstrong[i].GetSelectShowBitmap() >= 58) {
+		if ((armstrong[i].Left() + 410 >= character[KKID].Left() && armstrong[i].Left() + 370 <= character[KKID].Left()) && armstrong[i].GetSelectShowBitmap() >= 58) {
 			int tmp = random(2, 4);
 			if (armstrong[i].GetSelectShowBitmap() == 60) {
 				for (int i = 2; i < 5; i++) audio->Stop(i);
@@ -49,7 +49,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			
 		}
 
-		if ((armstrong[i].Left() + 410 >= character[0].Left() && armstrong[i].Left() + 370 <= character[0].Left()) && armstrong[i].GetSelectShowBitmap() == 61) {
+		if ((armstrong[i].Left() + 410 >= character[KKID].Left() && armstrong[i].Left() + 370 <= character[KKID].Left()) && armstrong[i].GetSelectShowBitmap() == 61) {
 			if (BBCount > 0) {
 				if (BBOne) {
 					BBCount -= 1;
@@ -158,6 +158,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 {
 	background.LoadBitmapByString({
 		"resources/start/start000.bmp", "resources/start/start001.bmp",
+		"resources/start/start002.bmp", "resources/start/start003.bmp",
 		"resources/start/start004.bmp", "resources/start/start005.bmp",
 		"resources/start/start010.bmp", "resources/start/start011.bmp",
 		"resources/start/start012.bmp", "resources/start/start013.bmp",
@@ -189,7 +190,9 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	background.SetTopLeft(-1000, 0);
 
-	character[1].LoadBitmapByString({
+
+
+	/*character[1].LoadBitmapByString({
 		"resources/kunBB/KUN24bb.bmp",
 		"resources/kunBB/KUN25bb.bmp",
 		"resources/kunBB/KUN26bb.bmp",
@@ -203,7 +206,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/kunBB/KUN34bb.bmp",
 		"resources/kunBB/KUN35bb.bmp"
 		}, RGB(255, 255, 255)
-	);
+	);*/
 
 	character[0].LoadBitmapByString({
 		"resources/kunRun/KUN36run.bmp",
