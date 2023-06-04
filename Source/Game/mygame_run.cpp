@@ -91,7 +91,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				cleft -= Linear;
 				character[KKID].SetTopLeft(cleft, character[KKID].Top());
 			}
+
 			/*if (random(1, 250) == 37) {
+
 				audio->Pause();
 				audio->Play(6, true);
 				Sleep(2000);
@@ -105,6 +107,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				audio->Play(6, true);
 				BackroomJump = true;
 			}*/
+
 		}
 
 		if (background[0].Left() <= -1920) {
@@ -114,7 +117,9 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				cleft += Linear;
 				character[KKID].SetTopLeft(cleft, character[KKID].Top());
 			}
+
 			/*if (random(1, 250) == 37) { //1 250
+
 				audio->Pause();
 				audio->Play(6, true);
 				Sleep(2000);
@@ -127,7 +132,10 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				audio->Pause();
 				audio->Play(6, true);
 				BackroomJump = true;
+
 			}*/
+
+
 		}
 
 		if (ADPressed == false && Linear <= 30) Linear += 1;
@@ -229,8 +237,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	background[1].LoadBitmapByString({ "resources/black.bmp" });
 	background[2].LoadBitmapByString({ "resources/backroom.bmp" });
 
-
-
 	character[1].LoadBitmapByString({
 		"resources/kunBB/KUN24bb.bmp",
 		"resources/kunBB/KUN25bb.bmp",
@@ -320,7 +326,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/basketball/basketball25.bmp"
 		}, RGB(255, 255, 255)
 	);
-
 	basketball.SetAnimation(50, false);
 
 	for (int m = 0; m < 5; m++) {
