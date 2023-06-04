@@ -2,11 +2,10 @@
   Date: 05/12/2023
 
 ## Current Progress
-  70% in total.
+  80% in total.
 
 ## Known Bugs
-  KunKun launchs his basketball with moving to wrong location.
-  Background cannot stop when game was be restart.
+  Background would not stop animation when game was been restarted.
 
 ## Issues
   Take too much memory space cause loading takes some time.
@@ -22,8 +21,6 @@
     Armstrong can summon on screen at same time.
     Basketball summon on screen randomly.
 
-$$
-L_{ight}\space M_{c}\space K_{un}^2
-$$
+# $$L_{ight}\space M_{c}\space K_{un}^2$$
 
 

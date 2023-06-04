@@ -92,12 +92,22 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
+		POINT p;
+		char msg[300] = "";
+		int id = 0;
 		int KKID = 0;               // State of KunKun
 		int Linear = 0;             // Linear turn left & right
 		int TurnLR = 0;             // Turn left or right or not
 		int BGLinear = 500;         // Background latency
 		int BBCount = 0;
 		int bbx = 0;
+		int Xmouse;
+		int Ymouse;
+		bool BackroomJump = false;
+		bool ObungaMove[5];
+		bool BlackFlag = true;
+		bool MusicFlag = false;
+		bool ff = true;
 		bool BBAdd = true;
 		bool BBOne = true;
 		bool ADPressed = true;     // Akey or DKey pressed
@@ -107,10 +117,37 @@ namespace game_framework {
 		bool ArmstrongShow = false; // Armstrong be shown or not
 		bool debug = false;
 		bool reposition = true;
-		CMovingBitmap background;
+		CMovingBitmap background[3];
 		CMovingBitmap armstrong[3];
 		CMovingBitmap character[3];
 		CMovingBitmap basketball;
+		CMovingBitmap obunga[5];
+	};
+
+	class CGameStateQte : public CGameState {
+	public:
+		CGameStateQte(CGame* g);
+		void OnInit();  								// 遊戲的初值及圖形設定
+		void OnBeginState();							// 設定每次重玩所需的變數
+		void OnKeyUp(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
+		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
+	protected:
+		void OnShow();									// 顯示這個狀態的遊戲畫面
+	private:
+		
+	};
+
+	class CGameStateBackroom : public CGameState {
+	public:
+		CGameStateBackroom(CGame* g);
+		void OnInit();  								// 遊戲的初值及圖形設定
+		void OnBeginState();							// 設定每次重玩所需的變數
+		void OnKeyUp(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
+		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
+	protected:
+		void OnShow();									// 顯示這個狀態的遊戲畫面
+	private:
+
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
