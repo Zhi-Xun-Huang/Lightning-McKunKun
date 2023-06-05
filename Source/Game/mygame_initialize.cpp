@@ -40,6 +40,9 @@ void CGameStateInit::OnInit()
 	audio->Load(2, "resources/Rrrrr.wav");
 	audio->Load(3, "resources/NMson.wav");
 	audio->Load(4, "resources/UCHMJ.wav");
+	audio->Load(5, "resources/Backroom.wav");
+	audio->Load(6, "resources/Freeze.wav");
+	audio->Load(7, "resources/NiceBall.wav");
 }
 
 void CGameStateInit::OnBeginState()
