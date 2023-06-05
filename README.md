@@ -21,6 +21,6 @@
     Armstrong can summon on screen at same time.
     Basketball summon on screen randomly.
 
-# $$L_{ight}\space M_{c}\space K_{un}^2$$
+# $$L_{ighting}\space M_{c}\space K_{un}^2$$
 
 
