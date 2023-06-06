@@ -56,6 +56,7 @@ void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
 						BBCount -= 1;
 						BBOne = false;
 						KKID = 1;
+						GotoGameState(GAME_STATE_QTE);
 					}
 				}
 				else {
