@@ -326,9 +326,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/basketball/basketball22.bmp",
 		"resources/basketball/basketball23.bmp",
 		"resources/basketball/basketball24.bmp",
-		"resources/basketball/basketball25.bmp"
-		}, RGB(255, 255, 255)
-	);
+		"resources/basketball/basketball25.bmp"}, RGB(0, 0, 0));
 	basketball.SetAnimation(50, false);
 
 	for (int m = 0; m < 5; m++) {
@@ -363,9 +361,8 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 			"resources/obunga/Obunga27.bmp",
 			"resources/obunga/Obunga28.bmp",
 			"resources/obunga/Obunga29.bmp",
-			"resources/obunga/Obunga30.bmp",
-			}, RGB(0, 0, 0)
-			);
+			"resources/obunga/Obunga30.bmp" }, RGB(0, 0, 0));
+
 		obunga[m].SetAnimation(50, false);
 	}
 
@@ -524,7 +521,6 @@ void CGameStateRun::OnShow()
 		CTextDraw::Print(pDC, 150, 200, "Y:");
 		CTextDraw::Print(pDC, 250, 200, to_string(Ymouse));
 	}
-
 	CDDraw::ReleaseBackCDC();
 }
 
