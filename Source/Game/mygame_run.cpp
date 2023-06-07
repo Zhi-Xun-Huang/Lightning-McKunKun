@@ -53,10 +53,12 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			if ((armstrong[i].Left() + 410 >= character[0].Left() && armstrong[i].Left() + 370 <= character[0].Left()) && armstrong[i].GetSelectShowBitmap() == 61) {
 				if (BBCount > 0) {
 					if (BBOne) {
+						GotoGameState(GAME_STATE_QTE);
+						//audio->Pause();
+						audio->Play(7, false);
 						BBCount -= 1;
 						BBOne = false;
 						KKID = 1;
-						GotoGameState(GAME_STATE_QTE);
 					}
 				}
 				else {
@@ -325,7 +327,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/basketball/basketball23.bmp",
 		"resources/basketball/basketball24.bmp",
 		"resources/basketball/basketball25.bmp"
-		}, RGB(255, 255, 255)
+		}, RGB(0, 0, 0)
 	);
 	basketball.SetAnimation(50, false);
 
@@ -378,7 +380,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		BBCount = 10;
 	}
 
-	if (nChar == 0x20) {  // SpaceBar detection.(handbrake)
+	/*if (nChar == 0x20) {  // SpaceBar detection.(handbrake)
 		WPressed = false;
 		SpacePressed = true;
 	}
@@ -386,7 +388,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == 0x45) {  // EKey detection.(KunKun Status Change)
 		if (KKID == 1) KKID = 0;
 		else KKID += 1;
-	}
+	}*/
 
 	if (nChar == 0x57) {  // WKey detection.(accelerator)
 		WPressed = true;
