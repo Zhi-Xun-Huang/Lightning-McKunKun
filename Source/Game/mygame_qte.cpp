@@ -43,7 +43,8 @@ void CGameStateQte::OnInit()
 									"resources/niceball/NiceBall59.bmp", "resources/niceball/NiceBall60.bmp", "resources/niceball/NiceBall61.bmp",
 									"resources/niceball/NiceBall62.bmp", "resources/niceball/NiceBall63.bmp", "resources/niceball/NiceBall64.bmp",
 									"resources/niceball/NiceBall65.bmp", "resources/niceball/NiceBall66.bmp", "resources/niceball/NiceBall67.bmp",
-									"resources/niceball/NiceBall68.bmp", "resources/niceball/NiceBall69.bmp", "resources/niceball/NiceBall70.bmp" }, RGB(0, 0, 0));
+									"resources/niceball/NiceBall68.bmp", "resources/niceball/NiceBall69.bmp", "resources/niceball/NiceBall70.bmp" 
+									}, RGB(0, 0, 0));
 	background.SetTopLeft(0, 0);
 	background.SetAnimation(33, true);
 }
@@ -61,17 +62,20 @@ void CGameStateQte::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	CAudio* audio = CAudio::Instance();
 
-	if (nChar == 0x20 && background.GetSelectShowBitmap() >= 40 && background.GetSelectShowBitmap() <= 50) {  // SpaceBar
-		GotoGameState(GAME_STATE_RUN);
-		audio->Stop(7);
-		audio->Play(2, false);
+	if (nChar == 0x20) {
+		if (background.GetSelectShowBitmap() >= 40 && background.GetSelectShowBitmap() <= 50) {  // SpaceBar
+			GotoGameState(GAME_STATE_RUN);
+			audio->Stop(7);
+			audio->Play(2, false);
+		}
+		else {
+			GotoGameState(GAME_STATE_OVER);
+			audio->Pause();
+			audio->Play(1, true);
+			audio->Play(3, false);
+		}
 	}
-	else {
-		GotoGameState(GAME_STATE_OVER);
-		audio->Pause();
-		audio->Play(1, true);
-		audio->Play(3, false);
-	}
+	
 }
 
 void CGameStateQte::OnLButtonDown(UINT nFlags, CPoint point)
@@ -94,7 +98,7 @@ void CGameStateQte::OnShow()
 	CFont* fp;
 	CTextDraw::ChangeFontLog(pDC, fp, 24, "Consolas", RGB(255, 255, 255), 800);
 	CTextDraw::Print(pDC, 50, 50, "Press SpaceBar Between 40 ~ 50:");
-	CTextDraw::Print(pDC, 470, 50, to_string(background.GetSelectShowBitmap()));
+	CTextDraw::Print(pDC, 530, 50, to_string(background.GetSelectShowBitmap()));
 	CDDraw::ReleaseBackCDC();
 }
 

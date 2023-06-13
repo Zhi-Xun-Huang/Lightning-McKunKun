@@ -99,7 +99,6 @@ namespace game_framework {
 		int TurnLR = 0;             // Turn left or right or not
 		int BGLinear = 500;         // Background latency
 		int BBCount = 0;
-		int bbx = 0;
 		int Xmouse;
 		int Ymouse;
 		bool BackroomJump = false;
@@ -116,11 +115,11 @@ namespace game_framework {
 		bool ArmstrongShow = false; // Armstrong be shown or not
 		bool debug = false;
 		bool reposition = true;
-		CMovingBitmap background[3];
+		CMovingBitmap background;
 		CMovingBitmap armstrong[3];
-		CMovingBitmap character[3];
+		CMovingBitmap character[2];
 		CMovingBitmap basketball;
-		CMovingBitmap obunga[5];
+		
 	};
 
 	class CGameStateQte : public CGameState {
@@ -146,8 +145,9 @@ namespace game_framework {
 		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 	protected:
 		void OnShow();									// 顯示這個狀態的遊戲畫面
+		void OnMove();
 	private:
-
+		CMovingBitmap obunga[5];
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
