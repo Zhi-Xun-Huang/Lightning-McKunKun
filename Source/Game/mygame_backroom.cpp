@@ -6,6 +6,7 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
+#include <string>
 
 using namespace game_framework;
 /////////////////////////////////////////////////////////////////////////////
@@ -19,8 +20,9 @@ CGameStateBackroom::CGameStateBackroom(CGame* g) : CGameState(g)
 
 void CGameStateBackroom::OnInit()
 {
-	/*for (int i = 0; i < 5; i++) {
-		obunga[i].LoadBitmapByString({
+
+	for (int m = 0; m < 5; m++) {
+		obunga[m].LoadBitmapByString({
 			"resources/obunga/Obunga00.bmp",
 			"resources/obunga/Obunga01.bmp",
 			"resources/obunga/Obunga02.bmp",
@@ -51,36 +53,25 @@ void CGameStateBackroom::OnInit()
 			"resources/obunga/Obunga27.bmp",
 			"resources/obunga/Obunga28.bmp",
 			"resources/obunga/Obunga29.bmp",
-			"resources/obunga/Obunga30.bmp"
-			}, RGB(0, 0, 0));
-		obunga[i].SetAnimation(50, false);
-		obunga[i].SetTopLeft(0, 0);
-	}*/
+			"resources/obunga/Obunga30.bmp" }, RGB(0, 0, 0));
+
+		obunga[m].SetAnimation(50, false);
+	}
+}
+
+void CGameStateBackroom::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作53
+{
+	GetCursorPos(&p);
+	HWND hwnd = FindWindowA(NULL, "LMKK");
+	ScreenToClient(hwnd, &p);
+	Xmouse = p.x;
+	Ymouse = p.y;
+
 }
 
 void CGameStateBackroom::OnBeginState()
 {
 
-}
-
-void CGameStateBackroom::OnMove()
-{
-	/*if (random(1, 250) == 37) { //1 250
-
-				audio->Pause();
-				audio->Play(6, true);
-				Sleep(2000);
-				sprintf(msg, "Game fatal error:\n\n%s\n\nFile: %s\n\nLine: %d"
-					"\n\n(Press Retry to debug the application, "
-					"if it is executed in debug mode.)"
-					"\n(Press Cancel otherwise.)",
-					"A bitmap must be loaded before SetTopLeft() is called !!!", __FILE__, __LINE__);
-				id = AfxMessageBox(msg, MB_RETRYCANCEL);
-				audio->Pause();
-				audio->Play(6, true);
-				BackroomJump = true;
-
-			}*/
 }
 
 void CGameStateBackroom::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -93,6 +84,12 @@ void CGameStateBackroom::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CGameStateBackroom::OnShow()
 {
-
+	CDC* pDC = CDDraw::GetBackCDC();
+	CFont* fp;
+	CTextDraw::ChangeFontLog(pDC, fp, 24, "Consolas", RGB(0, 0, 0), 800);
+	CTextDraw::Print(pDC, 150, 170, "X:");
+	CTextDraw::Print(pDC, 250, 170, to_string(Xmouse));
+	CTextDraw::Print(pDC, 150, 200, "Y:");
+	CTextDraw::Print(pDC, 250, 200, to_string(Ymouse));
+	CDDraw::ReleaseBackCDC();
 }
-

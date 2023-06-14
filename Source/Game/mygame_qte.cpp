@@ -80,7 +80,6 @@ void CGameStateQte::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateQte::OnLButtonDown(UINT nFlags, CPoint point)
 {
-
 }
 
 void CGameStateQte::OnShow()

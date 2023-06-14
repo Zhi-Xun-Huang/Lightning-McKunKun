@@ -33,6 +33,7 @@ CGameStateRun::~CGameStateRun()
 
 void CGameStateRun::OnBeginState()
 {
+	basketball.ToggleAnimation();
 }
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -41,7 +42,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	for (int i = 0; i < 3; i++) {
 
-		if ((armstrong[i].Left() + 410 >= character[0].Left() && armstrong[i].Left() + 370 <= character[0].Left()) && armstrong[i].GetSelectShowBitmap() >= 58) {
+		if ((armstrong[i].Left() + 450 >= character[0].Left() || armstrong[i].Left() + 410 <= character[0].Left()) && armstrong[i].GetSelectShowBitmap() >= 58) {
 			int tmp = random(2, 4);
 			if (armstrong[i].GetSelectShowBitmap() == 60) {
 				for (int i = 2; i < 5; i++) audio->Stop(i);
@@ -50,6 +51,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		}
 
+		/*
 		if ((armstrong[i].Left() + 410 >= character[0].Left() && armstrong[i].Left() + 370 <= character[0].Left()) && armstrong[i].GetSelectShowBitmap() == 61) {
 			if (BBCount > 0) {
 				if (BBOne) {
@@ -77,7 +79,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					BGEnable = true;
 				}
 			}
-		}
+		}*/
 
 		if (armstrong[i].GetSelectShowBitmap() == 15) {
 			BBOne = true;
@@ -142,11 +144,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		BGEnable = false;
 		if (BGLinear >= 10) BGLinear -= 5;
 	}
-
-	/*if (SpacePressed == true) {
-		if (BGLinear >= 500) BGEnable = true;
-		else BGLinear += 5;
-	}*/
 
 	if ((basketball.Left() - 250 <= character[0].Left() && basketball.Left() + 250 >= character[0].Left()) && basketball.GetSelectShowBitmap() == 25) {
 		if (BBAdd) {
@@ -224,6 +221,11 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/kunRun/KUN40run.bmp",
 		"resources/kunRun/KUN41run.bmp"
 		}, RGB(255, 255, 255));
+
+	for (int i = 0; i < 2; i++) {
+		character[i].SetTopLeft(640, 400);
+		character[i].SetAnimation(50, false);
+	}
 	
 	for (int i = 0; i < 3; i++) {
 		armstrong[i].LoadBitmapByString({
@@ -250,11 +252,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/armstrong/armstrong60.bmp", "resources/armstrong/armstrong61.bmp", "resources/armstrong/armstrong62.bmp"
 			}, RGB(255, 255, 255));
 		armstrong[i].SetTopLeft(random(-2000, 2000), 270);
-	}
-	
-	for (int i = 0; i < 2; i++) {
-		character[i].SetTopLeft(640, 400);
-		character[i].SetAnimation(50, false);
 	}
 
 	basketball.LoadBitmapByString({
@@ -288,36 +285,20 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/basketball/basketball27.bmp",
 		"resources/basketball/basketball28.bmp",
 		"resources/basketball/basketball29.bmp",
-		"resources/basketball/basketball30.bmp",
-		"resources/basketball/basketball31.bmp",
-		"resources/basketball/basketball32.bmp",
-		"resources/basketball/basketball33.bmp",
-		"resources/basketball/basketball34.bmp",
-		"resources/basketball/basketball35.bmp",
-		"resources/basketball/basketball36.bmp",
-		"resources/basketball/basketball37.bmp",
-		"resources/basketball/basketball38.bmp",
-		"resources/basketball/basketball39.bmp",
-		"resources/basketball/basketball40.bmp",
-		"resources/basketball/basketball41.bmp",
-		"resources/basketball/basketball42.bmp",
-		"resources/basketball/basketball43.bmp",
-		"resources/basketball/basketball44.bmp",
-		"resources/basketball/basketball45.bmp",
-		"resources/basketball/basketball46.bmp",
-		"resources/basketball/basketball47.bmp"
+		"resources/basketball/basketball30.bmp"
 		}, RGB(0, 0, 0));
 
-	basketball.SetAnimation(50, true);
+	basketball.SetTopLeft(random(-2000, 2000), 550);
+	basketball.SetAnimation(30, true);
 
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 
-	if (debug == false && nChar == 0x51) {
+	if (!debug && nChar == 0x51) {
 		debug = true;  // QKey detection.(debug platform)
-		BBCount += 1;
+		BBCount += 5;
 	}
 
 	if (nChar == 0x57) {  // WKey detection.(accelerator)
@@ -359,11 +340,6 @@ void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作53
 {
-	GetCursorPos(&p);
-	HWND hwnd = FindWindowA(NULL, "LMKK");
-	ScreenToClient(hwnd, &p);
-	Xmouse = p.x;
-	Ymouse = p.y;
 }
 
 void CGameStateRun::OnRButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
@@ -381,10 +357,10 @@ void CGameStateRun::OnShow()
 
 	for (int i = 0; i < 3; i++) armstrong[i].ShowBitmap();
 
-	if (basketball.GetSelectShowBitmap() != 48) {
+	if (basketball.GetSelectShowBitmap() != 30) {
 		basketball.ShowBitmap();
 	}
-	else if (basketball.GetSelectShowBitmap() == 48) {
+	else if (basketball.GetSelectShowBitmap() == 30) {
 		basketball.SetTopLeft(random(-2000, 2000), 450);
 		basketball.ToggleAnimation();
 	}
@@ -402,19 +378,15 @@ void CGameStateRun::OnShow()
 	string m = to_string(BBCount);
 	CTextDraw::Print(pDC, 1530, 70, m);
 
-	if (debug == true) {
+	if (debug) {
 		CTextDraw::Print(pDC, 80, 80, "KK_Left:");
 		CTextDraw::Print(pDC, 250, 80, to_string(character[KKID].Left()));
 		CTextDraw::Print(pDC, 80, 50, "BG_Left:");
 		CTextDraw::Print(pDC, 250, 50, to_string(background.Left()));
 		CTextDraw::Print(pDC, 80, 110, "AS_Left:");
-		CTextDraw::Print(pDC, 250, 110, to_string(armstrong[0].Left()));
+		CTextDraw::Print(pDC, 250, 110, to_string(armstrong[0].Left() + 390));
 		CTextDraw::Print(pDC, 80, 140, "BB_Left:");
 		CTextDraw::Print(pDC, 250, 140, to_string(basketball.Left()));
-		CTextDraw::Print(pDC, 150, 170, "X:");
-		CTextDraw::Print(pDC, 250, 170, to_string(Xmouse));
-		CTextDraw::Print(pDC, 150, 200, "Y:");
-		CTextDraw::Print(pDC, 250, 200, to_string(Ymouse));
 	}
 	CDDraw::ReleaseBackCDC();
 }
