@@ -7,6 +7,8 @@
 #include "../Library/gamecore.h"
 #include "mygame.h"
 #include <string>
+#include <random>
+#include <windows.h>
 
 using namespace game_framework;
 /////////////////////////////////////////////////////////////////////////////
@@ -18,8 +20,15 @@ CGameStateBackroom::CGameStateBackroom(CGame* g) : CGameState(g)
 
 }
 
+void CGameStateBackroom::OnMove() {
+
+}
 void CGameStateBackroom::OnInit()
 {
+
+	backroom.LoadBitmapByString({
+		"resources/backroom.bmp"
+	});
 
 	for (int m = 0; m < 5; m++) {
 		obunga[m].LoadBitmapByString({
@@ -84,12 +93,23 @@ void CGameStateBackroom::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CGameStateBackroom::OnShow()
 {
+CAudio* audio = CAudio::Instance();
+	if (sleep) {
+		Sleep(3500);
+		sleep = false;
+	}
+	backroom.ShowBitmap();
+	if (musicflag) {
+		audio->Pause();
+		audio->Play(6, true);
+		musicflag = false;
+	}
 	CDC* pDC = CDDraw::GetBackCDC();
 	CFont* fp;
 	CTextDraw::ChangeFontLog(pDC, fp, 24, "Consolas", RGB(0, 0, 0), 800);
-	CTextDraw::Print(pDC, 150, 170, "X:");
-	CTextDraw::Print(pDC, 250, 170, to_string(Xmouse));
-	CTextDraw::Print(pDC, 150, 200, "Y:");
-	CTextDraw::Print(pDC, 250, 200, to_string(Ymouse));
+	CTextDraw::Print(pDC, 150, 50, "X:");
+	CTextDraw::Print(pDC, 250, 50, to_string(Xmouse));
+	CTextDraw::Print(pDC, 150, 80, "Y:");
+	CTextDraw::Print(pDC, 250, 80, to_string(Ymouse));
 	CDDraw::ReleaseBackCDC();
 }
