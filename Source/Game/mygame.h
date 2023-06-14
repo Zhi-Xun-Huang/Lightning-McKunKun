@@ -87,6 +87,7 @@ namespace game_framework {
 		void OnMouseMove(UINT nFlags, CPoint point);	// 處理滑鼠的動作 
 		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
+		CMovingBitmap background;
 	protected:
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
@@ -104,7 +105,7 @@ namespace game_framework {
 		bool SpacePressed = false;  // State of SpaceBar
 		bool ArmstrongShow = false; // Armstrong be shown or not
 		bool debug = false;
-		CMovingBitmap background;
+		
 		CMovingBitmap armstrong[3];
 		CMovingBitmap character[2];
 		CMovingBitmap basketball;

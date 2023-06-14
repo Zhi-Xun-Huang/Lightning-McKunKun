@@ -28,8 +28,18 @@ void CGameStateInit::OnInit()
 
 	load_background();
 
-	ShowInitProgress(66, "Initialize...");
-	Sleep(200);
+	for (int i = 1; i < 11; i++) {
+		ShowInitProgress(i * 10, "Loading |");
+		Sleep(50);
+		ShowInitProgress(i * 10, "Loading /");
+		Sleep(50);
+		ShowInitProgress(i * 10, "Loading -");
+		Sleep(50);
+		ShowInitProgress(i * 10, "Loading \\");
+		Sleep(50);
+		ShowInitProgress(i * 10, "Loading");
+	}
+	
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
@@ -43,6 +53,7 @@ void CGameStateInit::OnInit()
 	audio->Load(5, "resources/Backroom.wav");
 	audio->Load(6, "resources/Freeze.wav");
 	audio->Load(7, "resources/NiceBall.wav");
+
 }
 
 void CGameStateInit::OnBeginState()

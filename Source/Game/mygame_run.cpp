@@ -367,7 +367,7 @@ void CGameStateRun::OnShow()
 
 	character[KKID].ShowBitmap();
 
-	CDC *pDC = CDDraw::GetBackCDC();
+	CDC* pDC = CDDraw::GetBackCDC();
 	CFont* fp;
 	CTextDraw::ChangeFontLog(pDC, fp, 24, "Consolas", RGB(0, 0, 0), 800);
 
