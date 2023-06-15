@@ -63,6 +63,7 @@ void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	flag = true;
 	if (count >= 1200) { 
 		count = 0;
+		audio->Pause();
 		GotoGameState(GAME_STATE_RUN);       // ¤Á´«¦ÜGAME_STATE_RUN
 	}		
 }

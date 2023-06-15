@@ -114,12 +114,15 @@ namespace game_framework {
 		bool SpacePressed = false;  // State of SpaceBar
 		bool ArmstrongEnable = false; // Armstrong be shown or not
 		bool debug = false;
+		bool end = false;
 		CMovingBitmap armstrong[9];
 		CMovingBitmap character[2];
 		CMovingBitmap basketball;
 		CMovingBitmap dashboard;
 		CMovingBitmap alphabet[21];
 		CMovingBitmap blank;
+		CMovingBitmap everest;
+		CMovingBitmap kunfamily[5];
 	};
 
 	class CGameStateQte : public CGameState {
