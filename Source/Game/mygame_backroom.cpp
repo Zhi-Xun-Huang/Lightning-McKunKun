@@ -33,6 +33,10 @@ void CGameStateBackroom::OnInit()
 		"resources/backroom.bmp"
 	});
 
+	backroomend.LoadBitmapByString({
+		"resources/backroomend.bmp"
+	});
+
 	kunkun.LoadBitmapByString({
 		"resources/kunDie/KUN00die.bmp",
 		"resources/kunDie/KUN01die.bmp",
@@ -91,10 +95,10 @@ void CGameStateBackroom::OnShow()
 	else {
 		if (finalflag) {
 			sprintf(msg, "Game fatal error:\n\n%s\n\nFile: %s\n\nLine: %d"
-				"\n\n(Press Retry to do nothing useful, "
-				"you can't save him.)"
-				"\n(Press Cancel will do nothing as well.)",
-				"KunKun will never come back.", __FILE__, __LINE__);
+				"\n\n(PRESS RETRY TO DO NOTHING USEFUL, "
+				"YOU CAN'T SAVE HIM.)"
+				"\n(PRESS CANCEL WILL DO NOTHING AS WELL.)",
+				"KUNKUN WILL NEVER COME BACK.","NONONONONONONONONONONONONONONONONONONONONO", 0000);
 			id = AfxMessageBox(msg, MB_RETRYCANCEL);
 			finalflag = false;
 		}
@@ -111,7 +115,10 @@ void CGameStateBackroom::OnShow()
 		if (kunkun.GetSelectShowBitmap() == 11) {
 			countflag = true;
 		}
-		if (destroycount == 10) {
+		if (destroycount >= 10) {
+			backroomend.ShowBitmap();
+		}
+		if (destroycount == 15) {
 			PostQuitMessage(0);
 		}
 		kunkun.ShowBitmap();

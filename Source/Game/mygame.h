@@ -143,6 +143,7 @@ namespace game_framework {
 		CMovingBitmap black;
 		CMovingBitmap backroom;
 		CMovingBitmap kunkun;
+		CMovingBitmap backroomend;
 		POINT p;
 		char msg[300] = "";
 		int id = 0;
