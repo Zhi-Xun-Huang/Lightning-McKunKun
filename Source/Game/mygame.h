@@ -67,6 +67,9 @@ namespace game_framework {
 	private:
 		void load_background();
 		CMovingBitmap background;
+		CMovingBitmap story;
+		long count = 0;
+		bool flag = false;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -133,7 +136,7 @@ namespace game_framework {
 		char msg[300] = "";
 		int id = 0;
 		CMovingBitmap background;
-		
+		CMovingBitmap qte[3];
 	};
 
 	class CGameStateBackroom : public CGameState {

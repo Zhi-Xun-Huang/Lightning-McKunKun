@@ -49,7 +49,7 @@ void CGameStateInit::OnInit()
 	audio->Load(5, "resources/Freeze.wav");
 	audio->Load(6, "resources/Backroom.wav");
 	audio->Load(7, "resources/NiceBall.wav");
-
+	audio->Load(8, "resources/Story.wav");
 }
 
 void CGameStateInit::OnBeginState()
@@ -58,9 +58,15 @@ void CGameStateInit::OnBeginState()
 }
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
-{
-	GotoGameState(GAME_STATE_RUN);		// ¤Á´«¦ÜGAME_STATE_RUN
+{	
+	CAudio* audio = CAudio::Instance();
+	flag = true;
+	if (count >= 1200) { 
+		count = 0;
+		GotoGameState(GAME_STATE_RUN);       // ¤Á´«¦ÜGAME_STATE_RUN
+	}		
 }
+
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
@@ -68,10 +74,18 @@ void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CGameStateInit::OnShow()
 {
-	background.ShowBitmap();
+	CAudio* audio = CAudio::Instance();
+	if (flag) {
+		if (count == 0) audio->Play(8, false);
+		story.ShowBitmap();
+		count++;
+	}
+	else background.ShowBitmap();
 }
 
 void CGameStateInit::load_background() {
+	story.LoadBitmapByString({ "resources/story.bmp" });
+	story.SetTopLeft(0, 0);
 	background.LoadBitmapByString({ "resources/LMKK1.bmp", "resources/LMKK2.bmp" });
 	background.SetTopLeft(0, 0);
 	background.SetAnimation(1000, false);

@@ -171,6 +171,8 @@ void CGameStateRun::OnMove()							// ²¾°Ê¹CÀ¸¤¸¯À
 	}
 	else {
 
+
+
 		blank.ShowBitmap();
 		for (int i = 0; i < 7; i++) alphabet[i].ShowBitmap();
 		
