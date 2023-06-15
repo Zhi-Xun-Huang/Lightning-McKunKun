@@ -50,6 +50,8 @@ void CGameStateInit::OnInit()
 	audio->Load(6, "resources/Backroom.wav");
 	audio->Load(7, "resources/NiceBall.wav");
 	audio->Load(8, "resources/Story.wav");
+	audio->Load(9, "resources/+1.wav");
+	audio->Load(10, "resources/Phase.wav");
 }
 
 void CGameStateInit::OnBeginState()
@@ -63,8 +65,10 @@ void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 	flag = true;
 	if (count >= 1200) { 
 		count = 0;
+		audio->Pause();
 		GotoGameState(GAME_STATE_RUN);       // ¤Á´«¦ÜGAME_STATE_RUN
-	}		
+	}
+	
 }
 
 

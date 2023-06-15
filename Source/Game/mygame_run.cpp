@@ -36,7 +36,6 @@ void CGameStateRun::OnBeginState()
 {
 	basketball.ToggleAnimation();
 	CAudio* audio = CAudio::Instance();
-	if(!start) audio->Play(5, true);
 }
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -44,6 +43,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	CAudio* audio = CAudio::Instance();
 
 	if (BBCount >= VictoryCodition[PHASE]) {
+		audio->Play(10, false);
 		PHASEEnable = false;
 		start = false;
 		BBCount = 0;
@@ -158,6 +158,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		if ((basketball.Left() - 250 <= character[KKID].Left() && basketball.Left() + 250 >= character[KKID].Left()) && basketball.GetSelectShowBitmap() == 30) {
 			if (BBAdd) {
+				audio->Play(9, false);
 				BBCount += 1;
 				BBAdd = false;
 			}

@@ -32,8 +32,6 @@ void CGameStateQte::OnInit()
 	qte[0].LoadBitmapByString({ "resources/qte/qte_bg.bmp" });
 	qte[1].LoadBitmapByString({ "resources/qte/qte_po.bmp" });
 	qte[2].LoadBitmapByString({ "resources/qte/qte_st.bmp" });
-	qte[0].SetTopLeft(500, 500);
-	qte[1].SetTopLeft(500, 500);
 	background.LoadBitmapByString({ "resources/niceball/NiceBall00.bmp", "resources/niceball/NiceBall01.bmp", "resources/niceball/NiceBall02.bmp",
 									"resources/niceball/NiceBall03.bmp", "resources/niceball/NiceBall04.bmp", "resources/niceball/NiceBall05.bmp",
 									"resources/niceball/NiceBall06.bmp", "resources/niceball/NiceBall07.bmp", "resources/niceball/NiceBall08.bmp",
@@ -133,10 +131,12 @@ void CGameStateQte::OnShow()
 	CDC* pDC = CDDraw::GetBackCDC();
 	CFont* fp;
 	CTextDraw::ChangeFontLog(pDC, fp, 24, "Consolas", RGB(255, 255, 255), 800);
-	CTextDraw::Print(pDC, 50, 50, "Press SpaceBar Between 40 ~ 50:");
+	CTextDraw::Print(pDC, 50, 50, "Press SpaceBar on RED:");
 	CTextDraw::Print(pDC, 530, 50, to_string(background.GetSelectShowBitmap()));
 	CDDraw::ReleaseBackCDC();
 
-	qte[2].SetTopLeft(500 + 4 * (background.GetSelectShowBitmap()), 490);
+	qte[0].SetTopLeft(450, 48);
+	qte[1].SetTopLeft(610, 48);
+	qte[2].SetTopLeft(450 + 4 * (background.GetSelectShowBitmap()), 38);
 	for (int i = 0; i < 3; i++) qte[i].ShowBitmap();
 }

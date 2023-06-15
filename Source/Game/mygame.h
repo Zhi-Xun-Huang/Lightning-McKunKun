@@ -135,6 +135,7 @@ namespace game_framework {
 	private:
 		char msg[300] = "";
 		int id = 0;
+		vector<int> tmp = { 0, 0, 0 };
 		CMovingBitmap background;
 		CMovingBitmap qte[3];
 	};
