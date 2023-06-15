@@ -8,11 +8,7 @@
 #include "mygame.h"
 #include <string>
 #include <windows.h>
-#include <cmath>
-#include "random.h"
-
-
-
+#include <random>
 
 using namespace std;
 using namespace game_framework;
@@ -20,6 +16,13 @@ using namespace game_framework;
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲執行物件，主要的遊戲程式都在這裡
 /////////////////////////////////////////////////////////////////////////////
+
+int random(int min, int max) {
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> range(min, max);
+	return range(gen);
+}
 
 CGameStateRun::CGameStateRun(CGame *g) : CGameState(g)
 {

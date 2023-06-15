@@ -7,11 +7,20 @@
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
 #include "mygame.h"
+#include <random>
 
+using namespace std;
 using namespace game_framework;
 /////////////////////////////////////////////////////////////////////////////
 // 這個class為遊戲的遊戲開頭畫面物件
 /////////////////////////////////////////////////////////////////////////////
+
+int Random(int min, int max) {
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> range(min, max);
+	return range(gen);
+}
 
 CGameStateQte::CGameStateQte(CGame* g) : CGameState(g)
 {
@@ -67,12 +76,24 @@ void CGameStateQte::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			GotoGameState(GAME_STATE_RUN);
 			audio->Stop(7);
 			audio->Play(2, false);
+
 		}
 		else {
-			GotoGameState(GAME_STATE_OVER);
-			audio->Pause();
-			audio->Play(1, true);
-			audio->Play(3, false);
+			if (Random(1, 150) == 10) {
+				sprintf(msg, "Game fatal error:\n\n%s\n\nFile: %s\n\nLine: %d"
+					"\n\n(Press Retry to debug the application, "
+					"if it is executed in debug mode.)"
+					"\n(Press Cancel otherwise.)",
+					"A bitmap must be loaded before SetTopLeft() is called !!!", __FILE__, __LINE__);
+				id = AfxMessageBox(msg, MB_RETRYCANCEL);
+				GotoGameState(GAME_STATE_BACKROOM);
+			}
+			else {
+				GotoGameState(GAME_STATE_OVER);
+				audio->Pause();
+				audio->Play(1, true);
+				audio->Play(3, false);
+			}
 		}
 	}
 	
@@ -84,13 +105,24 @@ void CGameStateQte::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CGameStateQte::OnShow()
 {	
+	CAudio* audio = CAudio::Instance();
 	if (background.GetSelectShowBitmap() != 71) background.ShowBitmap();
 	else if (background.GetSelectShowBitmap() == 71) {
-		GotoGameState(GAME_STATE_OVER);
-		CAudio* audio = CAudio::Instance();
-		audio->Pause();
-		audio->Play(1, true);
-		audio->Play(3, false);
+		if (Random(1, 150) == 10) {
+			sprintf(msg, "Game fatal error:\n\n%s\n\nFile: %s\n\nLine: %d"
+				"\n\n(Press Retry to debug the application, "
+				"if it is executed in debug mode.)"
+				"\n(Press Cancel otherwise.)",
+				"A bitmap must be loaded before SetTopLeft() is called !!!", __FILE__, __LINE__);
+			id = AfxMessageBox(msg, MB_RETRYCANCEL);
+			GotoGameState(GAME_STATE_BACKROOM);
+		}
+		else {
+			GotoGameState(GAME_STATE_OVER);
+			audio->Pause();
+			audio->Play(1, true);
+			audio->Play(3, false);
+		}
 	}
 
 	CDC* pDC = CDDraw::GetBackCDC();
