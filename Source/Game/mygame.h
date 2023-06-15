@@ -91,8 +91,6 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		char msg[300] = "";
-		int id = 0;
 		int KKID = 0;               // State of KunKun
 		int Linear = 0;             // Linear turn left & right
 		int TurnLR = 0;             // Turn left or right or not
@@ -110,7 +108,6 @@ namespace game_framework {
 		CMovingBitmap armstrong[3];
 		CMovingBitmap character[2];
 		CMovingBitmap basketball;
-		CMovingBitmap black;
 		CMovingBitmap dashboard;
 		
 	};
@@ -126,7 +123,10 @@ namespace game_framework {
 	protected:
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
+		char msg[300] = "";
+		int id = 0;
 		CMovingBitmap background;
+		
 	};
 
 	class CGameStateBackroom : public CGameState {
@@ -136,19 +136,22 @@ namespace game_framework {
 		void OnBeginState();							// 設定每次重玩所需的變數
 		void OnKeyUp(UINT, UINT, UINT); 				// 處理鍵盤Up的動作
 		void OnLButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
-		void OnMouseMove(UINT nFlags, CPoint point);
 	protected:
 		void OnMove();
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
 		CMovingBitmap black;
 		CMovingBitmap backroom;
-		CMovingBitmap obunga[5];
+		CMovingBitmap kunkun;
 		POINT p;
-		int Xmouse, Ymouse;
+		char msg[300] = "";
+		int id = 0;
+		int destroycount = 0;
+		bool freeze = true;
 		bool sleep = true;
+		bool finalflag = true;
 		bool musicflag = true;
-		bool ObungaMove[5];
+		bool countflag = false;
 		bool debug = false;
 	};
 

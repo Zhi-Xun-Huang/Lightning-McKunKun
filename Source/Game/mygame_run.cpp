@@ -51,7 +51,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		}
 
-		/*
+		
 		if ((armstrong[i].Left() + 410 >= character[0].Left() && armstrong[i].Left() + 370 <= character[0].Left()) && armstrong[i].GetSelectShowBitmap() == 61) {
 			if (BBCount > 0) {
 				if (BBOne) {
@@ -79,7 +79,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 					BGEnable = true;
 				}
 			}
-		}*/
+		}
 
 		if (armstrong[i].GetSelectShowBitmap() == 15) {
 			BBOne = true;
@@ -110,24 +110,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			cleft += Linear;
 			character[KKID].SetTopLeft(cleft, character[KKID].Top());
 		}
-	}
-	
-	if (background.Left() >= -40 || background.Left() <= -1920) {
-		if (random(1, 250) == 10) {
-			sprintf(msg, "Game fatal error:\n\n%s\n\nFile: %s\n\nLine: %d"
-						"\n\n(Press Retry to debug the application, "
-						"if it is executed in debug mode.)"
-						"\n(Press Cancel otherwise.)",
-						"A bitmap must be loaded before SetTopLeft() is called !!!", __FILE__, __LINE__);
-					id = AfxMessageBox(msg, MB_RETRYCANCEL);
-
-			audio->Pause();
-			audio->Play(5, true);
-			Sleep(2000);
-			black.ShowBitmap();
-			GotoGameState(GAME_STATE_BACKROOM);
-		}
-		
 	}
 
 	if (ADPressed == false && Linear <= 30) Linear += 1;
@@ -313,9 +295,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	basketball.SetTopLeft(random(-2000, 2000), 550);
 	basketball.SetAnimation(30, true);
 
-	black.LoadBitmapByString({
-		"resources/black.bmp"
-	});
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)

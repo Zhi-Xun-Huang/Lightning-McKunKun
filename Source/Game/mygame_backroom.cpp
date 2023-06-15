@@ -25,57 +25,43 @@ void CGameStateBackroom::OnMove() {
 }
 void CGameStateBackroom::OnInit()
 {
+	black.LoadBitmapByString({
+	"resources/black.bmp"
+	});
 
 	backroom.LoadBitmapByString({
 		"resources/backroom.bmp"
 	});
 
-	for (int m = 0; m < 5; m++) {
-		obunga[m].LoadBitmapByString({
-			"resources/obunga/Obunga00.bmp",
-			"resources/obunga/Obunga01.bmp",
-			"resources/obunga/Obunga02.bmp",
-			"resources/obunga/Obunga03.bmp",
-			"resources/obunga/Obunga04.bmp",
-			"resources/obunga/Obunga05.bmp",
-			"resources/obunga/Obunga06.bmp",
-			"resources/obunga/Obunga07.bmp",
-			"resources/obunga/Obunga08.bmp",
-			"resources/obunga/Obunga09.bmp",
-			"resources/obunga/Obunga10.bmp",
-			"resources/obunga/Obunga11.bmp",
-			"resources/obunga/Obunga12.bmp",
-			"resources/obunga/Obunga13.bmp",
-			"resources/obunga/Obunga14.bmp",
-			"resources/obunga/Obunga15.bmp",
-			"resources/obunga/Obunga16.bmp",
-			"resources/obunga/Obunga17.bmp",
-			"resources/obunga/Obunga18.bmp",
-			"resources/obunga/Obunga19.bmp",
-			"resources/obunga/Obunga20.bmp",
-			"resources/obunga/Obunga21.bmp",
-			"resources/obunga/Obunga22.bmp",
-			"resources/obunga/Obunga23.bmp",
-			"resources/obunga/Obunga24.bmp",
-			"resources/obunga/Obunga25.bmp",
-			"resources/obunga/Obunga26.bmp",
-			"resources/obunga/Obunga27.bmp",
-			"resources/obunga/Obunga28.bmp",
-			"resources/obunga/Obunga29.bmp",
-			"resources/obunga/Obunga30.bmp" }, RGB(0, 0, 0));
-
-		obunga[m].SetAnimation(50, false);
-	}
-}
-
-void CGameStateBackroom::OnMouseMove(UINT nFlags, CPoint point)	// 處理滑鼠的動作53
-{
-	GetCursorPos(&p);
-	HWND hwnd = FindWindowA(NULL, "LMKK");
-	ScreenToClient(hwnd, &p);
-	Xmouse = p.x;
-	Ymouse = p.y;
-
+	kunkun.LoadBitmapByString({
+		"resources/kunDie/KUN00die.bmp",
+		"resources/kunDie/KUN01die.bmp",
+		"resources/kunDie/KUN02die.bmp",
+		"resources/kunDie/KUN03die.bmp",
+		"resources/kunDie/KUN04die.bmp",
+		"resources/kunDie/KUN05die.bmp",
+		"resources/kunDie/KUN06die.bmp",
+		"resources/kunDie/KUN07die.bmp",
+		"resources/kunDie/KUN08die.bmp",
+		"resources/kunDie/KUN09die.bmp",
+		"resources/kunDie/KUN10die.bmp",
+		"resources/kunDie/KUN11die.bmp",
+		"resources/kunDie/KUN12die.bmp",
+		"resources/kunDie/KUN13die.bmp",
+		"resources/kunDie/KUN14die.bmp",
+		"resources/kunDie/KUN15die.bmp",
+		"resources/kunDie/KUN16die.bmp",
+		"resources/kunDie/KUN17die.bmp",
+		"resources/kunDie/KUN18die.bmp",
+		"resources/kunDie/KUN19die.bmp",
+		"resources/kunDie/KUN20die.bmp",
+		"resources/kunDie/KUN21die.bmp",
+		"resources/kunDie/KUN22die.bmp",
+		"resources/kunDie/KUN23die.bmp"
+		}, RGB(255, 255, 255)
+	);
+	kunkun.SetTopLeft(300, 400);
+	kunkun.SetAnimation(70, false);
 }
 
 void CGameStateBackroom::OnBeginState()
@@ -93,23 +79,42 @@ void CGameStateBackroom::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CGameStateBackroom::OnShow()
 {
-CAudio* audio = CAudio::Instance();
+	CAudio* audio = CAudio::Instance();
+	
 	if (sleep) {
+		black.ShowBitmap();
+		audio->Pause();
+		audio->Play(5, true);
 		Sleep(3500);
 		sleep = false;
 	}
-	backroom.ShowBitmap();
-	if (musicflag) {
-		audio->Pause();
-		audio->Play(6, true);
-		musicflag = false;
+	else {
+		if (finalflag) {
+			sprintf(msg, "Game fatal error:\n\n%s\n\nFile: %s\n\nLine: %d"
+				"\n\n(Press Retry to do nothing useful, "
+				"you can't save him.)"
+				"\n(Press Cancel will do nothing as well.)",
+				"KunKun will never come back.", __FILE__, __LINE__);
+			id = AfxMessageBox(msg, MB_RETRYCANCEL);
+			finalflag = false;
+		}
+		backroom.ShowBitmap();
+		if (musicflag) {
+			for (int i = 0; i < 5; i++) audio->Stop(i);
+			audio->Play(6, true);
+			musicflag = false;
+		}
+		if (kunkun.GetSelectShowBitmap() == 0 && countflag) {
+			destroycount += 1;
+			countflag = false;
+		}
+		if (kunkun.GetSelectShowBitmap() == 11) {
+			countflag = true;
+		}
+		if (destroycount == 10) {
+			PostQuitMessage(0);
+		}
+		kunkun.ShowBitmap();
 	}
-	CDC* pDC = CDDraw::GetBackCDC();
-	CFont* fp;
-	CTextDraw::ChangeFontLog(pDC, fp, 24, "Consolas", RGB(0, 0, 0), 800);
-	CTextDraw::Print(pDC, 150, 50, "X:");
-	CTextDraw::Print(pDC, 250, 50, to_string(Xmouse));
-	CTextDraw::Print(pDC, 150, 80, "Y:");
-	CTextDraw::Print(pDC, 250, 80, to_string(Ymouse));
-	CDDraw::ReleaseBackCDC();
+	
 }
