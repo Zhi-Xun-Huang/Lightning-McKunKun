@@ -42,7 +42,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 	for (int i = 0; i < 3; i++) {
 
-		if ((armstrong[i].Left() + 450 >= character[0].Left() || armstrong[i].Left() + 410 <= character[0].Left()) && armstrong[i].GetSelectShowBitmap() >= 58) {
+		if ((armstrong[i].Left() + 450 >= character[0].Left() || armstrong[i].Left() + 410 <= character[0].Left()) && armstrong[i].GetSelectShowBitmap() >= 58) { // Armstrong Sound Effect
 			int tmp = random(2, 4);
 			if (armstrong[i].GetSelectShowBitmap() == 60) {
 				for (int i = 2; i < 5; i++) audio->Stop(i);
@@ -51,14 +51,14 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 
 		}
 
-		/*
+		
 		if ((armstrong[i].Left() + 410 >= character[0].Left() && armstrong[i].Left() + 370 <= character[0].Left()) && armstrong[i].GetSelectShowBitmap() == 61) {
 			if (BBCount > 0) {
 				if (BBOne) {
 					GotoGameState(GAME_STATE_QTE);
 					for (int i = 0; i < 3; i++) {
 						armstrong[i].SelectShowBitmap(0);
-						ArmstrongShow = false;
+						ArmstrongEnable = false;
 						background.SelectShowBitmap(0);
 						BGEnable = true;
 					}
@@ -74,20 +74,11 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				audio->Play(1, true);
 				for (int i = 0; i < 3; i++) {
 					armstrong[i].SelectShowBitmap(0);
-					ArmstrongShow = false;
+					ArmstrongEnable = false;
 					background.SelectShowBitmap(0);
 					BGEnable = true;
 				}
 			}
-		}*/
-
-		if (armstrong[i].GetSelectShowBitmap() == 15) {
-			BBOne = true;
-		}
-
-		if (armstrong[i].GetSelectShowBitmap() == 0 && ArmstrongShow == true) {
-			armstrong[i].SetTopLeft(random(-2000, 2000), armstrong[i].Top());
-			armstrong[i].SetAnimation(random(10, 30), false);
 		}
 
 		if (character[KKID].Left() < armstrong[i].Left() + 400) armstrong[i].SetTopLeft(armstrong[i].Left() - 10, armstrong[i].Top());
@@ -112,6 +103,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		}
 	}
 	
+	/*
 	if (background.Left() >= -40 || background.Left() <= -1920) {
 		if (random(1, 250) == 10) {
 			sprintf(msg, "Game fatal error:\n\n%s\n\nFile: %s\n\nLine: %d"
@@ -128,9 +120,7 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 			GotoGameState(GAME_STATE_BACKROOM);
 		}
 		
-	}
-
-	if (ADPressed == false && Linear <= 30) Linear += 1;
+	}*/
 
 	if (TurnLR == 1) {
 		background.SetTopLeft(background.Left() + Linear, background.Top());
@@ -150,6 +140,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		if ((character[KKID].Left() >= 660 || character[KKID].Left() <= 630) && character[KKID].Left() <= 1200) character[KKID].SetTopLeft(character[KKID].Left() + Linear, character[KKID].Top());
 	}
 
+	if (ADPressed == false && Linear <= 30) Linear += 1;
+
 	if (ADPressed == true) {
 		if (Linear == 0) {
 			ADPressed = true;
@@ -159,19 +151,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 
 	if (WPressed == true) {
-		BGEnable = false;
+		BGEnable = true;
 		if (BGLinear >= 10) BGLinear -= 5;
-	}
-
-	if ((basketball.Left() - 250 <= character[0].Left() && basketball.Left() + 250 >= character[0].Left()) && basketball.GetSelectShowBitmap() == 25) {
-		if (BBAdd) {
-			BBCount += 1;
-			BBAdd = false;
-		}
-	}
-
-	if (basketball.GetSelectShowBitmap() == 10) {
-		BBAdd = true;
 	}
 
 	character[1].SetTopLeft(character[0].Left(), character[0].Top());
@@ -245,7 +226,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		character[i].SetAnimation(50, false);
 	}
 	
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 9; i++) {
 		armstrong[i].LoadBitmapByString({
 		"resources/armstrong/armstrong00.bmp", "resources/armstrong/armstrong01.bmp", "resources/armstrong/armstrong02.bmp",
 		"resources/armstrong/armstrong03.bmp", "resources/armstrong/armstrong04.bmp", "resources/armstrong/armstrong05.bmp",
@@ -325,7 +306,8 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == 0x57) {  // WKey detection.(accelerator)
 		WPressed = true;
 		background.ToggleAnimation();
-		ArmstrongShow = true;
+		ArmstrongEnable = true;
+		for (int i = 0; i < 3; i++) armstrong[i].ToggleAnimation();
 	}
 
 	if (nChar == 0x41) {  // AKey detection.(turn left)
@@ -373,10 +355,25 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnShow()
 {
-	if (background.GetSelectShowBitmap() != 59) background.ShowBitmap();
-	else if (background.GetSelectShowBitmap() == 59) background.ToggleAnimation();
+	if (background.GetSelectShowBitmap() != 59) {
+		background.ShowBitmap();
+	}
+	else if (background.GetSelectShowBitmap() == 59 && BGEnable) {
+		background.ToggleAnimation();
+	}
 
-	for (int i = 0; i < 3; i++) armstrong[i].ShowBitmap();
+	if (ArmstrongEnable) {
+		for (int i = 0; i < 3; i++) {
+			if (armstrong[i].GetSelectShowBitmap() != 63) {
+				armstrong[i].ShowBitmap();
+			}
+			else if (armstrong[i].GetSelectShowBitmap() == 63) {
+				armstrong[i].SetTopLeft(random(-2000, 2000), 270);
+				armstrong[i].SetAnimation(random(10, 30), true);
+			}
+		}
+	}
+
 
 	if (basketball.GetSelectShowBitmap() != 30) {
 		basketball.ShowBitmap();

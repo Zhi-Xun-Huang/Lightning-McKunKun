@@ -28,16 +28,12 @@ void CGameStateInit::OnInit()
 
 	load_background();
 
-	for (int i = 1; i < 11; i++) {
-		ShowInitProgress(i * 10, "Loading |");
-		Sleep(50);
-		ShowInitProgress(i * 10, "Loading /");
-		Sleep(50);
-		ShowInitProgress(i * 10, "Loading -");
-		Sleep(50);
-		ShowInitProgress(i * 10, "Loading \\");
-		Sleep(50);
-		ShowInitProgress(i * 10, "Loading");
+	for (int i = 1; i < 100; i += 5) {
+		ShowInitProgress(i, "Loading.");
+		ShowInitProgress(i, "Loading..");
+		ShowInitProgress(i, "Loading...");
+		ShowInitProgress(i, "Loading....");
+		ShowInitProgress(i, "Loading.....");
 	}
 	
 	//

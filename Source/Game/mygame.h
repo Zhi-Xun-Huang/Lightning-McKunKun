@@ -92,6 +92,7 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
+		int PHASE = 0;
 		char msg[300] = "";
 		int id = 0;
 		int KKID = 0;               // State of KunKun
@@ -102,17 +103,15 @@ namespace game_framework {
 		bool BBAdd = true;
 		bool BBOne = true;
 		bool ADPressed = true;     // Akey or DKey pressed
-		bool BGEnable = true;       // Background animation enable
+		bool BGEnable = false;       // Background animation enable
 		bool WPressed = false;      // State of WKey
 		bool SpacePressed = false;  // State of SpaceBar
-		bool ArmstrongShow = false; // Armstrong be shown or not
+		bool ArmstrongEnable = false; // Armstrong be shown or not
 		bool debug = false;
-		
-		CMovingBitmap armstrong[3];
+		CMovingBitmap armstrong[9];
 		CMovingBitmap character[2];
 		CMovingBitmap basketball;
-		CMovingBitmap black;
-		
+		CMovingBitmap black;	
 	};
 
 	class CGameStateQte : public CGameState {
@@ -170,5 +169,4 @@ namespace game_framework {
 		CMovingBitmap background;
 		CMovingBitmap character;
 	};
-
 };

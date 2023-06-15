@@ -93,7 +93,7 @@ void CGameStateBackroom::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CGameStateBackroom::OnShow()
 {
-CAudio* audio = CAudio::Instance();
+	CAudio* audio = CAudio::Instance();
 	if (sleep) {
 		Sleep(3500);
 		sleep = false;

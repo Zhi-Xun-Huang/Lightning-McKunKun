@@ -100,4 +100,3 @@ void CGameStateQte::OnShow()
 	CTextDraw::Print(pDC, 530, 50, to_string(background.GetSelectShowBitmap()));
 	CDDraw::ReleaseBackCDC();
 }
-
