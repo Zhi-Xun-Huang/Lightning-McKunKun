@@ -92,14 +92,17 @@ namespace game_framework {
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 	private:
-		int PHASE = 0;
-		char msg[300] = "";
-		int id = 0;
+		int PHASE = 1;
 		int KKID = 0;               // State of KunKun
 		int Linear = 0;             // Linear turn left & right
 		int TurnLR = 0;             // Turn left or right or not
 		int BGLinear = 500;         // Background latency
 		int BBCount = 0;
+		vector<int> ArmstrongAmount = { 0, 1, 3, 6 };
+		vector<int> VictoryCodition = { 0, 10, 30, 50 };
+		long count = 0;
+		bool start = false;
+		bool PHASEEnable = false;
 		bool BBAdd = true;
 		bool BBOne = true;
 		bool ADPressed = true;     // Akey or DKey pressed
@@ -111,7 +114,9 @@ namespace game_framework {
 		CMovingBitmap armstrong[9];
 		CMovingBitmap character[2];
 		CMovingBitmap basketball;
-		CMovingBitmap black;	
+		CMovingBitmap dashboard;
+		CMovingBitmap alphabet[21];
+		CMovingBitmap blank;
 	};
 
 	class CGameStateQte : public CGameState {

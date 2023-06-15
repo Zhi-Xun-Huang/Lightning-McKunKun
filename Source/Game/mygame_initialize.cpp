@@ -60,8 +60,6 @@ void CGameStateInit::OnBeginState()
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	GotoGameState(GAME_STATE_RUN);		// ¤Á´«¦ÜGAME_STATE_RUN
-	CAudio* audio = CAudio::Instance();
-	audio->Play(0, true);
 }
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
