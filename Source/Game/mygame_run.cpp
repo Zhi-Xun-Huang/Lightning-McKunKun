@@ -41,16 +41,21 @@ void CGameStateRun::OnBeginState()
 void CGameStateRun::OnMove()							// 移動遊戲元素
 {
 	CAudio* audio = CAudio::Instance();
-
-	if (BBCount >= VictoryCodition[PHASE]) {
-		audio->Play(10, false);
-		PHASEEnable = false;
-		start = false;
-		BBCount = 0;
-		if (PHASE < 3) PHASE += 1;
-		ArmstrongEnable = false;
-		WPressed = false;
+	if (BBCount >= VictoryCodition[3]) {
+		end = true;
 	}
+	if (!end) {
+		if (BBCount >= VictoryCodition[PHASE]) {
+				PHASEEnable = false;
+				start = false;
+				BBCount = 0;
+				if (PHASE < 3) PHASE += 1;
+				ArmstrongEnable = false;
+				WPressed = false;
+		}
+	}
+	
+	
 
 	if (PHASEEnable) {
 
@@ -383,6 +388,22 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 			"resources/alphabet/Z.bmp"
 			}, RGB(255, 255, 255));
 	}
+	everest.LoadBitmapByString({ "resources/everest.bmp" });
+
+	for (int i = 0; i < 5; i++) {
+		kunfamily[i].LoadBitmapByString({
+			"resources/kunRun/KUN36run.bmp",
+			"resources/kunRun/KUN37run.bmp",
+			"resources/kunRun/KUN38run.bmp",
+			"resources/kunRun/KUN39run.bmp",
+			"resources/kunRun/KUN40run.bmp",
+			"resources/kunRun/KUN41run.bmp"
+			}, RGB(255, 255, 255));
+	}
+	for (int i = 0; i < 5; i++) {
+		kunfamily[i].SetTopLeft(200 + 200 * i, 200);
+		kunfamily[i].SetAnimation(50, false);
+	}
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -446,110 +467,117 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)	// 處理滑鼠的動作
 
 void CGameStateRun::OnShow()
 {
-	if (PHASEEnable) {
-
-		if (background.GetSelectShowBitmap() == 59 && BGEnable) {
-			background.ToggleAnimation();
+	if (end) {
+		everest.ShowBitmap();
+		for (int i = 0; i < 5; i++) {
+			kunfamily[i].ShowBitmap();
 		}
-		else if (background.GetSelectShowBitmap() != 59) background.ShowBitmap();
-
-		if (basketball.GetSelectShowBitmap() != 30) {
-			basketball.ShowBitmap();
-		}
-		else if (basketball.GetSelectShowBitmap() == 30) {
-			basketball.SetTopLeft(random(-2000, 2000), 450);
-			basketball.ToggleAnimation();
-		}
-
-		if (ArmstrongEnable) for (int i = 0; i < ArmstrongAmount[PHASE]; i++) armstrong[i].ShowBitmap();
-
-		character[KKID].ShowBitmap();
-
-		dashboard.SetTopLeft(1145, 0);
-		dashboard.ShowBitmap();
-
-		CDC* pDC = CDDraw::GetBackCDC();
-		CFont* fp;
-		CTextDraw::ChangeFontLog(pDC, fp, 24, "Consolas", RGB(0, 0, 0), 800);
-
-		if (debug) {
-			CTextDraw::Print(pDC, 80, 80, "KK_Left:");
-			CTextDraw::Print(pDC, 250, 80, to_string(character[KKID].Left()));
-			CTextDraw::Print(pDC, 80, 50, "BG_Left:");
-			CTextDraw::Print(pDC, 250, 50, to_string(background.Left()));
-			CTextDraw::Print(pDC, 80, 110, "AS_Left:");
-			CTextDraw::Print(pDC, 250, 110, to_string(armstrong[0].Left() + 390));
-			CTextDraw::Print(pDC, 80, 140, "BB_Left:");
-			CTextDraw::Print(pDC, 250, 140, to_string(basketball.Left()));
-			CTextDraw::Print(pDC, 80, 170, "Phase:");
-			CTextDraw::Print(pDC, 250, 170, to_string(PHASE));
-			CTextDraw::Print(pDC, 80, 200, "AS_Amount:");
-			CTextDraw::Print(pDC, 250, 200, to_string(ArmstrongAmount[PHASE]));
-			CTextDraw::Print(pDC, 80, 230, "VK_Codition:");
-			CTextDraw::Print(pDC, 250, 230, to_string(VictoryCodition[PHASE]));
-		}
-
-		CDDraw::ReleaseBackCDC();
-
-		for (int i = 0; i < 21; i++) alphabet[i].ShowBitmap(0.6);
-
-		/////////////////////////////////////
-		alphabet[0].SelectShowBitmap(28); //S
-		alphabet[0].SetTopLeft(1250, 50);
-		alphabet[1].SelectShowBitmap(25); //P
-		alphabet[1].SetTopLeft(1270, 50);
-		alphabet[2].SelectShowBitmap(14); //E
-		alphabet[2].SetTopLeft(1290, 50);
-		alphabet[3].SelectShowBitmap(14); //E
-		alphabet[3].SetTopLeft(1310, 50);
-		alphabet[4].SelectShowBitmap(13); //D
-		alphabet[4].SetTopLeft(1330, 50);
-		int tmp0 = 500 - BGLinear;
-		int a = 0, b = 0, c = 0;
-		while (tmp0 >= 100) { tmp0 -= 100; a++; }
-		alphabet[5].SelectShowBitmap(a);  //100
-		alphabet[5].SetTopLeft(1470, 50);
-		while (tmp0 >= 10) { tmp0 -= 10; b++; }
-		alphabet[6].SelectShowBitmap(b);  //010 
-		alphabet[6].SetTopLeft(1490, 50);
-		if (tmp0 == 10) c = 0;
-		else c = tmp0;
-		alphabet[7].SelectShowBitmap(c);  //001
-		alphabet[7].SetTopLeft(1510, 50);
-
-		//////////////////////////////////////
-		alphabet[8].SelectShowBitmap(11);  //B
-		alphabet[8].SetTopLeft(1250, 110);
-		alphabet[9].SelectShowBitmap(10);  //A
-		alphabet[9].SetTopLeft(1270, 110);
-		alphabet[10].SelectShowBitmap(28); //S
-		alphabet[10].SetTopLeft(1290, 110);
-		alphabet[11].SelectShowBitmap(20); //K
-		alphabet[11].SetTopLeft(1310, 110);
-		alphabet[12].SelectShowBitmap(14); //E
-		alphabet[12].SetTopLeft(1330, 110);
-		alphabet[13].SelectShowBitmap(29); //T
-		alphabet[13].SetTopLeft(1350, 110);
-		alphabet[14].SelectShowBitmap(11); //B
-		alphabet[14].SetTopLeft(1370, 110);
-		alphabet[15].SelectShowBitmap(10); //A
-		alphabet[15].SetTopLeft(1390, 110);
-		alphabet[16].SelectShowBitmap(21); //L
-		alphabet[16].SetTopLeft(1410, 110);
-		alphabet[17].SelectShowBitmap(21); //L
-		alphabet[17].SetTopLeft(1430, 110);
-		int tmp1 = BBCount;
-		int d = 0, e = 0, f = 0;
-		while (tmp1 >= 100) { tmp1 -= 100; d++; }
-		alphabet[18].SelectShowBitmap(d);  //100
-		alphabet[18].SetTopLeft(1470, 110);
-		while (tmp1 >= 10) { tmp1 -= 10; e++; }
-		alphabet[19].SelectShowBitmap(e);  //010
-		alphabet[19].SetTopLeft(1490, 110);
-		if (tmp1 == 10) f = 0;
-		else f = tmp1;
-		alphabet[20].SelectShowBitmap(f);  //001
-		alphabet[20].SetTopLeft(1510, 110);
 	}
+	else {
+		if (PHASEEnable) {
 
+			if (background.GetSelectShowBitmap() == 59 && BGEnable) {
+				background.ToggleAnimation();
+			}
+			else if (background.GetSelectShowBitmap() != 59) background.ShowBitmap();
+
+			if (basketball.GetSelectShowBitmap() != 30) {
+				basketball.ShowBitmap();
+			}
+			else if (basketball.GetSelectShowBitmap() == 30) {
+				basketball.SetTopLeft(random(-2000, 2000), 450);
+				basketball.ToggleAnimation();
+			}
+
+			if (ArmstrongEnable) for (int i = 0; i < ArmstrongAmount[PHASE]; i++) armstrong[i].ShowBitmap();
+
+			character[KKID].ShowBitmap();
+
+			dashboard.SetTopLeft(1145, 0);
+			dashboard.ShowBitmap();
+
+			CDC* pDC = CDDraw::GetBackCDC();
+			CFont* fp;
+			CTextDraw::ChangeFontLog(pDC, fp, 24, "Consolas", RGB(0, 0, 0), 800);
+
+			if (debug) {
+				CTextDraw::Print(pDC, 80, 80, "KK_Left:");
+				CTextDraw::Print(pDC, 250, 80, to_string(character[KKID].Left()));
+				CTextDraw::Print(pDC, 80, 50, "BG_Left:");
+				CTextDraw::Print(pDC, 250, 50, to_string(background.Left()));
+				CTextDraw::Print(pDC, 80, 110, "AS_Left:");
+				CTextDraw::Print(pDC, 250, 110, to_string(armstrong[0].Left() + 390));
+				CTextDraw::Print(pDC, 80, 140, "BB_Left:");
+				CTextDraw::Print(pDC, 250, 140, to_string(basketball.Left()));
+				CTextDraw::Print(pDC, 80, 170, "Phase:");
+				CTextDraw::Print(pDC, 250, 170, to_string(PHASE));
+				CTextDraw::Print(pDC, 80, 200, "AS_Amount:");
+				CTextDraw::Print(pDC, 250, 200, to_string(ArmstrongAmount[PHASE]));
+				CTextDraw::Print(pDC, 80, 230, "VK_Codition:");
+				CTextDraw::Print(pDC, 250, 230, to_string(VictoryCodition[PHASE]));
+			}
+
+			CDDraw::ReleaseBackCDC();
+
+			for (int i = 0; i < 21; i++) alphabet[i].ShowBitmap(0.6);
+
+			/////////////////////////////////////
+			alphabet[0].SelectShowBitmap(28); //S
+			alphabet[0].SetTopLeft(1250, 50);
+			alphabet[1].SelectShowBitmap(25); //P
+			alphabet[1].SetTopLeft(1270, 50);
+			alphabet[2].SelectShowBitmap(14); //E
+			alphabet[2].SetTopLeft(1290, 50);
+			alphabet[3].SelectShowBitmap(14); //E
+			alphabet[3].SetTopLeft(1310, 50);
+			alphabet[4].SelectShowBitmap(13); //D
+			alphabet[4].SetTopLeft(1330, 50);
+			int tmp0 = 500 - BGLinear;
+			int a = 0, b = 0, c = 0;
+			while (tmp0 >= 100) { tmp0 -= 100; a++; }
+			alphabet[5].SelectShowBitmap(a);  //100
+			alphabet[5].SetTopLeft(1470, 50);
+			while (tmp0 >= 10) { tmp0 -= 10; b++; }
+			alphabet[6].SelectShowBitmap(b);  //010 
+			alphabet[6].SetTopLeft(1490, 50);
+			if (tmp0 == 10) c = 0;
+			else c = tmp0;
+			alphabet[7].SelectShowBitmap(c);  //001
+			alphabet[7].SetTopLeft(1510, 50);
+
+			//////////////////////////////////////
+			alphabet[8].SelectShowBitmap(11);  //B
+			alphabet[8].SetTopLeft(1250, 110);
+			alphabet[9].SelectShowBitmap(10);  //A
+			alphabet[9].SetTopLeft(1270, 110);
+			alphabet[10].SelectShowBitmap(28); //S
+			alphabet[10].SetTopLeft(1290, 110);
+			alphabet[11].SelectShowBitmap(20); //K
+			alphabet[11].SetTopLeft(1310, 110);
+			alphabet[12].SelectShowBitmap(14); //E
+			alphabet[12].SetTopLeft(1330, 110);
+			alphabet[13].SelectShowBitmap(29); //T
+			alphabet[13].SetTopLeft(1350, 110);
+			alphabet[14].SelectShowBitmap(11); //B
+			alphabet[14].SetTopLeft(1370, 110);
+			alphabet[15].SelectShowBitmap(10); //A
+			alphabet[15].SetTopLeft(1390, 110);
+			alphabet[16].SelectShowBitmap(21); //L
+			alphabet[16].SetTopLeft(1410, 110);
+			alphabet[17].SelectShowBitmap(21); //L
+			alphabet[17].SetTopLeft(1430, 110);
+			int tmp1 = BBCount;
+			int d = 0, e = 0, f = 0;
+			while (tmp1 >= 100) { tmp1 -= 100; d++; }
+			alphabet[18].SelectShowBitmap(d);  //100
+			alphabet[18].SetTopLeft(1470, 110);
+			while (tmp1 >= 10) { tmp1 -= 10; e++; }
+			alphabet[19].SelectShowBitmap(e);  //010 
+			alphabet[19].SetTopLeft(1490, 110);
+			if (tmp1 == 10) f = 0;
+			else f = tmp1;
+			alphabet[20].SelectShowBitmap(f);  //001
+			alphabet[20].SetTopLeft(1510, 110);
+		}
+	}
 }
