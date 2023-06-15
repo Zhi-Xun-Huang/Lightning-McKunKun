@@ -111,6 +111,7 @@ namespace game_framework {
 		CMovingBitmap character[2];
 		CMovingBitmap basketball;
 		CMovingBitmap black;
+		CMovingBitmap dashboard;
 		
 	};
 

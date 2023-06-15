@@ -216,6 +216,10 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 
 	background.SetTopLeft(-1000, 0);
 
+	dashboard.LoadBitmapByString({
+		"resources/dashboard.bmp"
+	}, RGB(255, 255, 255));
+
 	character[1].LoadBitmapByString({
 		"resources/kunBB/KUN24bb.bmp",
 		"resources/kunBB/KUN25bb.bmp",
@@ -388,16 +392,19 @@ void CGameStateRun::OnShow()
 
 	character[KKID].ShowBitmap();
 
+	dashboard.SetTopLeft(1145, 0);
+	dashboard.ShowBitmap();
+
 	CDC *pDC = CDDraw::GetBackCDC();
 	CFont* fp;
 	CTextDraw::ChangeFontLog(pDC, fp, 24, "Consolas", RGB(0, 0, 0), 800);
 
-	CTextDraw::Print(pDC, 1230, 50, "Speed:");
-	CTextDraw::Print(pDC, 1370, 50, to_string(500 - BGLinear));
-	CTextDraw::Print(pDC, 1400, 50, " KM/s");
-	CTextDraw::Print(pDC, 1230, 70, "Basketball Remain:");
+	CTextDraw::Print(pDC, 1235, 50, "Speed:");
+	CTextDraw::Print(pDC, 1375, 50, to_string(500 - BGLinear));
+	CTextDraw::Print(pDC, 1405, 50, " KM/s");
+	CTextDraw::Print(pDC, 1235, 100, "Basketball Remain:");
 	string m = to_string(BBCount);
-	CTextDraw::Print(pDC, 1530, 70, m);
+	CTextDraw::Print(pDC, 1530, 100, m);
 
 	if (debug) {
 		CTextDraw::Print(pDC, 80, 80, "KK_Left:");
