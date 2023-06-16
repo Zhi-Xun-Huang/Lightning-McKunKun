@@ -34,8 +34,6 @@ CGameStateRun::~CGameStateRun()
 
 void CGameStateRun::OnBeginState()
 {
-	basketball.ToggleAnimation();
-	CAudio* audio = CAudio::Instance();
 }
 
 void CGameStateRun::OnMove()							// 移動遊戲元素
@@ -54,8 +52,6 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 				WPressed = false;
 		}
 	}
-	
-	
 
 	if (PHASEEnable) {
 
@@ -177,10 +173,8 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 	}
 	else {
 
-
-
 		blank.ShowBitmap();
-		for (int i = 0; i < 7; i++) alphabet[i].ShowBitmap();
+		for (int i = 0; i < 23; i++) alphabet[i].ShowBitmap();
 		
 		alphabet[0].SetTopLeft(640, 400);
 		alphabet[1].SetTopLeft(680, 400);
@@ -190,20 +184,66 @@ void CGameStateRun::OnMove()							// 移動遊戲元素
 		alphabet[5].SetTopLeft(840, 400);
 		alphabet[6].SetTopLeft(880, 400);
 
-		if (!start) for (int i = 0; i < 7; i++) alphabet[i].SetAnimation(50, false);
+		alphabet[7].SetTopLeft(440, 470);
+		alphabet[8].SetTopLeft(480, 470);
+		alphabet[9].SetTopLeft(520, 470);
+		alphabet[10].SetTopLeft(570, 470);
+		alphabet[11].SetTopLeft(610, 470);
+		alphabet[12].SetTopLeft(660, 470);
+		alphabet[13].SetTopLeft(700, 470);
+		alphabet[14].SetTopLeft(740, 470);
+		alphabet[15].SetTopLeft(780, 470);
+		alphabet[16].SetTopLeft(820, 470);
+		alphabet[17].SetTopLeft(860, 470);
+		alphabet[18].SetTopLeft(900, 470);
+		alphabet[19].SetTopLeft(940, 470);
+		alphabet[20].SetTopLeft(980, 470);
+		alphabet[21].SetTopLeft(1020, 470);
+		alphabet[22].SetTopLeft(1060, 470);
+
+		if (!start) for (int i = 0; i < 23; i++) alphabet[i].SetAnimation(50, false);
 		if (start) {
 			audio->Stop(5);
 			if(count == 0) audio->Play(1, false);
-			if (count > 100) alphabet[0].SelectShowBitmap(21); //L
-			if (count > 150) alphabet[1].SelectShowBitmap(14); //E
-			if (count > 200) alphabet[2].SelectShowBitmap(31); //V
-			if (count > 250) alphabet[3].SelectShowBitmap(14); //E
-			if (count > 300) alphabet[4].SelectShowBitmap(21); //L
-			if (count > 350) alphabet[5].SelectShowBitmap(0);  //0
-			if (count > 400) alphabet[6].SelectShowBitmap(PHASE); //PHASE
+			if (count > 100) {
+				alphabet[0].SelectShowBitmap(21); //L
+				alphabet[7].SelectShowBitmap(16);  //G
+				alphabet[8].SelectShowBitmap(14);  //E
+				alphabet[9].SelectShowBitmap(29);  //T
+			}
+			if (count > 150) {
+				alphabet[1].SelectShowBitmap(14); //E
+				alphabet[10].SelectShowBitmap( VictoryCodition[PHASE]/10 );  //10
+				alphabet[11].SelectShowBitmap(0);  //01
+			}
+			if (count > 200) {
+				alphabet[2].SelectShowBitmap(31); //V
+				alphabet[12].SelectShowBitmap(11); //B
+				alphabet[13].SelectShowBitmap(10); //A
+				alphabet[14].SelectShowBitmap(28); //S
+			}
+			if (count > 250) {
+				alphabet[3].SelectShowBitmap(14); //E
+				alphabet[15].SelectShowBitmap(20); //K
+				alphabet[16].SelectShowBitmap(14); //E
+				alphabet[17].SelectShowBitmap(29); //T
+			}
+			if (count > 300) {
+				alphabet[4].SelectShowBitmap(21); //L
+				alphabet[18].SelectShowBitmap(11); //B
+				alphabet[19].SelectShowBitmap(10); //A
+				alphabet[20].SelectShowBitmap(21); //L
+			}
+			if (count > 350) {
+				alphabet[5].SelectShowBitmap(0);  //0
+				alphabet[21].SelectShowBitmap(21); //L
+			}
+			if (count > 400) {
+				alphabet[6].SelectShowBitmap(PHASE); //PHASE
+				alphabet[22].SelectShowBitmap(28); //S
+			}
 			if (count > 600) {
 				count = 0;
-				audio->Play(0, true);
 				PHASEEnable = true;
 			}
 			count++;
@@ -234,16 +274,6 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 		"resources/start/start034.bmp", "resources/start/start035.bmp",
 		"resources/start/start036.bmp", "resources/start/start037.bmp",
 		"resources/start/start038.bmp", "resources/start/start039.bmp",
-		"resources/start/start040.bmp", "resources/start/start041.bmp",
-		"resources/start/start042.bmp", "resources/start/start043.bmp",
-		"resources/start/start044.bmp", "resources/start/start045.bmp",
-		"resources/start/start046.bmp", "resources/start/start047.bmp",
-		"resources/start/start048.bmp", "resources/start/start049.bmp",
-		"resources/start/start050.bmp", "resources/start/start051.bmp",
-		"resources/start/start052.bmp", "resources/start/start053.bmp",
-		"resources/start/start054.bmp", "resources/start/start055.bmp",
-		"resources/start/start056.bmp", "resources/start/start057.bmp",
-		"resources/start/start058.bmp", "resources/start/start059.bmp"
 		});
 
 	background.SetTopLeft(-1000, 0);
@@ -347,8 +377,7 @@ void CGameStateRun::OnInit()  								// 遊戲的初值及圖形設定
 	
 	basketball.SetTopLeft(random(-2000, 2000), 450);
 	basketball.SetAnimation(30, true);
-
-	for (int i = 0; i < 21; i++) {
+	for (int i = 0; i < 30; i++) {
 		alphabet[i].LoadBitmapByString({ 
 			"resources/alphabet/0.bmp",
 			"resources/alphabet/1.bmp",
@@ -418,8 +447,13 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 		if (nChar == 0x57) {  // WKey detection.(accelerator)
 			WPressed = true;
-			background.ToggleAnimation();
+			if (background.IsAnimationDone()) background.ToggleAnimation();
 			ArmstrongEnable = true;
+			if (basketball.IsAnimationDone() && ArmstrongEnable) {
+				basketball.ToggleAnimation();
+				CAudio* audio = CAudio::Instance();
+				audio->Play(0, true);
+			}
 		}
 
 		if (nChar == 0x41) {  // AKey detection.(turn left)
@@ -476,20 +510,24 @@ void CGameStateRun::OnShow()
 	else {
 		if (PHASEEnable) {
 
-			if (background.GetSelectShowBitmap() == 59 && BGEnable) {
+			if (background.GetSelectShowBitmap() == 39 && BGEnable) {
 				background.ToggleAnimation();
 			}
-			else if (background.GetSelectShowBitmap() != 59) background.ShowBitmap();
+			else if (background.GetSelectShowBitmap() != 39) background.ShowBitmap();
 
-			if (basketball.GetSelectShowBitmap() != 30) {
-				basketball.ShowBitmap();
-			}
-			else if (basketball.GetSelectShowBitmap() == 30) {
-				basketball.SetTopLeft(random(-2000, 2000), 450);
-				basketball.ToggleAnimation();
-			}
+			
 
-			if (ArmstrongEnable) for (int i = 0; i < ArmstrongAmount[PHASE]; i++) armstrong[i].ShowBitmap();
+			if (ArmstrongEnable) {
+				for (int i = 0; i < ArmstrongAmount[PHASE]; i++) armstrong[i].ShowBitmap();
+
+				if (basketball.GetSelectShowBitmap() != 30) {
+					basketball.ShowBitmap();
+				}
+				else if (basketball.GetSelectShowBitmap() == 30) {
+					basketball.SetTopLeft(random(-2000, 2000), 450);
+					basketball.ToggleAnimation();
+				}
+			}
 
 			character[KKID].ShowBitmap();
 

@@ -119,7 +119,7 @@ namespace game_framework {
 		CMovingBitmap character[2];
 		CMovingBitmap basketball;
 		CMovingBitmap dashboard;
-		CMovingBitmap alphabet[21];
+		CMovingBitmap alphabet[30];
 		CMovingBitmap blank;
 		CMovingBitmap everest;
 		CMovingBitmap kunfamily[5];

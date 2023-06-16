@@ -79,10 +79,9 @@ void CGameStateQte::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 			GotoGameState(GAME_STATE_RUN);
 			audio->Stop(7);
 			audio->Play(2, false);
-
 		}
-		/*else {
-			if (Random(1, 150) == 10) {
+		else {
+			if (Random(1, 100) == 10) {
 				sprintf(msg, "Game fatal error:\n\n%s\n\nFile: %s\n\nLine: %d"
 					"\n\n(Press Retry to debug the application, "
 					"if it is executed in debug mode.)"
@@ -97,7 +96,7 @@ void CGameStateQte::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 				audio->Play(1, true);
 				audio->Play(3, false);
 			}
-		}*/
+		}
 	}
 	
 }
@@ -111,7 +110,7 @@ void CGameStateQte::OnShow()
 	CAudio* audio = CAudio::Instance();
 	if (background.GetSelectShowBitmap() != 71) background.ShowBitmap();
 	else if (background.GetSelectShowBitmap() == 71) {
-		if (Random(1, 150) == 10) {
+		if (true) {
 			sprintf(msg, "Game fatal error:\n\n%s\n\nFile: %s\n\nLine: %d"
 				"\n\n(Press Retry to debug the application, "
 				"if it is executed in debug mode.)"
