@@ -1,0 +1,3 @@
+﻿cl : 命令列 warning D9035: 選項 'Gm' 已被取代，在未來的發行版本中將會移除
+  StdAfx.cpp
+c:\users\user\desktop\lightning-mckunkun\source\core\stdafx.h(24): fatal error C1083: 無法開啟包含檔案: 'afxwin.h': No such file or directory
